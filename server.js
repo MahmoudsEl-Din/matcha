@@ -6,7 +6,7 @@ var connection = require('./setup/connection')
 const pug = require('pug')
 
 // Template motors
-app.set('view engine', 'ejs')
+app.set('view engine', 'pug')
 
 
 // Middlewares
@@ -22,7 +22,7 @@ app.use(session({
 
 app.get('/', (req, res) => {
 
-    res.render('views/pages/index.pug')
+    res.render('pages/index')
 })
 
 app.listen(8080)
