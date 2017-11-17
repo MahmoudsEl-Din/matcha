@@ -4,7 +4,7 @@ block content
         div#div_ret.aler.alert-danger(role="alert").d-none
         div(class="ui red container") mid
         h5 Connection
-        form#form_connect.container(method="POST")
+        form#form_connect.container(method="POST" action="#")
                 div.form-group.row
                         label(for="form_username") Username
                         div.w-100
@@ -15,5 +15,4 @@ block content
                         input#form_password.form-control(type="password" placeholder="Enter password" name="connect[email]").col-3
                 button(type="submit").btn.btn-primary Submit
 
-
-        script(src="public/javascript/login.js")
+        script(src="assets/javascript/login.js")

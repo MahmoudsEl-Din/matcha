@@ -22,15 +22,16 @@ app.use(session({
     cookie: { secure: false }
 }))
 
-app.get('/', (req, res) => {
+// Require routes
+var login = require('./routes/login.js');
 
+app.use('/login', login)
+
+
+app.get('/', (req, res) => {
     res.render('pages/index')
 })
 
-app.post('/login', function(req, res) {
-    ret = "good"
 
-    res.send(ret)
-})
 
 app.listen(8080)
