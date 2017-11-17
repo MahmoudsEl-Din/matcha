@@ -3,6 +3,8 @@ var app = express()
 var session = require('express-session')
 var bodyParser = require('body-parser')
 var connection = require('./setup/connection')
+var request = require('ajax-request')
+
 const pug = require('pug')
 
 // Template motors
@@ -23,6 +25,12 @@ app.use(session({
 app.get('/', (req, res) => {
 
     res.render('pages/index')
+})
+
+app.post('/login', function(req, res) {
+    ret = "good"
+
+    res.send(ret)
 })
 
 app.listen(8080)
