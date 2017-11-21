@@ -7,27 +7,49 @@ html
         script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous")
         script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous")
         
+        script(src="assets/javascript/layout.js")
+
         link(rel="stylesheet" href="/assets/semantic/semantic.min.css")
         link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous")
+        link(rel="stylesheet" href="/stylesheets/font.css")
     body
-        div.container-fluid(style={color: 'red', background: 'green'})
-            div.row
-                div.col-6.col-md-2(style='border: 2px solid pink;')
-                    h1 Menu
-                div.col-6.col-md-8(style='border: 2px solid red;')
-                div.col-6.col-md-1(style='border: 2px solid pink;')
-                    h3 Test
-                div.col-6.col-md-1(style='border: 2px solid pink;')
-                    h3 Test2
-            div.row.justify-content-between
-                div.col-3(style='border: 2px solid pink;')
-                    h3 test
-                div.col-2(style='border: 2px solid pink;')
-                    h3 TestEEET
-                div.col-3.offset-md-3(style='border: 2px solid pink;')
-                    button(type="button").btn.btn-outline-dark BUTTON
+        div.container-fluid.justify-content-between
+            div.row.p-3(style={color: 'red', background: 'black'})
+                div.col-6.col-md-2
+                    a
+                        h2.font-cheap.font-shadow-pink MATCHA
+                div.col-6.col-md-8
+                div.col-6.col-md-2.text-center
+                    div.row.p-1.justify-content-center.d-flex
+                        a
+                            h7#connexion.text-center.font-cheap.font-shadow-pink CONNEXION
+                        div#dropdown_connexion.dropdown-menu.p-3.w-100
+                            div#div_connect
+                                div#div_ret.aler(role="alert").d-none
+                                form#form_connect(method="POST" action="#")
+                                    div.form-group
+                                        label(for="form_username") Username
+                                        input#form_username.form-control(type="text" placeholder="Enter your username" name="form_username")
+                                    div.form-group
+                                        label(for="form_password") Password
+                                        input#form_password.form-control(type="password" placeholder="Enter your password" name="form_password")
+                                    div.w-100.d-flex.justify-content-center.form-group
+                                        button#connect_submit.btn.btn-primary(type="submit") Sign in
+                                div.dropdown-divider
+                                a.dropdown-item(href="#") New around here? Sign up
+                                a#forgot_password.dropdown-item(href="#") Forgot password?
+                            div#div_forgot
+                                form#form_forgot(method="POST" action="#")
+                                    div.form-group
+                                        label(for="exampleDropdownFormEmail1") Email
+                                        input#form_username.form-control(type="email" placeholder="Enter your email" name="form_reset")
+                                    div.w-100.d-flex.justify-content-center.form-group
+                                        button.btn.btn-primary(type="submit") Reset password
+                    div.row.p-1.justify-content-center
+                        a
+                            h7.text-center.font-cheap.font-shadow-pink INSCRIPTION
+            div.row.h-100   
+                block content
 
-                
-        block content
-
-        div foot
+            div.row.p-2(style={color: 'red', background: 'black'}) foot
+        script(src="assets/javascript/login.js")

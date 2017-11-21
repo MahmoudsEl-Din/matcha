@@ -1,18 +1,22 @@
 $(document).ready(function(){
-    $("#form_connect").submit(function(e) {
+    console.log("test")
+    $("#connect_submit").click(function(e) {
+            console.log("test2")
         e.preventDefault()
 
-        $.post('/login', $(e.target).serialize(), function(data, jqHXR) {        
+        $.post('/login', $('form#form_connect').serialize(), function(data, jqHXR) {        
             if (jqHXR === "success") {
-                console.log(data)
-                if (data === undefined){
+                if (data === false){
+                    $("#div_ret").removeClass("alert-success")
+                    $("#div_ret").addClass("alert-danger")
                     $("#div_ret").removeClass("d-none")
-                    document.getElementById("div_ret").innerHTML = "Error: data is undefined"
+                    document.getElementById("div_ret").innerHTML = "Please fill the connection form"
                 }
                 else {
+                    $("#div_ret").removeClass("alert-danger")
+                    $("#div_ret").addClass("alert-success")
                     $("#div_ret").removeClass("d-none")
-                    $("#div_ret").switchClass("alert-danger", "alert-success")
-                    document.getElementById("div_ret").innerHTML = data
+                    document.getElementById("div_ret").innerHTML = "Approved"
                 }
             }
         })

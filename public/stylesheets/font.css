@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "font_cheap";
+    src: url("/fonts/TrueStories.ttf");
+}
+
+.font-shadow-pink:hover{
+    text-shadow: 0px 0px 50px pink
+}
+
+.font-cheap {
+    font-family: font_cheap;
+    color: white;
+}
+
+a {
+    cursor: pointer;
+}
