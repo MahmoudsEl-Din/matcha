@@ -10,6 +10,7 @@ $(document).ready(function(){
         $("#dropdown_connexion").hide()
         $("#dropdown_connexion").dropdown('toggle')
         $("#dropdown_connexion").dropdown('dispose')
+        $("#return-connect").empty()
         $("#dropdown_connexion").show("slow")
 
         return false        // This should not be used unless you do not want

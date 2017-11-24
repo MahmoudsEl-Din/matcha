@@ -11,7 +11,7 @@ class addDb {
         let ret = [0, 0]
 
         return new Promise((resolve, reject) => {
-            check.login_exists(array['username'])
+            check.LoginExists(array['username'])
                 .then((username_exists) => {
                     if (username_exists === true) {
                         ret[0] = "KO"

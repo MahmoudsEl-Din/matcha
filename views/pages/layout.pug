@@ -20,36 +20,44 @@ html
                         h2.font-cheap.font-shadow-pink MATCHA
                 div.col-6.col-md-8
                 div.col-6.col-md-2.text-center
-                    div.row.p-1.justify-content-center.d-flex
-                        a
-                            h7#connexion.text-center.font-cheap.font-shadow-pink CONNEXION
-                        div#dropdown_connexion.dropdown-menu.p-3.w-100
-                            div#div_connect
-                                div#div_ret.aler(role="alert").d-none
-                                form#form_connect(method="POST" action="#")
-                                    div.form-group
-                                        label(for="form_username") Username
-                                        input#form_username.form-control(type="text" placeholder="Enter your username" name="form_username")
-                                    div.form-group
-                                        label(for="form_password") Password
-                                        input#form_password.form-control(type="password" placeholder="Enter your password" name="form_password")
-                                    div.w-100.d-flex.justify-content-center.form-group
-                                        button#connect_submit.btn.btn-primary(type="submit") Sign in
-                                div.dropdown-divider
-                                a.dropdown-item(href="#") New around here? Sign up
-                                a#forgot_password.dropdown-item(href="#") Forgot password?
-                            div#div_forgot
-                                form#form_forgot(method="POST" action="#")
-                                    div.form-group
-                                        label(for="exampleDropdownFormEmail1") Email
-                                        input#form_username.form-control(type="email" placeholder="Enter your email" name="form_reset")
-                                    div.w-100.d-flex.justify-content-center.form-group
-                                        button.btn.btn-primary(type="submit") Reset password
-                    div.row.p-1.justify-content-center
-                        a
-                            h7.text-center.font-cheap.font-shadow-pink INSCRIPTION
+                    -if (session.connected.state === false)
+                        div.row.p-1.justify-content-center.d-flex
+                            a
+                                h7#connexion.text-center.font-cheap.font-shadow-pink CONNEXION 
+                            div#dropdown_connexion.dropdown-menu.p-3.w-100
+                                div#div_connect
+                                    div#div_ret.aler(role="alert").d-none
+                                    form#form_connect(method="POST" action="#")
+                                        div.form-group
+                                            label(for="form_username") Username
+                                            input#form_username.form-control(type="text" placeholder="Enter your username" name="form_username")
+                                        div.form-group
+                                            label(for="form_password") Password
+                                            input#form_password.form-control(type="password" placeholder="Enter your password" name="form_password")
+                                        div.w-100.d-flex.justify-content-center.form-group
+                                            p#return-connect.text-danger
+                                        div.w-100.d-flex.justify-content-center.form-group
+                                            button#connect_submit.btn.btn-primary(type="submit") Sign in
+                                    div.dropdown-divider
+                                    a.dropdown-item(href="#") New around here? Sign up
+                                    a#forgot_password.dropdown-item(href="#") Forgot password?
+                                div#div_forgot
+                                    form#form_forgot(method="POST" action="#")
+                                        div.form-group
+                                            label(for="exampleDropdownFormEmail1") Email
+                                            input#form_username.form-control(type="email" placeholder="Enter your email" name="form_reset")
+                                        div.w-100.d-flex.justify-content-center.form-group
+                                            button.btn.btn-primary(type="submit") Reset password
+                        div.row.p-1.justify-content-center
+                            a(href="/signup")
+                                h7.text-center.font-cheap.font-shadow-pink INSCRIPTION
+                    -else
+                        h1.font-cheap.font-shadow-pink= username
+                        a#logout
+                            h3.font-cheap.font-shadow-pink LOGOUT
             div.row.h-100   
                 block content
 
             div.row.p-2(style={color: 'red', background: 'black'}) foot
         script(src="assets/javascript/login.js")
+        script(src="assets/javascript/logout.js")

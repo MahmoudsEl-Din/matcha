@@ -11,7 +11,7 @@ var path = require('path');
 const pug = require('pug')
 
 // Template motors
-// app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug')
 
 // Middlewares
@@ -33,12 +33,20 @@ const db = require('./setup/connection')
 new db()
 
 // Require routes
-var login = require('./routes/login.js');
+var index = require('./routes/index.js')
+var login = require('./routes/login.js')
+var logout = require('./routes/logout.js')
+var signup = require('./routes/signup.js')
+var signup_email = require('./routes/check_signup/email.js')
+var signup_username = require('./routes/check_signup/username.js')
+var signup_password = require('./routes/check_signup/password.js')
 
+app.use('/', index)
 app.use('/login', login)
+app.use('/logout', logout)
+app.use('/signup', signup)
+app.use('/check_signup_email', signup_email)
+app.use('/check_signup_username', signup_username)
+app.use('/check_signup_password', signup_password)
 
-app.get('/', (req, res) => {
-    res.render('pages/index')
-})
-
-app.listen(8080)
+app.listen(7777)

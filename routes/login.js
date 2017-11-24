@@ -1,23 +1,35 @@
 var express = require('express')
-var router = express.Router()
-var crypto = require('crypto')
-var check = require('../models/check.js')
+var router = express()
+var Check = require('../models/check.js')
+var User = require('../models/user.js')
+
+let catchError = (error) => {
+    console.error(error)
+}
 
 router.post('/', function(req, res) {
-    console.log(req.body.form_username)
-    console.log(req.body.form_password)    
-    if (req.body.form_username === '' || req.body.form_password === '')
-        return res.send(false)
+    const { form_password, form_username } = req.body;
+    
+    if (form_username === '' || form_password === '') {
+        return res.send([false, "Empty field(s)"])
+    }
     else {
-        check.connection(req.body.form_username, req.body.form_password)
+        Check.connection(form_username, form_password)
             .then((ret) => {
-                console.log(ret)
-                return res.send(ret) 
+                if (ret[0] === true){
+                    User.GetIdByUsername(form_username)
+                    .then((id) => {
+                        req.session.connected.state = true
+                        req.session.connected.id = id
+                        return res.send(ret)         
+                    }).catch(catchError)
+                }
+                else
+                    return(false)
             }).catch((err) => {
                 console.error(err)
-            })  
+            })
     }
-        
 })
 
 module.exports = router
