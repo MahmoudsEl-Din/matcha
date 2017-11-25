@@ -41,8 +41,7 @@ $(document).ready(function(){
     $("#signup_password").change('input', function(e){
         $.post('/check_signup_password', $('#signup_password'), function(data, jqHXR) {   
             if (jqHXR === "success") {
-                if (data === true){
-                    console.log(data)                    
+                if (data === true){                 
                     if ($('#signup_password').hasClass('border-success'))
                         $('#signup_password').removeClass('border-success')
                     $('#signup_password').addClass('border-danger')
@@ -51,6 +50,24 @@ $(document).ready(function(){
                     if ($('#signup_password').hasClass('border-danger'))
                         $('#signup_password').removeClass('border-danger')
                     $('#signup_password').addClass('border-success')
+
+                }
+            }
+        })
+    })
+
+    $("#signup_cpassword").change('input', function(e){
+        $.post('/check_signup_cpassword', { password: $('#signup_password').val(), cpassword: $('#signup_cpassword').val()}, function(data, jqHXR) {   
+            if (jqHXR === "success") {
+                if (data === true){                 
+                    if ($('#signup_cpassword').hasClass('border-success'))
+                        $('#signup_cpassword').removeClass('border-success')
+                    $('#signup_cpassword').addClass('border-danger')
+                }
+                else {
+                    if ($('#signup_cpassword').hasClass('border-danger'))
+                        $('#signup_cpassword').removeClass('border-danger')
+                    $('#signup_cpassword').addClass('border-success')
 
                 }
             }
@@ -88,7 +105,6 @@ $(document).ready(function(){
 
         $.post('/signup', $('form#form_signup').serialize(), function(data, jqHXR) {  
             if (jqHXR === "success") {
-                console.log(data)
                     if (data[0] === false)
                     {
                         $("return-signup").empty()

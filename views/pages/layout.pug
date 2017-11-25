@@ -16,7 +16,7 @@ html
         div.container-fluid.justify-content-between
             div.row.p-3(style={color: 'red', background: 'black'})
                 div.col-6.col-md-2
-                    a
+                    a(href="/")
                         h2.font-cheap.font-shadow-pink MATCHA
                 div.col-6.col-md-8
                 div.col-6.col-md-2.text-center
@@ -39,7 +39,7 @@ html
                                         div.w-100.d-flex.justify-content-center.form-group
                                             button#connect_submit.btn.btn-primary(type="submit") Sign in
                                     div.dropdown-divider
-                                    a.dropdown-item(href="#") New around here? Sign up
+                                    a.dropdown-item(href="/signup") New around here? Sign up
                                     a#forgot_password.dropdown-item(href="#") Forgot password?
                                 div#div_forgot
                                     form#form_forgot(method="POST" action="#")

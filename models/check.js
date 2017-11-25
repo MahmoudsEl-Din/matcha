@@ -77,7 +77,6 @@ class Check {
     }
 
     static connection(username, pw_h) {
-        var ret = []
         return new Promise((resolve, reject) => {
             this.LoginExists(username)
                 .then((exists) => {
@@ -94,6 +93,32 @@ class Check {
                             resolve([false, "Wrong password"])
                 }).catch(catchError)
             })
+    }
+
+    static CreateAccount(form) {
+        return new Promise((resolve, reject) => {
+            this.LoginExists(form.signup_username)
+            .then((exists) => {
+                if (exists)
+                    resolve([false, "Username already exists"])
+                else
+                    return(this.EmailExists(form.signup_email))    
+            })
+            .then((exists) => {
+                if (exists)
+                    resolve([false, "Email already exists or invalid"])
+                else
+                    return(this.NewPasswordValid(form.signup_password))    
+            })
+            .then ((valid) => {
+                if (!valid)
+                    resolve([false, "Password is invalid"])
+                else if (form.signup_password !== form.signup_cpassword)
+                    resolve([false, "Passwords are differents"])
+                else
+                    resolve([true])
+            })
+        })
     }
 }
 

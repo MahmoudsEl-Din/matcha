@@ -6,10 +6,7 @@ let catchError = (error) => {
 }
 
 router.post('/', function(req, res) {
-    console.log('bien dans la fonction logout')
-    console.log(req.session.connected)
-    req.session.destroy();
-    console.log(req.session.connected)
+    req.session.destroy()
 })
 
 module.exports = router

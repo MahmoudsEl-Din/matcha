@@ -1,4 +1,5 @@
 var check = require('./check.js')
+var Tools = require('./tools.js')
 
 let catchError = (error) => {
     console.error(error)
@@ -6,6 +7,7 @@ let catchError = (error) => {
 
 class addDb {
 
+    // Fonction a supprimer elle est utilisé à l'initialisation de la DB 
     static add_user(array) { // Where array contains info of the new user
         
         let ret = [0, 0]
@@ -40,6 +42,20 @@ class addDb {
                         })
                     }
             }).catch(catchError)
+        })
+    }
+
+    static user(form) { // Where array contains info of the new user
+        return new Promise((resolve, reject) => {
+            Tools.HashPassword(form.password)
+            .then((password_h) => {
+                
+                let sql = "INSERT INTO users (`username`, `name`, `password`, `lastname`, `email`, `genre`, `desire`, `bio`) VALUES(username = ?, name = ?, password = ?, lastname = ?, email = ?, genre = ?, desire = ?, bio = ?);"
+                connection.query(sql, {'username': form.signup_username, 'name': form.signup_firstrname, 'password': password_h, 'lastname': form.signup_lastname, 'email': form.signup_email, 'genre': 'B', 'desire': 'B', 'bio': 'Unwritten yet'}, (error, results) => {
+                    if (error) throw error
+                    resolve(true)
+                })
+            }).catch(catchError)   
         })
     }
 }
