@@ -69,7 +69,6 @@ class Check {
                     if (results.length === 0)
                         resolve(false)
                     else
-
                         resolve(true)
                 })
             })
@@ -110,8 +109,8 @@ class Check {
                 else
                     return(this.NewPasswordValid(form.signup_password))    
             })
-            .then ((valid) => {
-                if (!valid)
+            .then ((invalid) => {
+                if (invalid)
                     resolve([false, "Password is invalid"])
                 else if (form.signup_password !== form.signup_cpassword)
                     resolve([false, "Passwords are differents"])

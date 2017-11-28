@@ -49,7 +49,6 @@ class addDb {
         return new Promise((resolve, reject) => {
             Tools.HashPassword(form.password)
             .then((password_h) => {
-                
                 let sql = "INSERT INTO users (`username`, `name`, `password`, `lastname`, `email`, `genre`, `desire`, `bio`) VALUES(username = ?, name = ?, password = ?, lastname = ?, email = ?, genre = ?, desire = ?, bio = ?);"
                 connection.query(sql, {'username': form.signup_username, 'name': form.signup_firstrname, 'password': password_h, 'lastname': form.signup_lastname, 'email': form.signup_email, 'genre': 'B', 'desire': 'B', 'bio': 'Unwritten yet'}, (error, results) => {
                     if (error) throw error

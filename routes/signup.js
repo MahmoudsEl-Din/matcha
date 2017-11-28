@@ -36,7 +36,7 @@ router.post('/', function(req, res) {
                 AddDb.user(form)
                 .then(() => {
                     return res.send([true, "Account succefully created, go check your mail to activate your account !"])
-                })
+                }).catch(catchError)
             }
         }).catch(catchError)
     }
