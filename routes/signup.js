@@ -33,7 +33,7 @@ router.post('/', function(req, res) {
                 return res.send(ret)
             else {
                 console.log('test')
-                AddDb.user(form)
+                AddDb.user(form, req)
                 .then(() => {
                     return res.send([true, "Account succefully created, go check your mail to activate your account !"])
                 }).catch(catchError)

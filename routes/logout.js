@@ -7,6 +7,7 @@ let catchError = (error) => {
 
 router.post('/', function(req, res) {
     req.session.destroy()
+    res.redirect('/')
 })
 
 module.exports = router

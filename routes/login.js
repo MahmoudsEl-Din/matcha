@@ -21,7 +21,8 @@ router.post('/', function(req, res) {
                     .then((id) => {
                         req.session.connected.state = true
                         req.session.connected.id = id
-                        return res.send(ret)         
+                        console.log("testtesttest")
+                        return res.send(ret)
                     }).catch(catchError)
                 }
                 else

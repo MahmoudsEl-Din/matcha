@@ -112,9 +112,12 @@ $(document).ready(function(){
                         document.getElementById("signup_password").value = ''
                         document.getElementById("signup_cpassword").value = ''
                     }
+                    else {
+                        $("#form_signup").empty()
+                        document.getElementById("maindiv").innerHTML = data[1]
+                    }
                 }
             else {
-               
             }
         })
     })

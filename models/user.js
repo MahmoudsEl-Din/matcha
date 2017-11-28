@@ -3,7 +3,6 @@ let catchError = (error) => {
 }
 
 class User {
-
     static GetAllById(id){
         return new Promise((resolve, reject) => {
             let sql = "SELECT * FROM users WHERE id = ?"

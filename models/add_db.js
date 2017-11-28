@@ -45,16 +45,33 @@ class addDb {
         })
     }
 
-    static user(form) { // Where array contains info of the new user
+    static user(form, req) { // Where array contains info of the new user
         return new Promise((resolve, reject) => {
-            Tools.HashPassword(form.password)
+            var code = Tools.RandomString()            
+            Tools.HashPassword(form.signup_password)
             .then((password_h) => {
-                let sql = "INSERT INTO users (`username`, `name`, `password`, `lastname`, `email`, `genre`, `desire`, `bio`) VALUES(username = ?, name = ?, password = ?, lastname = ?, email = ?, genre = ?, desire = ?, bio = ?);"
-                connection.query(sql, {'username': form.signup_username, 'name': form.signup_firstrname, 'password': password_h, 'lastname': form.signup_lastname, 'email': form.signup_email, 'genre': 'B', 'desire': 'B', 'bio': 'Unwritten yet'}, (error, results) => {
+                let sql = "INSERT INTO users (`username`, `name`, `password`, `lastname`, `email`, `genre`, `desire`, `bio`, `activate`) VALUES(" + connection.escape(form.signup_username) + ", " + connection.escape(form.signup_firstname) + ", " + connection.escape(password_h) + ", " + connection.escape(form.signup_lastname) + ", " + connection.escape(form.signup_email) + ", 'B', 'B', 'Unwritten yet', " + connection.escape(code) + ");"
+                connection.query(sql, (error, results) => {
                     if (error) throw error
-                    resolve(true)
                 })
-            }).catch(catchError)   
+            }).then(() => {
+                var content = "Hi " + form.signup_username + ",Activate your account by clicking here :\n" + req.protocol + '://' + req.get('host') + "/account_verification?code=" + code + "\n"
+                Tools.SendMail('arthur.fanneau@gmail.com', content)
+            }).then(() => {
+                resolve(true)                
+            })
+            .catch(catchError)
+        })
+    }
+
+    static ActivateUser(code) {
+        return new Promise((resolve, reject) => {
+            let sql = "UPDATE users SET activate = 0 WHERE activate = ?"
+            connection.query(sql, code, (error, results) => {
+                if (error)
+                    reject(error)
+                resolve(true)
+            })
         })
     }
 }

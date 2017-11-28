@@ -14,7 +14,7 @@ $(document).ready(function(){
                 }
                 else {
                     $("#return-connect").empty()
-
+                    location.reload()
                 }
             }
         })

@@ -29,7 +29,7 @@ class init_db {
             + 'genre VARCHAR(2) NOT NULL,'
             + 'desire VARCHAR(2) NOT NULL,'
             + 'bio VARCHAR(250) NOT NULL,'
-            + 'activate INT NOT NULL'
+            + 'activate VARCHAR(250) NOT NULL'
             + ');', (error) => {
                 if (error) throw error
         })
