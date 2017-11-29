@@ -10,9 +10,8 @@ let catchError = (error) => {
 router.post('/', function(req, res) {
     const { form_password, form_username } = req.body;
     
-    if (form_username === '' || form_password === '') {
+    if (form_username === '' || form_password === '')
         return res.send([false, "Empty field(s)"])
-    }
     else {
         Check.connection(form_username, form_password)
             .then((ret) => {
@@ -21,15 +20,12 @@ router.post('/', function(req, res) {
                     .then((id) => {
                         req.session.connected.state = true
                         req.session.connected.id = id
-                        console.log("testtesttest")
                         return res.send(ret)
                     }).catch(catchError)
                 }
-                else
-                    return(false)
-            }).catch((err) => {
-                console.error(err)
-            })
+                else 
+                    return res.send(ret)
+            }).catch(catchError)
     }
 })
 

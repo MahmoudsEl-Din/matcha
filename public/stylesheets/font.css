@@ -16,3 +16,7 @@
 a {
     cursor: pointer;
 }
+
+body {
+    background: linear-gradient(90deg, #ff5f6d, #ffc371);
+}

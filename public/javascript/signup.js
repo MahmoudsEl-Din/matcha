@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     $('[data-toggle="tooltip"]').tooltip()
 
-    $("#signup_username").change('input', function(e){
+    $("#signup_username").keyup(function(e){
         $.post('/check_signup_username', $('#signup_username'), function(data, jqHXR) {   
             if (jqHXR === "success") {
                 if (data === true){
@@ -20,7 +20,7 @@ $(document).ready(function(){
         })
     })
 
-    $("#signup_email").change('input', function(e){
+    $("#signup_email").keyup(function(e){
         $.post('/check_signup_email', $('#signup_email'), function(data, jqHXR) {   
             if (jqHXR === "success") {
                 if (data === true){
@@ -38,7 +38,7 @@ $(document).ready(function(){
         })
     })
     
-    $("#signup_password").change('input', function(e){
+    $("#signup_password").keyup(function(e){
         $.post('/check_signup_password', $('#signup_password'), function(data, jqHXR) {   
             if (jqHXR === "success") {
                 if (data === true){                 
@@ -56,7 +56,7 @@ $(document).ready(function(){
         })
     })
 
-    $("#signup_cpassword").change('input', function(e){
+    $("#signup_cpassword").keyup(function(e){
         $.post('/check_signup_cpassword', { password: $('#signup_password').val(), cpassword: $('#signup_cpassword').val()}, function(data, jqHXR) {   
             if (jqHXR === "success") {
                 if (data === true){                 
@@ -74,7 +74,7 @@ $(document).ready(function(){
         })
     })
 
-    $("#signup_firstname").change('input', function(e){
+    $("#signup_firstname").keyup(function(e){
         if ($("#signup_firstname").value === null){
             if ($('#signup_firstname').hasClass('border-success'))
                 $('#signup_firstname').removeClass('border-success')
@@ -87,7 +87,7 @@ $(document).ready(function(){
         }
     })
     
-    $("#signup_lastname").change('input', function(e){
+    $("#signup_lastname").keyup(function(e){
         if ($("#signup_lastname").value === null){
             if ($('#signup_lastname').hasClass('border-success'))
                 $('#signup_lastname').removeClass('border-success')

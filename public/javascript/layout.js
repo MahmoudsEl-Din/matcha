@@ -24,4 +24,7 @@ $(document).ready(function(){
         $("#div_connect").hide("slow")
         $("#div_forgot").show("slow")
     })
+    $("#drop_signup").click(() => {
+        window.location.replace("/signup")        
+    })
 })

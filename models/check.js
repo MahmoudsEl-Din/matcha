@@ -7,7 +7,7 @@ let catchError = (error) => {
 class Check {
     static is_activate (username) {
         return new Promise((resolve, reject) => {
-            let sql = "SELECT * FROM users WHERE username = ? AND activate = 0"
+            let sql = "SELECT * FROM users WHERE username = ? AND activate = '0'"
             connection.query(sql, username, (error, results) => {
                 if (error)
                     reject(error)
@@ -87,9 +87,15 @@ class Check {
                 })
                 .then((pw_state) => {
                     if (pw_state === true)
-                            resolve([true, username])
-                        else
-                            resolve([false, "Wrong password"])
+                        return this.is_activate(username)
+                    else
+                        resolve([false, "Wrong password"])
+                }).then((activate) => {
+                    if (activate === true)
+                        resolve([true, username])
+                    else {
+                        resolve([false, "Account not activated"])
+                    }            
                 }).catch(catchError)
             })
     }
