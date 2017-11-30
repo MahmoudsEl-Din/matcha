@@ -13,7 +13,7 @@ html
         link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous")
         link(rel="stylesheet" href="/stylesheets/font.css")
     body
-        div.container-fluid.justify-content-between
+        div.container-fluid.justify-content-between.fill
             div.row.p-3(style={color: 'red', background: 'black'})
                 div.col-6.col-md-2
                     a(href="/")
@@ -45,9 +45,11 @@ html
                                     form#form_forgot(method="POST" action="#")
                                         div.form-group
                                             label(for="exampleDropdownFormEmail1") Email
-                                            input#form_username.form-control(type="email" placeholder="Enter your email" name="form_reset")
-                                        div.w-100.d-flex.justify-content-center.form-group
-                                            button.btn.btn-primary(type="submit") Reset password
+                                            input#form_email.form-control(type="email" placeholder="Enter your email" name="form_reset")
+                                            div.w-100.d-flex.justify-content-center.form-group
+                                                p.mt-2#return-reset.text-danger
+                                            div.w-100.d-flex.justify-content-center.form-group
+                                                button#button_reset.btn.btn-primary(type="submit") Reset password
                         div.row.p-1.justify-content-center
                             a(href="/signup")
                                 h7.text-center.font-cheap.font-shadow-pink INSCRIPTION
@@ -60,4 +62,5 @@ html
 
             div.row.p-2(style={color: 'red', background: 'black'}) foot
         script(src="assets/javascript/login.js")
+        script(src="assets/javascript/reset_password.js")
         script(src="assets/javascript/logout.js")

@@ -35,13 +35,15 @@ new db()
 // Require routes
 var index = require('./routes/index.js')
 var login = require('./routes/login.js')
+var reset_password = require('./routes/reset_password.js')
 var logout = require('./routes/logout.js')
 var signup = require('./routes/signup.js')
 var signup_email = require('./routes/check_signup/email.js')
 var signup_username = require('./routes/check_signup/username.js')
 var signup_password = require('./routes/check_signup/password.js')
 var signup_cpassword = require('./routes/check_signup/cpassword.js')
-var account_verification = require('./routes/account_verification.js')
+var code_verif = require('./routes/code_verif.js')
+var error = require('./routes/error.js')
 
 app.use('/', index)
 app.use('/login', login)
@@ -51,7 +53,10 @@ app.use('/check_signup_email', signup_email)
 app.use('/check_signup_username', signup_username)
 app.use('/check_signup_password', signup_password)
 app.use('/check_signup_cpassword', signup_cpassword)
-app.use('/account_verification', account_verification)
+app.use('/code_verif', code_verif)
+app.use('/reset_password', reset_password)
+app.use('/error', error)
+
 
 
 app.listen(7777)

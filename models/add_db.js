@@ -1,5 +1,5 @@
-var check = require('./check.js')
-var Tools = require('./tools.js')
+var Check = require('./check.js')
+var Tools = require('./tools')
 
 let catchError = (error) => {
     console.error(error)
@@ -13,7 +13,7 @@ class addDb {
         let ret = [0, 0]
 
         return new Promise((resolve, reject) => {
-            check.LoginExists(array['username'])
+            Check.LoginExists(array['username'])
                 .then((username_exists) => {
                     if (username_exists === true) {
                         ret[0] = "KO"
@@ -22,7 +22,7 @@ class addDb {
                     }
                     else {
                         return new Promise((resolve, reject) => {
-                            check.email_exists(array['email'])
+                            Check.email_exists(array['email'])
                                 .then((email_exists) => {
                                     if (email_exists === true) {
                                         ret[0] = "KO"
@@ -47,6 +47,7 @@ class addDb {
 
     static user(form, req) { // Where array contains info of the new user
         return new Promise((resolve, reject) => {
+            console.log(Check.EmailExists("test@gmail.com"))
             var code = Tools.RandomString()            
             Tools.HashPassword(form.signup_password)
             .then((password_h) => {
@@ -55,12 +56,11 @@ class addDb {
                     if (error) throw error
                 })
             }).then(() => {
-                var content = "Hi " + form.signup_username + ",Activate your account by clicking here :\n" + req.protocol + '://' + req.get('host') + "/account_verification?code=" + code + "\n"
-                Tools.SendMail('arthur.fanneau@gmail.com', content)
+                var content = "Hi " + form.signup_username + ",Activate your account by clicking here :\n" + req.protocol + '://' + req.get('host') + "/code_verif?code=" + code + "\n"
+                Tools.SendMail('arthur.fanneau@gmail.com', 'Matcha: account activation', content)
             }).then(() => {
                 resolve(true)                
-            })
-            .catch(catchError)
+            }).catch(catchError)
         })
     }
 
@@ -68,6 +68,31 @@ class addDb {
         return new Promise((resolve, reject) => {
             let sql = "UPDATE users SET activate = 0 WHERE activate = ?"
             connection.query(sql, code, (error, results) => {
+                if (error)
+                    reject(error)
+                resolve(true)
+            })
+        })
+    }
+
+    static AddCode(userid, code, type){
+        return new Promise((resolve, reject) => {
+            console.log(userid)
+            console.log(code)
+            console.log(type)            
+            let sql = "INSERT INTO code (userid, code, type) VALUES(?, ?, ?);"
+            connection.query(sql, [userid, code, type], (error, results) => {
+                if (error)
+                    reject(error)
+                resolve(true)
+            })
+        })
+    }
+
+    static RemoveCode(userid, type) {
+        return new Promise((resolve, reject) => {
+            let sql = "DELETE FROM code WHERE userid = ? AND type = ?"
+            connection.query(sql, [userid, type], (error, results) => {
                 if (error)
                     reject(error)
                 resolve(true)

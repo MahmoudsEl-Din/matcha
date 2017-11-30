@@ -1,12 +1,35 @@
 var crypto = require('crypto')
 var nodemailer = require('nodemailer');
-var check = require('./check.js')
+var Check = require('./check.js')
+var AddDb = require('./add_db')
 
 let catchError = (error) => {
     console.error(error)
 }
 
 class Tools {
+    static CreateCode(userid, code, type) {
+        return new Promise ((resolve, reject) => {
+            Check.CodeExists(userid, false, type)
+            .then((exists) => {
+                if (exists)
+                    return AddDb.RemoveCode(userid, type)
+                return true
+            }).then((state) => {
+                if (state === true){
+                    return AddDb.AddCode(userid, code, type)
+                }
+                else
+                    reject()
+            }).then((state) => {
+                if (state === true)
+                    resolve(true)
+                else
+                    reject()
+            }).catch(catchError)
+        })
+    }
+
     static HashPassword(password){
         return new Promise((resolve, reject) => {
             crypto.pbkdf2(password, '6D23353B24DB5BEB57274F18FCABDB73', 100000, 64, 'sha512', (err, derivedKey) => {
@@ -18,16 +41,15 @@ class Tools {
     }
 
     static RandomString(){
-                var text = "";
-                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-              
-                for (var i = 0; i < 10; i++)
-                  text += possible.charAt(Math.floor(Math.random() * possible.length))
-              
-                return(text)
+      var text = ""
+      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+      for (var i = 0; i < 10; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length))
+      }
+      return(text)
     }
 
-    static SendMail(receiver, content){
+    static SendMail(receiver, subject,content){
         var transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
@@ -39,7 +61,7 @@ class Tools {
         var mailOptions = {
           from: 'support@matcha.com',
           to: receiver,
-          subject: 'Matcha: account activation',
+          subject: subject,
           text: content + "\n\nStaff of matcha"
         }
         

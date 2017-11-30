@@ -33,6 +33,15 @@ class init_db {
             + ');', (error) => {
                 if (error) throw error
         })
+      
+        this.connection.query('CREATE TABLE IF NOT EXISTS code('
+            + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
+            + 'userid INT NOT NULL,'
+            + 'code VARCHAR(250) NOT NULL,'
+            + 'type INT NOT NULL'
+            + ');', (error) => {
+                if (error) throw error
+        })
 
         let sql = "SELECT * FROM users;"
         this.connection.query(sql, (error, results) => {

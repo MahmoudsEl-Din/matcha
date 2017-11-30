@@ -114,6 +114,8 @@ $(document).ready(function(){
                     }
                     else {
                         $("#form_signup").empty()
+                        $("#maindiv").addClass('text-white')
+                        $("#maindiv").addClass('text-center')
                         document.getElementById("maindiv").innerHTML = data[1]
                     }
                 }

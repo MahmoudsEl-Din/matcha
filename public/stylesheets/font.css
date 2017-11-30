@@ -19,4 +19,10 @@ a {
 
 body {
     background: linear-gradient(90deg, #ff5f6d, #ffc371);
+    
+}
+
+.fill { 
+    min-height: 100%;
+    height: 100%;
 }

@@ -8,13 +8,17 @@ let catchError = (error) => {
 }
 
 router.post('/', (req, res) => {
-    console.log(req.body)
     Check.EmailExists(req.body.signup_email)
     .then((exists) => {
         if (exists)
-            res.send(true)
+            return res.send(true)
         else
-            res.send(false)
+            return Check.IsGoodEmail(req.body.signup_email)
+    }).then((reg) => {
+        if (reg === null)
+            return res.send(true)
+        else
+            return res.send(false)    
     }).catch(catchError)
 })
 

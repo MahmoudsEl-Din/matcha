@@ -1,10 +1,40 @@
 const crypto = require('crypto');
+const AddDb = require('./add_db');
+
 
 let catchError = (error) => {
     console.error(error)
 }
 
 class Check {
+    static CodeExists(userid, code, type) {
+        return new Promise((resolve, reject) => {
+            if (code === false) {
+                let sql = 'SELECT * FROM code WHERE userid = ? AND type = ?'
+                connection.query(sql, [userid, type], (error, results) => {
+                    if (error)
+                        reject(error)
+                    if (results.length === 0)
+                        resolve(false)
+                    else
+                        resolve(true)
+                })    
+            }
+            else {
+                let sql = 'SELECT * FROM code WHERE code = ?'
+                connection.query(sql, code, (error, results) => {
+                    console.log(results)
+                    if (error)
+                        reject(error)
+                    if (results.length === 0)
+                        resolve([false])
+                    else
+                        resolve([true, results[0].userid, results[0].type])
+                })
+            }
+        })
+    }
+
     static is_activate (username) {
         return new Promise((resolve, reject) => {
             let sql = "SELECT * FROM users WHERE username = ? AND activate = '0'"
@@ -33,14 +63,20 @@ class Check {
         })
     }
 
-    static EmailExists(email) {
+    static IsGoodEmail(email){
         return new Promise((resolve, reject) => {
             var email_reg = email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+            resolve(email_reg)
+        })
+    }
+
+    static EmailExists(email) {
+        return new Promise((resolve, reject) => {
             let sql = "SELECT * FROM users WHERE email = ?"
             connection.query(sql, email, (error, results) => {
                 if (error)
                     reject(error)
-                if (results.length === 0 && email_reg !== null)
+                if (results.length === 0)
                     resolve(false)
                 else
                     resolve(true)
@@ -108,14 +144,17 @@ class Check {
                     resolve([false, "Username already exists"])
                 else
                     return(this.EmailExists(form.signup_email))    
-            })
-            .then((exists) => {
+            }).then((exists) => {
                 if (exists)
-                    resolve([false, "Email already exists or invalid"])
+                    resolve([false, "Email already exists"])
+                else
+                    return(this.IsGoodEmail(form.signup_email))
+            }).then((reg) => {
+                if (reg === null)
+                    resolve([false, "Email invalid"])
                 else
                     return(this.NewPasswordValid(form.signup_password))    
-            })
-            .then ((invalid) => {
+            }).then ((invalid) => {
                 if (invalid)
                     resolve([false, "Password is invalid"])
                 else if (form.signup_password !== form.signup_cpassword)
