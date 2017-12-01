@@ -10,6 +10,9 @@ let catchError = (error) => {
 router.post('/', function(req, res) {
     const { form_password, form_username } = req.body;
     
+    if (!req.session.connected){
+        req.session.connected = {'state': false, 'id': undefined}
+    }
     if (form_username === '' || form_password === '')
         return res.send([false, "Empty field(s)"])
     else {

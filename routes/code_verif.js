@@ -26,9 +26,9 @@ router.get('/', (req, res) => {
         if (results[false])
             return res.redirect('/error')
         else if (results[2] === 1)
-            return [1, AddDb.ActivateUser(req.query.code)]
+            return [1, AddDb.ActivateCode(req.query.code)]
         else if (results[2] === 2)
-            return [2, AddDb.ActivateUser(req.query.code)]
+            return [2, AddDb.ActivateCode(req.query.code)]
     }).then((ret) => {
         console.log(ret)
         if (ret && ret[0] === 1)

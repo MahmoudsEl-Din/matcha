@@ -28,8 +28,7 @@ class init_db {
             + 'email VARCHAR(250) NOT NULL,'
             + 'genre VARCHAR(2) NOT NULL,'
             + 'desire VARCHAR(2) NOT NULL,'
-            + 'bio VARCHAR(250) NOT NULL,'
-            + 'activate VARCHAR(250) NOT NULL'
+            + 'bio VARCHAR(250) NOT NULL'
             + ');', (error) => {
                 if (error) throw error
         })
@@ -47,8 +46,8 @@ class init_db {
         this.connection.query(sql, (error, results) => {
             if (error) throw error
             if (results.length === 0) {
-                sql = "INSERT INTO `users` (`id`, `username`, `name`, `password`, `lastname`, `email`, `genre`, `desire`, `bio`, `activate`) VALUES" +
-                    "(1, 'usernametest', 'nametest', 'e8bf9bc2b848f897f3c3471a4a9a1ebe571d3fb386081a9e048dde4981000d974c0bcfe43eefec1b244471e9cb193e8b0331209e0007bae607c1b977eb079ebc', 'lastnametest', 'emailtest@gmail.com', 'M', 'F', 'It is a test of a bio written by a test user', 0)" +
+                sql = "INSERT INTO `users` (`id`, `username`, `name`, `password`, `lastname`, `email`, `genre`, `desire`, `bio`) VALUES" +
+                    "(1, 'usernametest', 'nametest', 'e8bf9bc2b848f897f3c3471a4a9a1ebe571d3fb386081a9e048dde4981000d974c0bcfe43eefec1b244471e9cb193e8b0331209e0007bae607c1b977eb079ebc', 'lastnametest', 'emailtest@gmail.com', 'M', 'F', 'It is a test of a bio written by a test user')" +
                     ";" 
                 this.connection.query(sql, (error) => {
                     if (error) throw error

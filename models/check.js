@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const AddDb = require('./add_db');
-
+const User = require('./user')
 
 let catchError = (error) => {
     console.error(error)
@@ -35,16 +35,16 @@ class Check {
         })
     }
 
-    static is_activate (username) {
+    static is_activate (userid) {
         return new Promise((resolve, reject) => {
-            let sql = "SELECT * FROM users WHERE username = ? AND activate = '0'"
-            connection.query(sql, username, (error, results) => {
+            let sql = "SELECT * FROM code WHERE userid = ?"
+            connection.query(sql, userid, (error, results) => {
                 if (error)
                     reject(error)
                 if (results.length === 0)
-                    resolve(false)
-                else
                     resolve(true)
+                else
+                    resolve(false)
             })
         })
     }
@@ -113,6 +113,7 @@ class Check {
 
     static connection(username, pw_h) {
         return new Promise((resolve, reject) => {
+            let User = require('./user')            
             this.LoginExists(username)
                 .then((exists) => {
                     if (exists === true) {
@@ -120,12 +121,13 @@ class Check {
                     }
                     else
                         resolve([false, "Wrong username"])
-                })
-                .then((pw_state) => {
+                }).then((pw_state) => {
                     if (pw_state === true)
-                        return this.is_activate(username)
+                        return User.GetIdByUsername(username)
                     else
                         resolve([false, "Wrong password"])
+                }).then((id) => {
+                    return this.is_activate(id)
                 }).then((activate) => {
                     if (activate === true)
                         resolve([true, username])

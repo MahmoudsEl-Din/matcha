@@ -1,5 +1,5 @@
 var crypto = require('crypto')
-var nodemailer = require('nodemailer');
+var nodemailer = require('nodemailer')
 var Check = require('./check.js')
 var AddDb = require('./add_db')
 
