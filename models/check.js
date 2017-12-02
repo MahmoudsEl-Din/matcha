@@ -37,11 +37,11 @@ class Check {
 
     static is_activate (userid) {
         return new Promise((resolve, reject) => {
-            let sql = "SELECT * FROM code WHERE userid = ?"
+            let sql = "SELECT * FROM code WHERE userid = ? AND type = 1"
             connection.query(sql, userid, (error, results) => {
                 if (error)
                     reject(error)
-                if (results.length === 0)
+                if (results && results.length === 0)
                     resolve(true)
                 else
                     resolve(false)
@@ -55,7 +55,7 @@ class Check {
             connection.query(sql, username, (error, results) => {
                 if (error)
                     reject(error)
-                if (results.length === 0)
+                if (results && results.length === 0)
                     resolve(false)
                 else
                     resolve(true)

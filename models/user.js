@@ -6,6 +6,21 @@ let catchError = (error) => {
 }
 
 class User {
+
+    static ChangePassword(userid, password){
+        return new Promise((resolve, reject) => {
+            Tools.HashPassword(password)
+            .then((hash) => {
+                let sql = "UPDATE users SET password = ? WHERE id = ?;"
+                connection.query(sql, [hash, userid], (error, results) => {
+                    if (error)
+                        reject(error)
+                    resolve(true)
+                })
+            })
+        })
+    }
+
     static ResetEmail(id, link){
         return new Promise((resolve, reject) => {
             var code = Tools.RandomString()

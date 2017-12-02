@@ -109,6 +109,17 @@ class addDb {
             })
         })
     }
+
+    static RemoveCodeByCode(code, type) {
+        return new Promise((resolve, reject) => {
+            let sql = "DELETE FROM code WHERE code = ? AND type = ?"
+            connection.query(sql, [code, type], (error, results) => {
+                if (error)
+                    reject(error)
+                resolve(true)
+            })
+        })
+    }
 }
 
 module.exports = addDb
