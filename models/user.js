@@ -31,7 +31,7 @@ class User {
                 }
                 reject()
             }).then((user) => {
-                Tools.SendMail("arthur.fanneau@gmail.com", "Matcha: password reset","Hi " + user['username'] + ",\nTo reset your password click this link :\n" + link + code)
+                Tools.SendMail(user['email'], "Matcha: password reset","Hi " + user['username'] + ",\nTo reset your password click this link :\n" + link + code)
                 resolve(true)
             }).catch(catchError)
         })

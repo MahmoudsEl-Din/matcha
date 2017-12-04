@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
     if (req.session.connected.state !== false) {
         User.GetAllById(req.session.connected.id)
         .then((user_info) => {
-            username = user_info['username']
+            username = user_info['username'].toUpperCase()
             res.render('pages/error', {session :req.session, username: username})
         }).catch(catchError)
     }

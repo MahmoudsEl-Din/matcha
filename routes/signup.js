@@ -26,6 +26,8 @@ router.post('/', function(req, res) {
     console.log(form)
     if (signup_username === '' || signup_email === '' || signup_firstname === '' || signup_lastname === '' || signup_password === '' || signup_cpassword === '' || signup_sexdate  === '')
         return res.send([false, "Empty field(s)"])
+    else if (signup_username.length > 15 || signup_email.length > 200 || signup_firstname.length > 15 || signup_lastname.length > 15 || signup_password.length > 200 || signup_cpassword.length > 200)
+        return res.send([false, "Don't try to break me ..."])
     else {
         Check.CreateAccount(form)
         .then((ret) => {

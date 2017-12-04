@@ -54,7 +54,8 @@ html
                             a(href="/signup")
                                 h7.text-center.font-cheap.font-shadow-pink INSCRIPTION
                     -else
-                        h1.font-cheap.font-shadow-pink= username
+                        a(href="/profil")#profil 
+                            h1.font-cheap.font-shadow-pink= username
                         a#logout
                             h3.font-cheap.font-shadow-pink LOGOUT
             div#maindiv.row.h-100   

@@ -64,7 +64,7 @@ class addDb {
             }).then((ret) => {
                 if (ret === true) {
                     var content = "Hi " + form.signup_username + ",Activate your account by clicking here :\n" + req.protocol + '://' + req.get('host') + "/code_verif?code=" + code + "\n"
-                    Tools.SendMail('arthur.fanneau@gmail.com', 'Matcha: account activation', content)
+                    Tools.SendMail(form.signup_email , 'Matcha: account activation', content)
                 }
                 else
                     reject()

@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
     Check.EmailExists(req.body.signup_email)
     .then((exists) => {
         if (exists)
-            return res.send(true)
+            return null
         else
             return Check.IsGoodEmail(req.body.signup_email)
     }).then((reg) => {

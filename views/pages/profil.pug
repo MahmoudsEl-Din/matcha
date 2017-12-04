@@ -1,0 +1,56 @@
+extends layout
+        
+block content
+        form#form_signup.container(method="POST").text-center.mt-5
+                div.form-group.row.justify-content-center
+                        h1.text-white= user['username']
+                div.form-group.row.justify-content-center.mb-3
+                        div.col-2
+                                label.text-white(for="signup_username")= user['name']
+                        //- div.w-100
+                        div.col-2
+                                input#signup_username.form-control(type="text" placeholder="Edit first name" name="signup_username")
+                        div.col-1
+                                button#submit_signup(type="submit").btn.btn-primary Edit
+                div.form-group.row.justify-content-center.mb-3
+                        div.col-2
+                                label.text-white(for="signup_email")= user['lastname']
+                        //- div.w-100
+                        div.col-2
+                                input#signup_email.form-control.border(type="email" placeholder="Edit last name" name="signup_email")
+                        div.col-1
+                                button#submit_signup(type="submit").btn.btn-primary Edit
+                div.form-group.row.justify-content-center.mb-3
+                        div.col-2
+                                label.text-white(for="signup_firstname")= user['genre']
+                        //- div.w-100
+                        div.col-2
+                                select
+                                        option(value="B") Bisexual
+                                        option(value="M") Man
+                                        option(value="F") Female                                        
+                        div.col-1
+                                button#submit_signup(type="submit").btn.btn-primary Edit
+                div.form-group.row.justify-content-center.mb-3
+                        div.col-2
+                                label.text-white(for="signup_lastname") Desire
+                        //- div.w-100
+                        div.col-2
+                                select
+                                        option(value="B") Bisexual
+                                        option(value="M") Man
+                                        option(value="F") Female 
+                        div.col-1
+                                button#submit_signup(type="submit").btn.btn-primary Edit
+                div.form-group.row.justify-content-center.mb-3
+                        div.col-2
+                                label.text-white(for="signup_password") Email
+                        //- div.w-100
+                        div.col-2
+                                input#signup_password.form-control(type="password" placeholder="Edit password" name="signup_password")
+                        div.col-1
+                                button#submit_signup(type="submit").btn.btn-primary Edit
+                div.w-100.d-flex.justify-content-center.form-group
+                        p#return-signup.text-danger
+        
+        //- script(src="assets/javascript/profil.js")

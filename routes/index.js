@@ -21,7 +21,6 @@ router.get('/', (req, res) => {
     }
     else 
         res.render('pages/index', {session :req.session, username: username})
-    
 })
 
 module.exports = router
