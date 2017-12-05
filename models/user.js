@@ -7,6 +7,61 @@ let catchError = (error) => {
 
 class User {
 
+    static ChangeFirstName(userid, new_firstname) {
+        return new Promise((resolve, reject) => {
+            let sql = "UPDATE users SET name = ? WHERE id = ?;"
+            connection.query(sql, [new_firstname, userid], (error, results) => {
+                if (error)
+                    reject(error)
+                resolve(true)
+            })
+        })
+    }
+
+    static ChangeLastName(userid, new_lastname) {
+        return new Promise((resolve, reject) => {
+            let sql = "UPDATE users SET lastname = ? WHERE id = ?;"
+            connection.query(sql, [new_lastname, userid], (error, results) => {
+                if (error)
+                    reject(error)
+                resolve(true)
+            })
+        })
+    }
+
+    static ChangeEmail(userid, new_email) {
+        return new Promise((resolve, reject) => {
+            let sql = "UPDATE users SET email = ? WHERE id = ?;"
+            connection.query(sql, [new_email, userid], (error, results) => {
+                if (error)
+                    reject(error)
+                resolve(true)
+            })
+        })
+    }
+
+    static ChangeGender(userid, new_gender) {
+        return new Promise((resolve, reject) => {
+            let sql = "UPDATE users SET genre = ? WHERE id = ?;"
+            connection.query(sql, [new_gender, userid], (error, results) => {
+                if (error)
+                    reject(error)
+                resolve(true)
+            })
+        })
+    }
+
+    static ChangeDesire(userid, new_desire) {
+        return new Promise((resolve, reject) => {
+            let sql = "UPDATE users SET desire = ? WHERE id = ?;"
+            connection.query(sql, [new_desire, userid], (error, results) => {
+                if (error)
+                    reject(error)
+                resolve(true)
+            })
+        })
+    }
+
     static ChangePassword(userid, password){
         return new Promise((resolve, reject) => {
             Tools.HashPassword(password)

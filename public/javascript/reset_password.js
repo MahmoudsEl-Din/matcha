@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+    $('[data-toggle="tooltip"]').tooltip()    
+
     $("#button_reset").click(function(e) {
         e.preventDefault()
         

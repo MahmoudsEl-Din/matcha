@@ -8,6 +8,7 @@ let catchError = (error) => {
 }
 
 router.post('/', (req, res) => {
+    console.log(req.body)
     Check.EmailExists(req.body.signup_email)
     .then((exists) => {
         if (exists)

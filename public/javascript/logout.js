@@ -4,7 +4,7 @@ $(document).ready(function(){
 
         $.post('/logout', undefined, function(data, jqHXR) {  
             if (jqHXR === "success") {
-                location.reload()
+                document.location.href='/' // Reload sur l'index quand logout
             }
         })
     })

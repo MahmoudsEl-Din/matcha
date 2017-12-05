@@ -127,7 +127,8 @@ class Check {
                     else
                         resolve([false, "Wrong password"])
                 }).then((id) => {
-                    return this.is_activate(id)
+                    if (id)
+                        return this.is_activate(id)
                 }).then((activate) => {
                     if (activate === true)
                         resolve([true, username])
