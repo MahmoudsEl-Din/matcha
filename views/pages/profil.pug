@@ -1,101 +1,125 @@
 extends layout
         
 block content
-        form#form_profil.container(method="POST").text-center.mt-5
-                div.form-group.row.justify-content-center
-                        h1.text-white= user['username']
-
-                div.form-group.row.justify-content-center.mb-3
-                        div.col-2
-                                label#label_firstname.text-white(for="profil_firstname")= user['name']
-                        //- div.w-100
-                        div.col-2
-                                input#profil_firstname.form-control(type="text" placeholder="Edit first name" maxlength="20" name="profil_firstname")
-                        div.col-1
-                                button#submit_firstname(type="submit").btn.btn-primary Edit
-                div.w-100.d-flex.justify-content-center.form-group
-                        p#return_firstname.text-danger
-
-                div.form-group.row.justify-content-center.mb-3
-                        div.col-2
-                                label#label_lastname.text-white(for="profil_lastname")= user['lastname']
-                        //- div.w-100
-                        div.col-2
-                                input#profil_lastname.form-control.border(type="text" placeholder="Edit last name" maxlength="199" name="profil_lastname")
-                        div.col-1
-                                button#submit_lastname(type="submit").btn.btn-primary Edit
-                div.w-100.d-flex.justify-content-center.form-group
-                        p#return_lastname.text-danger
-
-                div.form-group.row.justify-content-center.mb-3
-                        div.col-2
-                                label#label_gender.text-white(for="profil_gender")= user['genre']
-                        //- div.w-100
-                        div.col-2
-                                select#profil_gender(name="profil_gender")
-                                        -if (user['genre'] === 'No gender')
-                                                option(value="B") No gender
-                                                option(value="M") Man
-                                                option(value="F") Female
-                                        -else if (user['genre'] === 'I\'m a dick')
-                                                option(value="M") Man
-                                                option(value="B") No gender
-                                                option(value="F") Female                               
-                                        -else if (user['genre'] === 'I\'m a pussy')
-                                                option(value="F") Female                               
-                                                option(value="M") Man
-                                                option(value="B") No gender
-                        div.col-1
-                                button#submit_gender(type="submit").btn.btn-primary Edit
-                div.w-100.d-flex.justify-content-center.form-group
-                        p#return_gender.text-danger
-
-                div.form-group.row.justify-content-center.mb-3
-                        div.col-2
-                                label#label_desire.text-white(for="profil_desire")= user['desire']
-                        //- div.w-100
-                        div.col-2
-                                select#profil_desire(name="profil_desire")
-                                        -if (user['desire'] === 'I like all')
-                                                option(value="B") I like both
-                                                option(value="M") I like men
-                                                option(value="F") I like womans
-                                        -else if (user['desire'] === 'I like dicks')
-                                                option(value="M") I like men
-                                                option(value="B") I like both
-                                                option(value="F") I like womans                               
-                                        -else if (user['desire'] === 'I like pussies')
-                                                option(value="F") I like womans                               
-                                                option(value="M") I like men
-                                                option(value="B") I like both
-                        div.col-1
-                                button#submit_desire(type="submit").btn.btn-primary Edit
-                div.w-100.d-flex.justify-content-center.form-group
-                        p#return_desire.text-danger
-
-                div.form-group.row.justify-content-center.mb-3
-                        div.col-2
-                                label#label_email.text-white(for="profil_email")= user['email']
-                        //- div.w-100
-                        div.col-2
-                                input#profil_email.form-control(type="email" placeholder="Edit email" maxlength="199" name="profil_email")
-                        div.col-1
-                                button#submit_email(type="submit").btn.btn-primary Edit
-                div.w-100.d-flex.justify-content-center.form-group
-                        p#return_email.text-danger
-                                
-                div.form-group.row.justify-content-center.mb-3
-                        div.col-2
-                                h3.text-white Biography
-                        div.w-100                        
-                        div.col-2
-                                label#label_bio.text-white(for="profil_bio")= user['bio']
-                        div.w-100
-                        div.w-50
-                                input#profil_bio.form-control(type="text" placeholder="Edit your biography (Max 249 characters)" maxlength="249" name="profil_bio")
-                        div.col-1
-                                button#submit_bio(type="submit").btn.btn-primary Edit
-                div.w-100.d-flex.justify-content-center.form-group
-                        p#return_bio.text-danger
         
-        script(src="assets/javascript/profil.js")
+        div.container.text-center
+                div.form-group.row.justify-content-center.mt-5
+                        h1#username.text-white= user['username']
+
+                form#form_profil.container(method="POST").text-center
+                        div.form-group.row.justify-content-center.mb-3
+                                div.col-2
+                                        label#label_firstname.text-white(for="profil_firstname")= user['name']
+                                //- div.w-100
+                                div.col-2
+                                        input#profil_firstname.form-control(type="text" placeholder="Edit first name" maxlength="20" name="profil_firstname")
+                                div.col-1
+                                        button#submit_firstname(type="submit").btn.btn-primary Edit
+                        div.w-100.d-flex.justify-content-center.form-group
+                                p#return_firstname.text-danger
+
+                form#form_profil.container(method="POST").text-center
+                        div.form-group.row.justify-content-center.mb-3
+                                div.col-2
+                                        label#label_lastname.text-white(for="profil_lastname")= user['lastname']
+                                //- div.w-100
+                                div.col-2
+                                        input#profil_lastname.form-control.border(type="text" placeholder="Edit last name" maxlength="199" name="profil_lastname")
+                                div.col-1
+                                        button#submit_lastname(type="submit").btn.btn-primary Edit
+                        div.w-100.d-flex.justify-content-center.form-group
+                                p#return_lastname.text-danger
+
+                form#form_profil.container(method="POST").text-center
+                        div.form-group.row.justify-content-center.mb-3
+                                div.col-2
+                                        label#label_gender.text-white(for="profil_gender")= user['genre']
+                                //- div.w-100
+                                div.col-2
+                                        select#profil_gender(name="profil_gender")
+                                                -if (user['genre'] === 'No gender')
+                                                        option(value="B") No gender
+                                                        option(value="M") Man
+                                                        option(value="F") Female
+                                                -else if (user['genre'] === 'I\'m a dick')
+                                                        option(value="M") Man
+                                                        option(value="B") No gender
+                                                        option(value="F") Female                               
+                                                -else if (user['genre'] === 'I\'m a pussy')
+                                                        option(value="F") Female                               
+                                                        option(value="M") Man
+                                                        option(value="B") No gender
+                                div.col-1
+                                        button#submit_gender(type="submit").btn.btn-primary Edit
+                        div.w-100.d-flex.justify-content-center.form-group
+                                p#return_gender.text-danger
+
+                form#form_profil.container(method="POST").text-center.mt-5
+                        div.form-group.row.justify-content-center.mb-3
+                                div.col-2
+                                        label#label_desire.text-white(for="profil_desire")= user['desire']
+                                //- div.w-100
+                                div.col-2
+                                        select#profil_desire(name="profil_desire")
+                                                -if (user['desire'] === 'I like all')
+                                                        option(value="B") I like both
+                                                        option(value="M") I like men
+                                                        option(value="F") I like womans
+                                                -else if (user['desire'] === 'I like dicks')
+                                                        option(value="M") I like men
+                                                        option(value="B") I like both
+                                                        option(value="F") I like womans                               
+                                                -else if (user['desire'] === 'I like pussies')
+                                                        option(value="F") I like womans                               
+                                                        option(value="M") I like men
+                                                        option(value="B") I like both
+                                div.col-1
+                                        button#submit_desire(type="submit").btn.btn-primary Edit
+                        div.w-100.d-flex.justify-content-center.form-group
+                                p#return_desire.text-danger
+
+                form#form_profil.container(method="POST").text-center.mt-5
+                        div.form-group.row.justify-content-center.mb-3
+                                div.col-2
+                                        label#label_email.text-white(for="profil_email")= user['email']
+                                //- div.w-100
+                                div.col-2
+                                        input#profil_email.form-control(type="email" placeholder="Edit email" maxlength="199" name="profil_email")
+                                div.col-1
+                                        button#submit_email(type="submit").btn.btn-primary Edit
+                        div.w-100.d-flex.justify-content-center.form-group
+                                p#return_email.text-danger
+
+                form#form_profil.container(method="POST").text-center.mt-5      
+                        div.form-group.row.justify-content-center.mb-3
+                                div.col-2
+                                        h3.text-white Biography
+                                div.w-100                        
+                                div.w-50
+                                        label#label_bio.text-white(for="profil_bio")= user['bio']
+                                div.w-100
+                                div.w-50
+                                        input#profil_bio.form-control(type="text" placeholder="Edit your biography (Max 249 characters)" maxlength="249" name="profil_bio")
+                                div.col-1
+                                        button#submit_bio(type="submit").btn.btn-primary Edit
+                        div.w-100.d-flex.justify-content-center.form-group
+                                p#return_bio.text-danger
+
+                form#form_profil.container(method="POST").text-center.mt-5      
+                        div.form-group.row.justify-content-center.mb-3
+                                div.col-2
+                                        h3.text-white Tags
+                                div.w-100                        
+                                div#div_user_tags.col-4
+                                        
+                                div.w-100
+                                div.col-3
+                                        input#profil_tag.form-control(type="text" placeholder="Edit your biography (Max 249 characters)" maxlength="249" name="profil_bio")
+                                        div#dropdown_tags
+                                                h1 TEST
+                                div.col-1
+                                        button#submit_bio(type="submit").btn.btn-primary Edit
+                        div.w-100.d-flex.justify-content-center.form-group
+                                p#return_bio.text-danger
+        
+                script(src="assets/javascript/profil.js")

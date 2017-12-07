@@ -62,6 +62,17 @@ class User {
         })
     }
 
+    static ChangeBio(userid, new_bio) {
+        return new Promise((resolve, reject) => {
+            let sql = "UPDATE users SET bio = ? WHERE id = ?;"
+            connection.query(sql, [new_bio, userid], (error, results) => {
+                if (error)
+                    reject(error)
+                resolve(true)
+            })
+        })
+    }
+
     static ChangePassword(userid, password){
         return new Promise((resolve, reject) => {
             Tools.HashPassword(password)
@@ -121,11 +132,24 @@ class User {
     static GetIdByUsername(username){
         return new Promise((resolve, reject) => {
             let sql = "SELECT id FROM users WHERE username = ?"
-            connection.query(sql, username, (error, results) => {
+            connection.query(sql, [username], (error, results) => {
                 if (error)
                     reject(error)
                 else if (results[0])
                     resolve(results[0]['id'])
+                resolve(undefined)
+            })
+        })
+    }
+
+    static GetTags(id){
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM tags WHERE userid = ?"
+            connection.query(sql, [id], (error, results) => {
+                if (error)
+                    reject(error)
+                else if (results[0])
+                    resolve(results)
                 resolve(undefined)
             })
         })

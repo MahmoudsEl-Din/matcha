@@ -42,6 +42,21 @@ class init_db {
                 if (error) throw error
         })
 
+        this.connection.query('CREATE TABLE IF NOT EXISTS tags('
+        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
+        + 'userid INT NOT NULL,'
+        + 'tag_name VARCHAR(250) NOT NULL'
+        + ');', (error) => {
+            if (error) throw error
+        })
+
+        this.connection.query('CREATE TABLE IF NOT EXISTS tag_list('
+        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
+        + 'tag_name VARCHAR(250) NOT NULL'
+        + ');', (error) => {
+            if (error) throw error
+        })
+
         let sql = "SELECT * FROM users;"
         this.connection.query(sql, (error, results) => {
             if (error) throw error
@@ -52,6 +67,11 @@ class init_db {
                 this.connection.query(sql, (error) => {
                     if (error) throw error
                 })
+                sql = "INSERT INTO `tag_list` (`tag_name`) VALUES ('sexy'), ('cheum'), ('tesson de bouteille'), ('hashtag'), ('boucherie')" +
+                ";" 
+                this.connection.query(sql, (error) => {
+                if (error) throw error
+            })
             }
         })
         global.connection = this.connection

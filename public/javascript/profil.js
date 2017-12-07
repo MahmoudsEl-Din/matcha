@@ -1,4 +1,12 @@
 $(document).ready(function(){
+
+    $.get('/profil/get_user_tags', { username : $('#username').text()},(data, jqHXR) => {
+        if (jqHXR === "success") {
+            data.forEach((elem) => {
+                $('#div_user_tags').append('<div class="user_tag">' + elem['tag_name'] + '<a id="del_tag' + elem['id'] + '" class="del_tag" href=\'#\'>x</a></div>')
+            })
+        }
+    }) 
     
     function clear_returns(){
         $("#return_email").empty()                    
@@ -181,4 +189,19 @@ $(document).ready(function(){
             })
         }
     })
+
+    $(".del_tag").click(function(e) {
+        console.log("test")
+        // e.preventDefault()
+        clear_returns()
+
+        $.get('/profil/del_user_tags',(data, jqHXR) => {
+            if (jqHXR === "success") {
+                // data.forEach((elem) => {
+                    // $('#div_user_tags?').append('<div class="user_tag">' + elem['tag_name'] + '<a id="del_tag" class="del_tag">x</div>')
+                // })
+            }
+        })
+    }) 
 })
+

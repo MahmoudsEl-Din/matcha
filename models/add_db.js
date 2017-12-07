@@ -59,7 +59,6 @@ class addDb {
                 })
                 return User.GetIdByUsername(form.signup_username)                
             }).then((userid) => {
-                console.log('\n'+userid)
                 return this.AddCode(userid, code, 1)
             }).then((ret) => {
                 if (ret === true) {

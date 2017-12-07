@@ -2,6 +2,7 @@ var express = require('express')
 var router = express()
 var User = require('../models/user.js')
 var Check = require('../models/check.js')
+var GetDb = require('../models/get_db.js')
 
 let catchError = (error) => {
     console.error(error)
@@ -27,6 +28,8 @@ router.get('/', (req, res) => {
                 user_info['desire'] = 'I like all'
             else
                 user_info['desire'] === 'M' ? user_info['desire'] = 'I like dicks' : user_info['desire'] = 'I like pussies'
+            
+            
             res.render('pages/profil', {session :req.session, username: username, user: user_info})
         }).catch(catchError)
     }
@@ -102,15 +105,16 @@ router.post('/change_email', (req, res) => {
                 else
                     return Check.IsGoodEmail(req.body.profil_email)
             }).then((status) => {
-                console.log(status)
-                if (status !== null)
+                if (status === undefined)
+                    return
+                else if (status !== null)
                     return User.ChangeEmail(req.session.connected.id, req.body.profil_email)
-                else
+                else if (status !== undefined)
                     res.send([false, 'Wrong email'])
             }).then((status) => {
                 if (status === true)
                     res.send([true, req.body.profil_email])
-                else
+                else if (status !== undefined)
                     res.send([false, 'Try again please'])
             }).catch(catchError)
         }
@@ -195,6 +199,47 @@ router.post('/change_desire', (req, res) => {
     }
     else
         res.send([false, "Empty field"])
+})
+
+//Change bio
+router.post('/change_bio', (req, res) => {
+    if (req.body.profil_bio && req.session.connected.id){
+        if (req.body.profil_bio.length < 248){
+            User.ChangeBio(req.session.connected.id, req.body.profil_bio)
+            .then((state) => {
+                if (state === true)
+                    res.send([true, req.body.profil_bio])
+                else
+                    res.send([false, "Try again"])
+            }).catch(catchError)
+        }
+        else
+            res.send([false, "Too long"])
+
+    }
+    else
+        res.send([false, "Empty field"])
+})
+
+// Return tags to print the page
+router.get('/get_user_tags', (req, res) => {
+    User.GetIdByUsername(req.query.username)
+    .then((uid) => {
+        return User.GetTags(uid)
+    }).then((user_tags) => {
+        res.send(user_tags)            
+    }).catch(catchError)
+})
+
+// Del tags to print the page
+router.get('/del_user_tags', (req, res) => {
+    console.log(req)
+    // User.GetIdByUsername(req.query.username)
+    // .then((uid) => {
+        // return User.GetTags(uid)
+    // }).then((user_tags) => {
+        // res.send(user_tags)            
+    // }).catch(catchError)
 })
 
     //              __
