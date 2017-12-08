@@ -73,6 +73,20 @@ class Tools {
           }
         })
     }
+
+    static SelectInArray(array, key_array, str){ // Take an array and return an other array created by all the elements that matchs with the str
+        return new Promise((resolve, reject) => {
+            var new_array = []
+            var i = 0
+            array.forEach((element) => {
+                if (element[key_array].startsWith(str)) {
+                    new_array[i] = element[key_array]
+                    i++
+                }
+            })
+            resolve(new_array)
+        })
+    }
 }
 
 module.exports = Tools

@@ -2,11 +2,24 @@ $(document).ready(function(){
 
     $.get('/profil/get_user_tags', { username : $('#username').text()},(data, jqHXR) => {
         if (jqHXR === "success") {
-            data.forEach((elem) => {
-                $('#div_user_tags').append('<div class="user_tag">' + elem['tag_name'] + '<a id="del_tag' + elem['id'] + '" class="del_tag" href=\'#\'>x</a></div>')
-            })
+            if (data) {
+                data.forEach((elem) => {
+                    $('#div_user_tags').append('<div class="user_tag">' + elem['tag_name'] + '<a id="del_tag' + elem['id'] + '" class="del_tag" href=\'#\'>x</a></div>')
+                })
+            }
         }
-    }) 
+    })
+
+    $.get('/profil/get_all_tags', {tag_search: ''}, (data, jqHXR) => {
+        if (jqHXR === "success") {
+            console.log(data)
+            if (data) {
+                data.forEach((elem) => {
+                    $('#div_list_tags').append('<div class="select_tag">' + elem + '<a id="add_tag' + elem['id'] + '" class="add_tag" href=\'#\'>x</a></div>')
+                })
+            }
+        }
+    })
     
     function clear_returns(){
         $("#return_email").empty()                    
@@ -15,6 +28,7 @@ $(document).ready(function(){
         $("#return_gender").empty()                    
         $("#return_desire").empty()
         $("#return_bio").empty()
+        $("#return_tags").empty()
     }
 
     // When user is typing it checks the validity
@@ -202,6 +216,34 @@ $(document).ready(function(){
                 // })
             }
         })
-    }) 
+    })
+
+    $("#profil_tag").keyup(function(e){
+        console.log($("#profil_tag").val())
+        clear_returns()
+        $('#div_list_tags').empty()
+        
+        if ($("#profil_tag").val().length < 15) {
+            $.get('/profil/get_all_tags', {tag_search: $("#profil_tag").val()}, (data, jqHXR) => {
+                if (jqHXR === "success") {
+                    console.log(data)
+                    if (data) {
+                        var res = false
+                        data.forEach((elem) => {
+                            $('#div_list_tags').append('<div class="select_tag">' + elem + '<a id="add_tag class="add_tag" href=\'#\'>x</a></div>')
+                            if (elem === $("#profil_tag").val())
+                                res = true
+                        })
+                        if (res === false && $("#profil_tag").val() !== '')
+                            $('#div_list_tags').prepend('<div class="select_tag">' + $("#profil_tag").val() + '<a id="add_tag class="add_tag" href=\'#\'>x</a></div>')
+                    }
+                }
+            })
+        }
+        else
+            document.getElementById("return_tags").innerHTML = 'Tag too long' 
+    })
+
+
 })
 

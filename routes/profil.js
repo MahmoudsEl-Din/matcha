@@ -232,14 +232,23 @@ router.get('/get_user_tags', (req, res) => {
 })
 
 // Del tags to print the page
-router.get('/del_user_tags', (req, res) => {
-    console.log(req)
-    // User.GetIdByUsername(req.query.username)
-    // .then((uid) => {
-        // return User.GetTags(uid)
-    // }).then((user_tags) => {
-        // res.send(user_tags)            
-    // }).catch(catchError)
+// router.get('/del_user_tags', (req, res) => {
+//     console.log(req)
+//     // User.GetIdByUsername(req.query.username)
+//     // .then((uid) => {
+//         // return User.GetTags(uid)
+//     // }).then((user_tags) => {
+//         // res.send(user_tags)
+//     // }).catch(catchError)
+// })
+
+router.get('/get_all_tags', (req, res) => {
+    console.log('req.query ' + req.query)    
+    console.log('req.query.search ' + req.query.tag_search)
+    GetDb.TagList(req.query.tag_search)
+    .then((tag_list) => {
+        res.send(tag_list)
+    }).catch(catchError)
 })
 
     //              __
