@@ -119,6 +119,26 @@ class addDb {
             })
         })
     }
+
+    static NewTagListIfNotExists(new_tag) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM tag_list WHERE tag_name = ?;"
+            connection.query(sql, [new_tag], (error, results) => {
+                if (error)
+                    reject(error)
+                else if (!results[0]){
+                    let sql = "INSERT INTO tag_list VALUES(null, ?);"
+                    connection.query(sql, [new_tag], (error, results) => {
+                    if (error)
+                        reject(error)
+                    resolve(true)
+                    })
+                }
+                else       
+                    resolve(false)
+            })
+        })
+    }
 }
 
 module.exports = addDb

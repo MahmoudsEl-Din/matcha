@@ -242,12 +242,52 @@ router.get('/get_user_tags', (req, res) => {
 //     // }).catch(catchError)
 // })
 
+// Get all the tags that matchs with the tag_search input to print the list
 router.get('/get_all_tags', (req, res) => {
     console.log('req.query ' + req.query)    
     console.log('req.query.search ' + req.query.tag_search)
     GetDb.TagList(req.query.tag_search)
     .then((tag_list) => {
         res.send(tag_list)
+    }).catch(catchError)
+})
+
+// Add a new tag
+router.get('/add_tag', (req, res) => { 
+    if (!req.session.connected || !req.session.connected.id) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
+        return res.send([false, 'redirect_error'])
+    if (!req.query.new_tag) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
+        return res.send([false, 'New tag name is empty'])
+    if (req.query.new_tag.length > 15)
+        return res.send([false, 'New tag too long'])
+    console.log('req.session.connected.id ' + req.session.connected.id)    
+    console.log('req.query.search.new_tag ' + req.query.new_tag)
+    User.AddTag(req.query.new_tag, req.session.connected.id)
+    .then((status) => {
+        if (status[0] === false)
+            res.send([false, ''])
+        else
+            res.send([true, req.query.new_tag])
+    }).catch(catchError)
+})
+
+// Delete a tag
+router.get('/del_tag', (req, res) => { 
+    console.log(req.query.tag_name);
+    if (!req.session.connected || !req.session.connected.id) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
+        return res.send([false, 'redirect_error'])
+    if (!req.query.tag_name) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
+        return res.send([false, 'Tag name is empty'])
+    if (req.query.tag_name.length > 15)
+        return res.send([false, 'Delete tag too long'])
+    console.log('req.session.connected.id ' + req.session.connected.id)    
+    console.log('req.query.search.tag_name ' + req.query.tag_name)
+    User.DelTag(req.query.tag_name, req.session.connected.id)
+    .then((status) => {
+        if (status[0] === false)
+            return res.send([false, ''])
+        else
+            return res.send([true, req.query.tag_name])
     }).catch(catchError)
 })
 

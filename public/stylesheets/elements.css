@@ -20,6 +20,14 @@
     border-radius: 10px;
 }
 
+.select_tag:hover {
+    border: rgb(1, 97, 1) solid 2px;
+    color: white;
+    margin: 5px;
+    background-color: green;
+    border-radius: 10px;
+}
+
 .del_tag {
     text-align: right;
     font-size: 20px;
