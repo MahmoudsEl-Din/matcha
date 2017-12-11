@@ -1,12 +1,12 @@
 var http = require('http')
 var express = require('express')
+// const fileUpload = require('express-fileupload')
 var app = express()
 var session = require('express-session')
 var bodyParser = require('body-parser')
 var connection = require('./setup/connection')
 var request = require('ajax-request')
 var path = require('path');
-
 
 const pug = require('pug')
 
@@ -21,6 +21,7 @@ app.use('/fonts', express.static('public/fonts'))
 app.use('/javascript', express.static('public/javascript'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+// app.use(fileUpload())
 app.use(session({
     secret: 'clefchiffrement',
     resave: false,

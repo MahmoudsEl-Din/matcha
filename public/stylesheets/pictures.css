@@ -1,0 +1,7 @@
+.picture_tools:hover, .picture:hover + .picture_tools{
+    display: block !important;
+}
+
+.picture_tools {
+    background-color: whitesmoke; 
+}

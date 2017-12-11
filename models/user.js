@@ -1,3 +1,4 @@
+var fs = require('fs')
 var Tools = require('./tools')
 var AddDb = require('./add_db')
 
@@ -210,6 +211,43 @@ class User {
                 }
                 else 
                     resolve([false, ''])
+            }).catch(catchError)
+        })
+    }
+
+    static GetAllPictures(userid) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM pictures WHERE userid = ? ORDER BY position;"
+            connection.query(sql, [userid], (error, results) => {
+                if (error)
+                reject(error)
+                else                         
+                    resolve(results)
+            })
+        })
+    }
+    
+    static AddPicture(userid, filename){
+        return new Promise((resolve, reject) => {
+            this.GetAllPictures(userid)
+            .then((results) => {
+                let position = results.length + 1;
+                if (position > 5) {
+                    fs.unlink(__dirname.replace('models', 'public/pictures/') + filename, function(error){
+                        if (error) throw error
+                    })
+                    return resolve([false, "Already 5 pictures"])
+                }
+                else {
+                    let sql = "INSERT INTO pictures VALUES(null, ?, ?, ?);"
+                    connection.query(sql, [userid, filename, position], (error, results) => {
+                        if (error)
+                            reject(error)
+                        else                         
+                            resolve([true, position])
+                    })
+                }
+                console.log(results)
             }).catch(catchError)
         })
     }

@@ -7,21 +7,41 @@ block content
                 div.form-group.row.justify-content-center.mt-5
                         h1#username.text-white= user['username']
 
-                div.row-3.h-50.m-5.border.border-dark.container-fluid
+                div.row-3.h-50.m-5.border.border-dark.container-fluid#div_pictures
 
                         div.row.border.h-50.justify-content-center
                                 div.col-3.border.border-dark
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100
+                                        form(action="fileupload" method="post" enctype="multipart/form-data")
+                                                input(type='file' name='picture').d-none#pic1
+                                                input(type='submit' name="submitphotos").d-none#pic_sub                        
+                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img1.picture
+                                        div.picture_tools.w-100.d-none
+                                                a.delete_picture Delete
                         div.row.border.border-dark.h-50.p-5.d-flex.justify-content-around
                                 div.col-2.border
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100
+                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img2.picture
+                                        div.picture_tools.w-100.d-none
+                                                a.delete_picture Delete
+                                                a.set_profil_pic Set profil pic
                                 div.col-2.border
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100
+                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img3.picture
+                                        div.picture_tools.w-100.d-none
+                                                a.delete_picture Delete
+                                                a.set_profil_pic Set profil pic
                                 div.col-2.border
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100
+                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img4.picture
+                                        div.picture_tools.w-100.d-none
+                                                a.delete_picture Delete
+                                                a.set_profil_pic Set profil pic
                                 div.col-2.border
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100
-
+                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img5.picture
+                                        div.picture_tools.w-100.d-none
+                                                a.delete_picture Delete
+                                                a.set_profil_pic Set profil pic
+                        div.row
+                                div.w-100.d-flex.justify-content-center.form-group
+                                        p#return_picture.text-danger
+                
                 form#form_profil.container(method="POST").text-center
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2

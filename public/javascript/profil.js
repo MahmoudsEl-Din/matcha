@@ -23,6 +23,16 @@ $(document).ready(function(){
         click_tags () // Becouse tags weren't on the page at the begining we have to set onclick now
     })
     
+    $.post('/profil/get_pictures', (data, jqHXR) => {
+        if (jqHXR === 'success') {
+            if (data) {
+                data.forEach((elem) => {
+                    $('#img' + elem['position']).attr("src",elem['filepath']);
+                })
+            }
+        }
+    })
+
     function clear_returns(){
         $("#return_email").empty()                    
         $("#return_firstname").empty()
@@ -31,6 +41,7 @@ $(document).ready(function(){
         $("#return_desire").empty()
         $("#return_bio").empty()
         $("#return_tags").empty()
+        $("#return_picture").empty()
     }
 
     // When user is typing it checks the validity
@@ -301,5 +312,79 @@ $(document).ready(function(){
                 document.getElementById("return_tags").innerHTML = 'Tag too long' 
         })
     }
-})
 
+    $("#div_pictures").find('img').click(function(e){
+        clear_returns()
+        $('#pic1').trigger("click")
+    })
+
+    $("#pic1").change(function(e){
+        $('#pic_sub').click()
+    })
+
+    $('#pic_sub').click (function(e) {
+        e.preventDefault()
+        var file_data = $('#pic1').prop('files')[0];   
+        var form_data = new FormData();                  
+        form_data.append('file', file_data);
+        $.ajax({
+            url: '/profil/upload_picture', // point to server-side PHP script 
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,                         
+            type: 'post',
+            success: function(response){
+                if (response[0] === true)
+                    $('#img' + response[1]).attr("src",response[2]);
+                else if (response[1] === 'redirect_error')
+                    window.location.replace("/error")
+                else
+                    document.getElementById("return_picture").innerHTML = response[1]
+            }
+        });
+        console.log(form_data); 
+    })
+
+    $('.delete_picture').click (function(e) {
+        e.preventDefault()
+        position = $(e.target).parent().parent().find('img').prop('id').replace('img', '')
+        if (position >= 1 && position <= 5) {
+            $.get('/profil/del_picture', {position: position}, (data, jqHXR) => {
+                if (jqHXR === "success") {
+                    // if (data[0] === false && data[1] === 'redirect_error')
+                    //     window.location.replace("/error")
+                    // else if (data[0] === false)
+                    //     document.getElementById("return_tags").innerHTML = data[1]
+                    // else if (data[0] === true) {
+                    //     $(e.target).parent().remove()
+                    // }
+                    console.log(data)
+                }
+            })
+        }
+        console.log(position); 
+    })
+
+    // $("#div_pictures").find('form').submit(function(e){
+    //     console.log('test')
+    //     $.post('/profil/upload_picture', (data, jqHXR) => {
+    //         if (jqHXR === "success") {
+    //             console.log(data)
+    //         //     if (data) {
+    //         //         var res = false
+    //         //         data.forEach((elem) => {
+    //         //             $('#div_list_tags').append('<a class=\'link_select_tag\' href(\'#\')><div class="select_tag">' + elem + '</div></a>')
+    //         //             if (elem === $("#profil_tag").val())
+    //         //                 res = true
+    //         //         })
+    //         //         if (res === false && $("#profil_tag").val() !== '')
+    //         //             $('#div_list_tags').prepend('<a class=\'link_select_tag\' href(\'#\')><div class="select_tag">' + $("#profil_tag").val() + '</div></a>')
+    //         //         click_tags () // Becouse tags weren't on the page at the begining we have to set onclick now
+    
+    //         //     }
+    //         }
+    //     })
+
+    // })
+})
