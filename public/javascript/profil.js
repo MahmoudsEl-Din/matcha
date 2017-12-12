@@ -180,7 +180,7 @@ $(document).ready(function(){
     })
 
     // When change submit is clicked it changes the gender
-    $("#submit_gender").click(function(e) {
+    $('#profil_gender').change(function(e) {
         e.preventDefault()
         clear_returns()
 
@@ -198,7 +198,7 @@ $(document).ready(function(){
     })
 
     // When change submit is clicked it changes the gender
-    $("#submit_desire").click(function(e) {
+    $('#profil_desire').change(function(e) {
         e.preventDefault()
         clear_returns()
 
