@@ -19,7 +19,6 @@ router.get('/', (req, res) => {
     if (req.session.connected.state !== false) {
         User.GetAllById(req.session.connected.id)
         .then((user_info) => {
-            console.log(user_info)
             username = user_info['username'].toUpperCase()
            
             if (user_info['genre'] === 'B')
@@ -252,8 +251,6 @@ router.get('/get_user_tags', (req, res) => {
 
 // Get all the tags that matchs with the tag_search input to print the list
 router.get('/get_all_tags', (req, res) => {
-    console.log('req.query ' + req.query)    
-    console.log('req.query.search ' + req.query.tag_search)
     GetDb.TagList(req.query.tag_search)
     .then((tag_list) => {
         res.send(tag_list)
@@ -268,8 +265,6 @@ router.get('/add_tag', (req, res) => {
         return res.send([false, 'New tag name is empty'])
     if (req.query.new_tag.length > 15)
         return res.send([false, 'New tag too long'])
-    console.log('req.session.connected.id ' + req.session.connected.id)    
-    console.log('req.query.search.new_tag ' + req.query.new_tag)
     User.AddTag(req.query.new_tag, req.session.connected.id)
     .then((status) => {
         if (status[0] === false)
@@ -281,15 +276,12 @@ router.get('/add_tag', (req, res) => {
 
 // Delete a tag
 router.get('/del_tag', (req, res) => { 
-    console.log(req.query.tag_name);
     if (!req.session.connected || !req.session.connected.id) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
         return res.send([false, 'redirect_error'])
     if (!req.query.tag_name) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
         return res.send([false, 'Tag name is empty'])
     if (req.query.tag_name.length > 15)
         return res.send([false, 'Delete tag too long'])
-    console.log('req.session.connected.id ' + req.session.connected.id)    
-    console.log('req.query.search.tag_name ' + req.query.tag_name)
     User.DelTag(req.query.tag_name, req.session.connected.id)
     .then((status) => {
         if (status[0] === false)
@@ -304,7 +296,6 @@ router.post('/upload_picture', (req, res) => {
         return res.send([false, 'redirect_error'])
     var form = new formidable.IncomingForm()
     form.parse(req, function (err, fields, files) {
-        console.log(files.file) 
         if (files.file === undefined)
             return res.send([false, 'Select a picture'])
         if (files.file.size > 5242880)
@@ -338,14 +329,30 @@ router.post('/get_pictures', (req, res) => {
     }).catch(catchError)
 })
 
-// router.get(('del_picture'), (req, res) => {
-//     if (!req.session.connected || !req.session.connected.id || !req.query.position || req.query.position < 1 || req.query.position > 5) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
-//         return res.send([false, 'redirect_error'])
-//     User.RemovePicture(req.session.connected.id, req.query.position)
-//     .then((status) => {
-//         if (status === true)
+router.get(('/del_picture'), (req, res) => {
+    if (!req.session.connected || !req.session.connected.id || !req.query.position || req.query.position < 1 || req.query.position > 5) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
+        return res.send([false, 'redirect_error'])
+    User.RemovePicture(req.session.connected.id, req.query.position)
+    .then((status) => {
+        if (status === true)
+            return res.send([true, null])
+        else
+            return res.send([false, null])
+            
+    }).catch(catchError)
+})
 
-//     })
-// })
+router.get(('/set_profil_pic'), (req, res) => {
+    if (!req.session.connected || !req.session.connected.id || !req.query.position || req.query.position < 1 || req.query.position > 5) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
+        return res.send([false, 'redirect_error'])
+    User.SetProfilPicture(req.session.connected.id, req.query.position)
+    .then((status) => {
+        if (status[0] === true)
+            return res.send([true, null])
+        else
+            return res.send([false, null])
+            
+    }).catch(catchError)
+})
 
 module.exports = router

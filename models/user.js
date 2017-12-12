@@ -1,6 +1,7 @@
 var fs = require('fs')
 var Tools = require('./tools')
 var AddDb = require('./add_db')
+var Check = require('./check')
 
 let catchError = (error) => {
     console.error(error)
@@ -248,6 +249,71 @@ class User {
                     })
                 }
                 console.log(results)
+            }).catch(catchError)
+        })
+    }
+
+    static RemovePicture(userid, position) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM pictures WHERE position = ? AND userid = ?;"
+            connection.query(sql, [position, userid], (error, pic) => {
+                if (error)
+                    reject(error)
+                else if (pic[0]){  
+                    let sql = "DELETE FROM pictures WHERE position = ? AND userid = ?;"
+                    connection.query(sql, [position, userid], (error, results) => {
+                        if (error)
+                            reject(error)
+                        else {                         
+                            fs.unlink(__dirname.replace('models', 'public/pictures/') + pic[0]['picture_name'], function(error){
+                                if (error) throw error
+                            })
+                            for(var i = position; i <= 5; i++) {
+                                console.log('i = '+i+'\n')
+                                let sql = "UPDATE pictures SET position = ? WHERE position = ? AND userid = ?;"
+                                connection.query(sql, [i - 1, i, userid], (error, results) => {
+                                    if (error)
+                                        reject(error)
+                                })
+                            }
+                            resolve(true)
+                        }
+                    })
+                }
+                else
+                    reject()
+            })
+        })
+    }
+
+    static SetProfilPicture(userid, position) {
+        return new Promise((resolve, reject) => {
+            console.log(position)
+            Check.PictureExists(userid, position)
+            .then((exists) => {
+                if (!exists)
+                    return resolve([false, null])
+                let sql = "UPDATE pictures SET position = 10 WHERE position = 1 AND userid = ?;"
+                connection.query(sql, [userid], (error, pic) => {
+                    if (error)
+                        reject(error)
+                    else {
+                        let sql = "UPDATE pictures SET position = 1 WHERE position = ? AND userid = ?;"
+                        connection.query(sql, [position, userid], (error, pic) => {
+                            if (error)
+                                reject(error)
+                            else {
+                                let sql = "UPDATE pictures SET position = ? WHERE position = 10 AND userid = ?;"
+                                connection.query(sql, [position, userid], (error, pic) => {
+                                    if (error)
+                                        reject(error)
+                                    else
+                                        resolve([true, null])        
+                                })
+                            }
+                        })  
+                    }
+                })
             }).catch(catchError)
         })
     }

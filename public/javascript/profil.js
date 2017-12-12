@@ -1,37 +1,58 @@
 $(document).ready(function(){
 
-    $.get('/profil/get_user_tags', { username : $('#username').text()},(data, jqHXR) => {
-        if (jqHXR === "success") {
-            if (data) {
-                data.forEach((elem) => {
-                    $('#div_user_tags').append('<div class="user_tag">' + elem['tag_name'] + '<a id="del_tag_' + elem['tag_name'] + '" class="del_tag" href=\'#\'>x</a></div>')
-                    click_del_tag($('#del_tag_' + elem['tag_name']))
-                })
-            }
-        }
-    })
-
-    $.get('/profil/get_all_tags', {tag_search: ''}, (data, jqHXR) => {
-        if (jqHXR === "success") {
-            console.log(data)
-            if (data) {
-                data.forEach((elem) => {
-                    $('#div_list_tags').append('<a class=\'link_select_tag\' href(\'#\')><div class="select_tag">' + elem + '</div></a>')
-                })
-            }
-        }
-        click_tags () // Becouse tags weren't on the page at the begining we have to set onclick now
-    })
+    get_user_tags()
+    get_all_tags()
+    get_pictures()
     
-    $.post('/profil/get_pictures', (data, jqHXR) => {
-        if (jqHXR === 'success') {
-            if (data) {
-                data.forEach((elem) => {
-                    $('#img' + elem['position']).attr("src",elem['filepath']);
-                })
+
+    function get_user_tags() {
+        $.get('/profil/get_user_tags', { username : $('#username').text()},(data, jqHXR) => {
+            if (jqHXR === "success") {
+                if (data) {
+                    data.forEach((elem) => {
+                        $('#div_user_tags').append('<div class="user_tag">' + elem['tag_name'] + '<a id="del_tag_' + elem['tag_name'] + '" class="del_tag" href=\'#\'>x</a></div>')
+                        click_del_tag($('#del_tag_' + elem['tag_name']))
+                    })
+                }
             }
-        }
-    })
+        })
+    }
+
+    function get_all_tags() {
+        $.get('/profil/get_all_tags', {tag_search: ''}, (data, jqHXR) => {
+            if (jqHXR === "success") {
+                if (data) {
+                    data.forEach((elem) => {
+                        $('#div_list_tags').append('<a class=\'link_select_tag\' href(\'#\')><div class="select_tag">' + elem + '</div></a>')
+                    })
+                }
+            }
+            click_tags () // Becouse tags weren't on the page at the begining we have to set onclick now
+        })
+    }
+    
+    function get_pictures() {
+        $.post('/profil/get_pictures', (data, jqHXR) => {
+            if (jqHXR === 'success') {
+                if (data) {
+                    var i = 1
+                    data.forEach((elem) => {
+                        $('#img' + elem['position']).attr("src",elem['filepath']);
+                        $('#img' + i).removeClass('picture_none')
+                        $('#img' + i).addClass('picture')
+                        i++
+                    })
+                    if (i <= 5) {
+                        for(i; i <= 5; i++) {
+                            $('#img' + i).attr("src", "/assets/ressources/add_icon.png");
+                            $('#img' + i).removeClass('picture')
+                            $('#img' + i).addClass('picture_none')
+                        }
+                    }
+                }
+            }
+        })
+    }
 
     function clear_returns(){
         $("#return_email").empty()                    
@@ -199,8 +220,6 @@ $(document).ready(function(){
         e.preventDefault()
         clear_returns()
 
-        console.log($('#profil_bio').val().length)
-
         if ($('#profil_bio').val().length > 249)
             document.getElementById("return_bio").innerHTML = 'Too long'
         else if ($('#profil_bio').val().length <= 0)
@@ -335,12 +354,16 @@ $(document).ready(function(){
             data: form_data,                         
             type: 'post',
             success: function(response){
-                if (response[0] === true)
-                    $('#img' + response[1]).attr("src",response[2]);
+                if (response[0] === true) {
+                    $('#img' + response[1]).attr("src",response[2])
+                    $('#img' + response[1]).removeClass('picture_none')
+                    $('#img' + response[1]).addClass('picture')
+                    $("#pic1").val('')            
+                }
                 else if (response[1] === 'redirect_error')
                     window.location.replace("/error")
                 else
-                    document.getElementById("return_picture").innerHTML = response[1]
+                    document.getElementById("return_picture").innerHTML = response[1]            
             }
         });
         console.log(form_data); 
@@ -348,17 +371,35 @@ $(document).ready(function(){
 
     $('.delete_picture').click (function(e) {
         e.preventDefault()
+        console.log()
         position = $(e.target).parent().parent().find('img').prop('id').replace('img', '')
         if (position >= 1 && position <= 5) {
             $.get('/profil/del_picture', {position: position}, (data, jqHXR) => {
                 if (jqHXR === "success") {
-                    // if (data[0] === false && data[1] === 'redirect_error')
-                    //     window.location.replace("/error")
-                    // else if (data[0] === false)
-                    //     document.getElementById("return_tags").innerHTML = data[1]
-                    // else if (data[0] === true) {
-                    //     $(e.target).parent().remove()
-                    // }
+                    if (data[0] === true) {
+                        get_pictures()        
+                    }
+                    else if (data[0] === false && data[1] === 'redirect_error')
+                        window.location.replace("/error") 
+                    console.log(data)
+                }
+            })
+        }
+        console.log(position); 
+    })
+
+    $('.set_profil_pic').click (function(e) {
+        e.preventDefault()
+        console.log()
+        position = $(e.target).parent().parent().find('img').prop('id').replace('img', '')
+        if (position >= 2 && position <= 5) {
+            $.get('/profil/set_profil_pic', {position: position}, (data, jqHXR) => {
+                if (jqHXR === "success") {
+                    if (data[0] === true) {
+                        get_pictures()        
+                    }
+                    else if (data[0] === false && data[1] === 'redirect_error')
+                        window.location.replace("/error")           
                     console.log(data)
                 }
             })

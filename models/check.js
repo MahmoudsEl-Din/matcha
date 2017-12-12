@@ -167,6 +167,20 @@ class Check {
             })
         })
     }
+
+    static PictureExists(userid, position) {
+        return new Promise((resolve, reject) => {
+            var sql = "SELECT * FROM pictures WHERE userid = ? AND position = ?;"
+            connection.query(sql, [userid, position], (error, results) => {
+                if (error)
+                    reject(error)
+                if (!results || results.length === 0)
+                    resolve(false)
+                else
+                    resolve(true)
+            })
+        })
+    }
 }
 
 module.exports = Check
