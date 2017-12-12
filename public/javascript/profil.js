@@ -3,7 +3,6 @@ $(document).ready(function(){
     get_user_tags()
     get_all_tags()
     get_pictures()
-    
 
     function get_user_tags() {
         $.get('/profil/get_user_tags', { username : $('#username').text()},(data, jqHXR) => {
@@ -407,25 +406,5 @@ $(document).ready(function(){
         console.log(position); 
     })
 
-    // $("#div_pictures").find('form').submit(function(e){
-    //     console.log('test')
-    //     $.post('/profil/upload_picture', (data, jqHXR) => {
-    //         if (jqHXR === "success") {
-    //             console.log(data)
-    //         //     if (data) {
-    //         //         var res = false
-    //         //         data.forEach((elem) => {
-    //         //             $('#div_list_tags').append('<a class=\'link_select_tag\' href(\'#\')><div class="select_tag">' + elem + '</div></a>')
-    //         //             if (elem === $("#profil_tag").val())
-    //         //                 res = true
-    //         //         })
-    //         //         if (res === false && $("#profil_tag").val() !== '')
-    //         //             $('#div_list_tags').prepend('<a class=\'link_select_tag\' href(\'#\')><div class="select_tag">' + $("#profil_tag").val() + '</div></a>')
-    //         //         click_tags () // Becouse tags weren't on the page at the begining we have to set onclick now
     
-    //         //     }
-    //         }
-    //     })
-
-    // })
 })
