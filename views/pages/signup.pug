@@ -1,8 +1,18 @@
 extends layout
         
 block content
-        form#form_signup.container(method="POST").text-center
-                div.form-group.row.justify-content-center
+        .mainContent
+                div#carouselSexy.carousel.slide(data-ride="carousel")
+                        .carousel-inner
+                                .carousel-item.active
+                                        img.d-block.w-100(src="/assets/ressources/first_slide.jpg" alt="lolipop")
+                                .carousel-item
+                                        img.d-block.w-100(src="/assets/ressources/latest.jpg" alt="lolipop")
+                                .carousel-item
+                                        img.d-block.w-100(src="/assets/ressources/latest.jpg" alt="lolipop")        
+
+                form#form_signup.container(method="POST").text-center
+                        div.form-group.row.justify-content-center
                         label.text-white(for="signup_username") Username
                         div.w-100
                         input#signup_username.form-control(type="text" placeholder="Enter username" name="signup_username").col-2
@@ -36,7 +46,7 @@ block content
                         p#return-signup.text-danger
                 button#submit_signup(type="submit").btn.btn-primary Submit
         
-        script(src="assets/javascript/signup.js")
+                script(src="assets/javascript/signup.js")
         //- link(rel="stylesheet" href="/assets/stylesheets/signup.css")
         //- div(class="ui red container") mid
         //- h5 Connection
