@@ -11,7 +11,7 @@ var path = require('path');
 
 const pug = require('pug')
 
-// Template motors
+// Template Engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug')
 
