@@ -9,3 +9,4 @@
 # Pictures #
 ./public/pictures/*
 
+node_modules
