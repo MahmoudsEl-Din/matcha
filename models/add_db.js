@@ -53,17 +53,19 @@ class addDb {
             var code = Tools.RandomString()            
             Tools.HashPassword(form.signup_password)
             .then((password_h) => {
-                let sql = "INSERT INTO users (`username`, `name`, `password`, `lastname`, `email`, `genre`, `desire`, `bio`) VALUES(" + connection.escape(form.signup_username) + ", " + connection.escape(form.signup_firstname) + ", " + connection.escape(password_h) + ", " + connection.escape(form.signup_lastname) + ", " + connection.escape(form.signup_email) + ", 'B', 'B', 'Unwritten yet');"
+                
+                let sql = "INSERT INTO users (`username`, `name`, `password`, `lastname`, `email`, `genre`, `desire`, `bio`, `lat`, `lng`) VALUES(" + connection.escape(form.signup_username) + ", " + connection.escape(form.signup_firstname) + ", " + connection.escape(password_h) + ", " + connection.escape(form.signup_lastname) + ", " + connection.escape(form.signup_email) + ", 'B', 'B', 'Unwritten yet', 0, 0);"
                 connection.query(sql, (error, results) => {
                     if (error) throw error
                 })
                 return User.GetIdByUsername(form.signup_username)                
             }).then((userid) => {
-                return this.AddCode(userid, code, 1)
+                return [userid, this.AddCode(userid, code, 1)]
             }).then((ret) => {
-                if (ret === true) {
+                if (ret[1] === true) {
                     var content = "Hi " + form.signup_username + ",Activate your account by clicking here :\n" + req.protocol + '://' + req.get('host') + "/code_verif?code=" + code + "\n"
                     Tools.SendMail(form.signup_email , 'Matcha: account activation', content)
+                    return User.SetPosByIp(ret[0])
                 }
                 else
                     reject()

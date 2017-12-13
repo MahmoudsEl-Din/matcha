@@ -13,6 +13,7 @@ let catchError = (error) => {
 
 router.get('/', (req, res) => {
     let username = undefined
+    console.log(req.connection.remoteAddress)
     if (!req.session.connected){
         req.session.connected = {'state': false, 'id': undefined}
     }
@@ -353,6 +354,21 @@ router.get(('/set_profil_pic'), (req, res) => {
             return res.send([false, null])
             
     }).catch(catchError)
+})
+
+router.get(('/change_pos'), (req, res) => {
+    if (!req.session.connected || !req.session.connected.id) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
+        return res.send([false, 'redirect_error'])
+    if (!req.query.lat || !req.query.lng )
+        User.SetPosByIp(req.session.connected.id)
+        .then((ret) => {
+            res.send(ret)
+        }).catch(catchError)
+    else
+        User.SetPosByCoord(req.session.connected.id, req.query.lat, req.query.lng)
+        .then((ret) => {
+            res.send(ret)
+        }).catch(catchError)
 })
 
 module.exports = router

@@ -153,9 +153,11 @@ block content
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_tags.text-danger
                 
-                div#map.w-100.h-50.m-5
+                button#button_map Geolocalize or Localize yourself
+                div#map.w-100.h-50.m-5.d-none
+                
         
                 script(src="assets/javascript/gmap.js")
-                <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQLxSC_8p5hGoy2bSfRyLJL0Yhcrh1XXA&callback=initMap"></script>
+                script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQLxSC_8p5hGoy2bSfRyLJL0Yhcrh1XXA")
 
                 script(src="assets/javascript/profil.js")

@@ -2,6 +2,10 @@ var fs = require('fs')
 var Tools = require('./tools')
 var AddDb = require('./add_db')
 var Check = require('./check')
+const publicIp = require('public-ip');
+
+var geoip = require('geoip-lite');
+
 
 let catchError = (error) => {
     console.error(error)
@@ -315,6 +319,50 @@ class User {
                     }
                 })
             }).catch(catchError)
+        })
+    }
+
+    static SetPosByIp(userid) {
+        return new Promise((resolve, reject) => {
+            publicIp.v4().then(ip => {
+                var geo = geoip.lookup(ip);
+                
+                console.log('\n GEOIP:' + geo.ll);
+                
+                console.log('\n SATELIZE:');                
+                satelize.satelize({ip:ip}, function(err, payload) {
+                    console.log(payload)
+                  });
+                where.is(ip, function(err, result) {
+                    if (result) {
+                      console.log('Lat: ' + result.get('lat'));
+                      console.log('Lng: ' + result.get('lng'));
+                      let lat = result.get('lat')                      
+                      let lng = result.get('lng')
+                      let sql = "UPDATE users SET lat = ?, lng = ? WHERE id = ?;"
+                      connection.query(sql, [lat, lng, userid], (error, pic) => {
+                          if (error)
+                              reject(error)
+                          else {
+                              resolve(true);
+                          }
+                      })
+                    }
+                  });
+            })
+        })
+    }
+
+    static SetPosByCoord(userid, lat, lng) {
+        return new Promise((resolve, reject) => {
+            let sql = "UPDATE users SET lat = ?, lng = ? WHERE id = ?;"
+            connection.query(sql, [lat, lng, userid], (error, pic) => {
+                if (error)
+                    reject(error)
+                else {
+                    resolve(true);
+                }
+            })
         })
     }
 }

@@ -406,5 +406,4 @@ $(document).ready(function(){
         console.log(position); 
     })
 
-    
 })
