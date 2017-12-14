@@ -224,6 +224,26 @@ router.post('/change_bio', (req, res) => {
         res.send([false, "Empty field"])
 })
 
+//Change age
+router.post('/change_age', (req, res) => {
+    if (req.body.profil_age && req.session.connected && req.session.connected.id){
+        if (req.body.profil_age <= 100 && req.body.profil_age >= 18){
+            User.ChangeAge(req.session.connected.id, req.body.profil_age)
+            .then((state) => {
+                if (state === true)
+                    res.send([true, req.body.profil_age])
+                else
+                    res.send([false, "Try again"])
+            }).catch(catchError)
+        }
+        else
+            res.send([false, "You must be between 18 and 100"])
+
+    }
+    else
+        res.send([false, "Empty field"])
+})
+
 // Return tags to print the page
 router.get('/get_user_tags', (req, res) => {
     if (req.session.connected && req.session.connected.id)

@@ -60,6 +60,7 @@ $(document).ready(function(){
         $("#return_gender").empty()                    
         $("#return_desire").empty()
         $("#return_bio").empty()
+        $("#return_age").empty()        
         $("#return_tags").empty()
         $("#return_picture").empty()
     }
@@ -213,6 +214,25 @@ $(document).ready(function(){
                 }
             })
         }
+    })
+
+    // When change submit is clicked it changes the age
+    $("#submit_age").click(function(e) {
+        e.preventDefault()
+        clear_returns()
+
+        $.post('/profil/change_age', $('#profil_age'), function(data, jqHXR) {  
+            if (jqHXR === "success") {
+                if (data[0] === false) {             
+                    document.getElementById("return_age").innerHTML = data[1]
+                    document.getElementById("profil_age").value = ''
+                }
+                else {                                              
+                    document.getElementById("profil_age").value = ''                        
+                    document.getElementById("label_age").innerHTML = data[1]
+                }
+            }
+        })
     })
 
     $("#submit_bio").click(function(e) {
