@@ -122,6 +122,19 @@ block content
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_email.text-danger
 
+                form#form_profil.container(method="POST").text-center
+                        div.form-group.row.justify-content-center.mb-3
+                                div.col-2
+                                                label#label_age.text-white(for="profil_age")= user['age']
+                                //- div.w-100
+                                div.col-2
+                                        input#profil_age.form-control(type="number" placeholder="Set your age" maxlength="20" name="profil_age")
+                                div.col-1
+                                        button#submit_age(type="submit").btn.btn-primary Edit
+                        div.w-100.d-flex.justify-content-center.form-group
+                                p#return_age.text-danger
+
+
                 form#form_profil.container(method="POST").text-center.mt-5      
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2

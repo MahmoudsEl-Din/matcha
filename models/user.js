@@ -93,6 +93,17 @@ class User {
         })
     }
 
+    static ChangeAge(userid, new_age) {
+        return new Promise((resolve, reject) => {
+            let sql = "UPDATE users SET name = ? WHERE id = ?;"
+            connection.query(sql, [new_age, userid], (error, results) => {
+                if (error)
+                    reject(error)
+                resolve(true)
+            })
+        })
+    }
+
     static ResetEmail(id, link){
         return new Promise((resolve, reject) => {
             var code = Tools.RandomString()

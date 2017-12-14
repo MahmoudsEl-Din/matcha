@@ -10,7 +10,7 @@
     grid-column-end: 2;
 }
 
-form {
+/* form {
     margin: 0;
     grid-column-start: 2;
     grid-column-end: 3;
@@ -19,4 +19,4 @@ form {
 
 label {
     color: white;
-}
+} */
