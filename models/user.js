@@ -4,7 +4,7 @@ var AddDb = require('./add_db')
 var Check = require('./check')
 const publicIp = require('public-ip');
 
-var geoip = require('geoip-lite');
+var where = require('node-where');
 
 
 let catchError = (error) => {
@@ -324,15 +324,8 @@ class User {
 
     static SetPosByIp(userid) {
         return new Promise((resolve, reject) => {
-            publicIp.v4().then(ip => {
-                var geo = geoip.lookup(ip);
-                
-                console.log('\n GEOIP:' + geo.ll);
-                
-                console.log('\n SATELIZE:');                
-                satelize.satelize({ip:ip}, function(err, payload) {
-                    console.log(payload)
-                  });
+            publicIp.v4()
+            .then(ip => {
                 where.is(ip, function(err, result) {
                     if (result) {
                       console.log('Lat: ' + result.get('lat'));
@@ -349,7 +342,7 @@ class User {
                       })
                     }
                   });
-            })
+            }).catch(catchError)
         })
     }
 

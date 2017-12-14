@@ -60,16 +60,18 @@ class addDb {
                 })
                 return User.GetIdByUsername(form.signup_username)                
             }).then((userid) => {
-                return [userid, this.AddCode(userid, code, 1)]
+                return this.AddCode(userid, code, 1, 1)
             }).then((ret) => {
-                if (ret[1] === true) {
+                console.log(ret)
+                if (ret[0] === true) {
+                    console.log('jisuisici')
                     var content = "Hi " + form.signup_username + ",Activate your account by clicking here :\n" + req.protocol + '://' + req.get('host') + "/code_verif?code=" + code + "\n"
                     Tools.SendMail(form.signup_email , 'Matcha: account activation', content)
-                    return User.SetPosByIp(ret[0])
+                    return User.SetPosByIp(ret[1])
                 }
                 else
                     reject()
-                }).then(() => {
+            }).then(() => {
                 resolve(true)                
             }).catch(catchError)
         })
@@ -86,16 +88,19 @@ class addDb {
         })
     }
 
-    static AddCode(userid, code, type){
+    static AddCode(userid, code, type, req){
         return new Promise((resolve, reject) => {
             console.log(userid)
             console.log(code)
-            console.log(type)            
+            console.log(type)
             let sql = "INSERT INTO code (userid, code, type) VALUES(?, ?, ?);"
             connection.query(sql, [userid, code, type], (error, results) => {
                 if (error)
                     reject(error)
-                resolve(true)
+                if (req)
+                    resolve([true, userid])
+                else
+                    resolve(true)
             })
         })
     }

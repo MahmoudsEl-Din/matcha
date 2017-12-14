@@ -17,7 +17,7 @@ class Tools {
                 return true
             }).then((state) => {
                 if (state === true){
-                    return AddDb.AddCode(userid, code, type)
+                    return AddDb.AddCode(userid, code, type, null)
                 }
                 else
                     reject()

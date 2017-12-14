@@ -9,43 +9,45 @@ block content
                                 .carousel-item
                                         img.d-block.w-100(src="/assets/ressources/latest.jpg" alt="lolipop")
                                 .carousel-item
-                                        img.d-block.w-100(src="/assets/ressources/latest.jpg" alt="lolipop")        
+                                        img.d-block.w-100(src="/assets/ressources/latest.jpg" alt="lolipop")
 
-                form#form_signup.container(method="POST").text-center
-                        div.form-group.row.justify-content-center
-                        label.text-white(for="signup_username") Username
-                        div.w-100
-                        input#signup_username.form-control(type="text" placeholder="Enter username" name="signup_username").col-2
-                div.form-group.row.justify-content-center
-                        label.text-white(for="signup_email") Email
-                        div.w-100
-                        input#signup_email.form-control.border(type="email" placeholder="example@htomail.fr" name="signup_email").col-2
-                div.form-group.row.justify-content-center
-                        label.text-white(for="signup_firstname") First name
-                        div.w-100
-                        input#signup_firstname.form-control(type="text" placeholder="Enter first name" name="signup_firstname").col-2
-                div.form-group.row.justify-content-center
-                        label.text-white(for="signup_lastname") Last name
-                        div.w-100
-                        input#signup_lastname.form-control(type="text" placeholder="Enter last name" name="signup_lastname").col-2
-                div.form-group.row.justify-content-center
-                        label.text-white(for="signup_password") Password
-                        div.w-100
-                        input#signup_password.form-control(type="password" placeholder="Enter password" name="signup_password" data-toggle="tooltip" data-placement="right" title="Contain at least 8 characters, 1 number, 1 lowercase character (a-z), 1 uppercase character (A-Z) and contains only 0-9a-zA-Z").col-3
-                div.form-group.row.justify-content-center
-                        label.text-white(for="signup_cpassword") Confirm password
-                        div.w-100
-                        input#signup_cpassword.form-control(type="password" placeholder="Confirm password" name="signup_cpassword").col-3
-                div.form-group.row.justify-content-center
-                        label.text-white(for="signup_sexdate") Last time you had sex
-                        div.w-100
-                        input#signup_sexdate.form-control(type="date" aria-describedby="dateHelp" placeholder="Confirm password" name="signup_sexdate").col-3
-                        div.w-100
-                        small.text-white#dateHelp.form-text We'll sell your infos for coke and hoes negga.
-                div.w-100.d-flex.justify-content-center.form-group
-                        p#return-signup.text-danger
-                button#submit_signup(type="submit").btn.btn-primary Submit
-        
+
+                div.form_container
+                        form#form_signup.container(method="POST").text-center
+                                div.form-group.row.justify-content-center
+                                        label.text-white(for="signup_username") Username
+                                        div.w-100
+                                        input#signup_username.form-control(type="text" placeholder="Enter username" name="signup_username").col-3
+                                div.form-group.row.justify-content-center
+                                        label.text-white(for="signup_email") Email
+                                        div.w-100
+                                        input#signup_email.form-control.border(type="email" placeholder="example@htomail.fr" name="signup_email").col-3
+                                div.form-group.row.justify-content-center
+                                        label.text-white(for="signup_firstname") First name
+                                        div.w-100
+                                        input#signup_firstname.form-control(type="text" placeholder="Enter first name" name="signup_firstname").col-3
+                                div.form-group.row.justify-content-center
+                                        label.text-white(for="signup_lastname") Last name
+                                        div.w-100
+                                        input#signup_lastname.form-control(type="text" placeholder="Enter last name" name="signup_lastname").col-3
+                                div.form-group.row.justify-content-center
+                                        label.text-white(for="signup_password") Password
+                                        div.w-100
+                                        input#signup_password.form-control(type="password" placeholder="Enter password" name="signup_password" data-toggle="tooltip" data-placement="right" title="Contain at least 8 characters, 1 number, 1 lowercase character (a-z), 1 uppercase character (A-Z) and contains only 0-9a-zA-Z").col-3
+                                div.form-group.row.justify-content-center
+                                        label.text-white(for="signup_cpassword") Confirm password
+                                        div.w-100
+                                        input#signup_cpassword.form-control(type="password" placeholder="Confirm password" name="signup_cpassword").col-3
+                                div.form-group.row.justify-content-center
+                                        label.text-white(for="signup_sexdate") Last time you had sex
+                                        div.w-100
+                                        input#signup_sexdate.form-control(type="date" aria-describedby="dateHelp" placeholder="Confirm password" name="signup_sexdate").col-3
+                                        div.w-100
+                                        small.text-white#dateHelp.form-text We'll sell your infos for coke and hoes negga.
+                                div.w-100.d-flex.justify-content-center.form-group
+                                        p#return-signup.text-danger
+                                button#submit_signup(type="submit").btn.btn-primary Submit
+                
                 script(src="assets/javascript/signup.js")
         //- link(rel="stylesheet" href="/assets/stylesheets/signup.css")
         //- div(class="ui red container") mid
