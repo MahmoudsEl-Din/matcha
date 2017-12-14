@@ -1,22 +1,10 @@
-
-.mainContent {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin: 4em;
-}
-
-#carouselSexy {
-    grid-column-start: 1;
-    grid-column-end: 2;
-}
-
-form {
-    margin: 0;
-    grid-column-start: 2;
-    grid-column-end: 3;
+.form-container {
     background-color: white;
+    padding: 1em 0;
+    margin: 1em auto;
+    border-radius: 1%;
 }
 
 label {
-    color: white;
+    color: black;
 }
