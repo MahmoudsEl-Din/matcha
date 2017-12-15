@@ -2,27 +2,30 @@ extends layout
 
 block content
 
-    .search-title
-        h3 Rechercher un membre
-    .search-container
-        .age-range
-            p
-                label.range(for="ageRange") Par âge
-                input#ageRange(type="text" readonly style="border:0; color:#f6931f; font-weight:bold;")
-            div#ageslider-range
-        .pop-range
-            p
-                label.range(for="popRange") Par Score de popularité
-                input#popRange(type="text" readonly style="border:0; color:#f6931f; font-weight:bold;")
-            div#popslider-range
-        .geo-range
-            p
-                label.range(for="geoRange") Par Localisation
-                input#geoRange(type="text" readonly style="border:0; color:#f6931f; font-weight:bold;")
-            div#geoslider-range
-        .tag-pool
-            
+    div.search-card.card.col-6.container-fluid(style='max-height: 55rem')
+        div.card-block
+            .search-title
+                h3 Rechercher un membre
+            .search-container
+                .age-range
+                    p
+                        label(for="ageRange") Par âge :
+                        input.range#ageRange(type="text" readonly style="border:0; color:#f6931f; font-weight:bold;")
+                    div#ageslider-range
+                .pop-range
+                    p
+                        label(for="popRange") Par Score de popularité :
+                        input.range#popRange(type="text" readonly style="border:0; color:#f6931f; font-weight:bold;")
+                    div#popslider-range
+                .geo-range
+                    p
+                        label(for="geoRange") Par Localisation :
+                        input.range#geoRange(type="text" readonly style="border:0; color:#f6931f; font-weight:bold;")
+                    div#geoslider-range
+                .tag-pool
+                    label(for="tags") Par tags : 
+                    input#tags(type="text" value="Amsterdam,Washington,Sydney,Beijing,Cairo" data-role="tagsinput")
 
-        button#search-button(type="submit").btn.btn-primary Rechercher        
+                button#search-button(type="submit").btn.btn-primary Rechercher        
 
-    script(src="assets/javascript/search.js")
+        script(src="assets/javascript/search.js")

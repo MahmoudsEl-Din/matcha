@@ -7,8 +7,8 @@ $(document).ready(function(){
             },
             animate: "fast",
             range: true,
-            min: 16,
-            max: 99,
+            min: 17,
+            max: 77,
             values: [ 18, 26 ],
             slide: function( event, ui ) {
                 $("#ageRange").val( ui.values[ 0 ] + " ans - " + ui.values[ 1 ] + " ans" );
@@ -20,7 +20,7 @@ $(document).ready(function(){
             range: true,
             min: 0,
             max: 100,
-            values: [ 45, 50 ],
+            values: [ 30, 50 ],
             slide: function( event, ui ) {
                 $("#popRange").val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
             }
@@ -36,7 +36,7 @@ $(document).ready(function(){
                 $("#geoRange").val( ui.values[ 0 ] + " km - " + ui.values[ 1 ] + " km" );
             }
         })
-        $("#popRange").val($("#geoslider-range").slider( "values", 0 ) + " km - " + $("#geoslider-range").slider( "values", 1 ) + " km" );
+        $("#geoRange").val($("#geoslider-range").slider( "values", 0 ) + " km - " + $("#geoslider-range").slider( "values", 1 ) + " km" );
     })
 })
 

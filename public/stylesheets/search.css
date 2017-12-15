@@ -1,0 +1,33 @@
+.search-card {
+    margin-top : 5em;
+    margin-bottom: 10em;
+    padding: 5em;
+}
+
+.search-title {
+    margin : 1em;
+}
+
+label {
+    margin: 2em auto;
+}
+
+input.range {
+    color: black;
+    background-color: none;
+}
+
+.ui-state-default, 
+.ui-widget-content .ui-state-default, 
+.ui-widget-header .ui-state-default, 
+.ui-button, html .ui-button.ui-state-disabled:hover, 
+html .ui-button.ui-state-disabled:active {
+    border-radius: 50%;
+    background: orange;
+    border: none;
+
+}
+
+#search-button {
+    margin: 1em auto;
+}
