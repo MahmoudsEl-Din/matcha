@@ -1,0 +1,28 @@
+extends layout
+
+block content
+
+    .search-title
+        h3 Rechercher un membre
+    .search-container
+        .age-range
+            p
+                label.range(for="ageRange") Par âge
+                input#ageRange(type="text" readonly style="border:0; color:#f6931f; font-weight:bold;")
+            div#ageslider-range
+        .pop-range
+            p
+                label.range(for="popRange") Par Score de popularité
+                input#popRange(type="text" readonly style="border:0; color:#f6931f; font-weight:bold;")
+            div#popslider-range
+        .geo-range
+            p
+                label.range(for="geoRange") Par Localisation
+                input#geoRange(type="text" readonly style="border:0; color:#f6931f; font-weight:bold;")
+            div#geoslider-range
+        .tag-pool
+            
+
+        button#search-button(type="submit").btn.btn-primary Rechercher        
+
+    script(src="assets/javascript/search.js")
