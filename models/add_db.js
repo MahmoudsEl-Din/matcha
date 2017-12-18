@@ -50,7 +50,8 @@ class addDb {
         return new Promise((resolve, reject) => {
             var Tools = require('./tools')
             var User = require('./user.js')            
-            var code = Tools.RandomString()            
+            var code = Tools.RandomString()
+            var uid = undefined;           
             Tools.HashPassword(form.signup_password)
             .then((password_h) => {
                 
@@ -60,6 +61,7 @@ class addDb {
                 })
                 return User.GetIdByUsername(form.signup_username)                
             }).then((userid) => {
+                uid = userid
                 return this.AddCode(userid, code, 1, 1)
             }).then((ret) => {
                 console.log(ret)
@@ -67,6 +69,10 @@ class addDb {
                     console.log('jisuisici')
                     var content = "Hi " + form.signup_username + ",Activate your account by clicking here :\n" + req.protocol + '://' + req.get('host') + "/code_verif?code=" + code + "\n"
                     Tools.SendMail(form.signup_email , 'Matcha: account activation', content)
+                    let sql = "INSERT INTO logged (`userid`, `time`, `logout`) VALUES(?, NULL, 1);"
+                    connection.query(sql, [uid], (error, results) => {
+                        if (error) throw error
+                    })
                     return User.SetPosByIp(ret[1])
                 }
                 else
