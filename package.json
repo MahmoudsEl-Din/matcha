@@ -26,6 +26,7 @@
     "express-session": "^1.15.6",
     "formidable": "^1.1.1",
     "geoip-lite": "^1.2.1",
+    "jquery-ui": "^1.12.1",
     "moment": "^2.19.4",
     "mv": "^2.1.1",
     "mysql": "^2.15.0",
@@ -33,6 +34,7 @@
     "nodemailer": "^4.4.1",
     "nodemon": "^1.12.6",
     "public-ip": "^2.4.0",
-    "pug": "^2.0.0-rc.4"
+    "pug": "^2.0.0-rc.4",
+    "tags-input": "^1.1.1"
   }
 }
