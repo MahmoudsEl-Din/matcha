@@ -14,9 +14,6 @@ let catchError = (error) => {
 router.get('/', (req, res) => {
     let username = undefined
     console.log(req.connection.remoteAddress)
-    if (!req.session.connected){
-        req.session.connected = {'state': false, 'id': undefined}
-    }
     if (req.session.connected.state !== false) {
         User.GetAllById(req.session.connected.id)
         .then((user_info) => {
@@ -280,8 +277,6 @@ router.get('/get_all_tags', (req, res) => {
 
 // Add a new tag
 router.get('/add_tag', (req, res) => { 
-    if (!req.session.connected || !req.session.connected.id) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
-        return res.send([false, 'redirect_error'])
     if (!req.query.new_tag) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
         return res.send([false, 'New tag name is empty'])
     if (req.query.new_tag.length > 15)
@@ -297,8 +292,6 @@ router.get('/add_tag', (req, res) => {
 
 // Delete a tag
 router.get('/del_tag', (req, res) => { 
-    if (!req.session.connected || !req.session.connected.id) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
-        return res.send([false, 'redirect_error'])
     if (!req.query.tag_name) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
         return res.send([false, 'Tag name is empty'])
     if (req.query.tag_name.length > 15)
@@ -313,8 +306,6 @@ router.get('/del_tag', (req, res) => {
 })
 
 router.post('/upload_picture', (req, res) => {
-    if (!req.session.connected || !req.session.connected.id) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
-        return res.send([false, 'redirect_error'])
     var form = new formidable.IncomingForm()
     form.parse(req, function (err, fields, files) {
         if (files.file === undefined)
@@ -339,8 +330,6 @@ router.post('/upload_picture', (req, res) => {
 })
 
 router.post('/get_pictures', (req, res) => {
-    if (!req.session.connected || !req.session.connected.id) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
-        return res.send([false, 'redirect_error'])
     User.GetAllPictures(req.session.connected.id)
     .then((ret) => {
         ret.forEach((elem) => {
@@ -351,7 +340,7 @@ router.post('/get_pictures', (req, res) => {
 })
 
 router.get(('/del_picture'), (req, res) => {
-    if (!req.session.connected || !req.session.connected.id || !req.query.position || req.query.position < 1 || req.query.position > 5) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
+    if (!req.query.position || req.query.position < 1 || req.query.position > 5) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
         return res.send([false, 'redirect_error'])
     User.RemovePicture(req.session.connected.id, req.query.position)
     .then((status) => {
@@ -364,7 +353,7 @@ router.get(('/del_picture'), (req, res) => {
 })
 
 router.get(('/set_profil_pic'), (req, res) => {
-    if (!req.session.connected || !req.session.connected.id || !req.query.position || req.query.position < 1 || req.query.position > 5) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
+    if (!req.query.position || req.query.position < 1 || req.query.position > 5) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
         return res.send([false, 'redirect_error'])
     User.SetProfilPicture(req.session.connected.id, req.query.position)
     .then((status) => {
@@ -377,8 +366,6 @@ router.get(('/set_profil_pic'), (req, res) => {
 })
 
 router.get(('/change_pos'), (req, res) => {
-    if (!req.session.connected || !req.session.connected.id) // If user destroy cookie and then click on a add tag server's gonna crash if we don't check the req.session.connected
-        return res.send([false, 'redirect_error'])
     if (!req.query.lat || !req.query.lng )
         User.SetPosByIp(req.session.connected.id)
         .then((ret) => {

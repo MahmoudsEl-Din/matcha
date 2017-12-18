@@ -34,6 +34,9 @@ app.use(session({
 const db = require('./setup/connection')
 new db()
 
+// Require middlewares
+var middlewares = require('./middlewares/middlewares')
+
 // Require routes
 var index = require('./routes/index.js')
 var login = require('./routes/login.js')
@@ -49,9 +52,9 @@ var code_verif = require('./routes/code_verif.js')
 var error = require('./routes/error.js')
 var profil = require('./routes/profil')
 
-app.use('/', index)
+app.use('/', middlewares.user_timer, index)
 app.use('/login', login)
-app.use('/logout', logout)
+app.use('/logout', middlewares.logged_needed, logout)
 app.use('/signup', signup)
 app.use('/check_signup_email', signup_email)
 app.use('/check_signup_username', signup_username)
@@ -61,9 +64,6 @@ app.use('/code_verif', code_verif)
 app.use('/reset_password', reset_password)
 app.use('/change_password', change_password)
 app.use('/error', error)
-app.use('/profil', profil)
-
-
-
+app.use('/profil', middlewares.logged_needed, profil)
 
 app.listen(7777)
