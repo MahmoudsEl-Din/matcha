@@ -69,6 +69,15 @@ class init_db {
             if (error) throw error
         })
 
+        this.connection.query('CREATE TABLE IF NOT EXISTS logged('
+        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
+        + 'userid INT NOT NULL,'        
+        + 'time TIMESTAMP,'
+        + 'logout INT NOT NULL'
+        + ');', (error) => {
+            if (error) throw error
+        })
+
         let sql = "SELECT * FROM users;"
         this.connection.query(sql, (error, results) => {
             if (error) throw error

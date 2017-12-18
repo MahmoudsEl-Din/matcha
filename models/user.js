@@ -369,6 +369,15 @@ class User {
             })
         })
     }
+
+    static ResetTimer(userid) {
+        if (userid) {
+            let sql = "UPDATE logged SET time = NULL, logout = 0 WHERE userid = ?;"
+            connection.query(sql, [ userid], (error, pic) => {
+                if (error) throw error
+            })            
+        }
+    }
 }
 
 module.exports = User
