@@ -7,7 +7,7 @@ block content
             .search-title
                 h3 Rechercher un membre
             .search-container
-                form(action="POST")
+                form#search-form(action="POST")
                     .age-range
                         p
                             label(for="ageRange") Par âge :
@@ -25,9 +25,12 @@ block content
                         div#geoslider-range
                     .tag-pool
                         label(for="tags") Par tags : 
-                        input#tags(type="tags" pattern="^#" name="tags" value="Badminton")
+                        input#profil_tag.form-control(type="text" placeholder="Edit your biography (Max 249 characters)" maxlength="249" name="profil_bio")
+                        div#div_list_tags.col-3
+                        div.w-100.d-flex.justify-content-center.form-group
+                            p#return_tags.text-danger
 
                 button#search-button(type="submit").btn.btn-primary Rechercher        
 
         script(src="assets/javascript/search.js")
-        script(src="assets/javascript/tagsInput.js")
+        script(src="assets/javascript/profil.js")

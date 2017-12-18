@@ -22,6 +22,8 @@ router.get('/', (req, res) => {
     res.render('pages/search', {session : req.session, username: username })
 })
 
-router.post('')
+router.post('/search_them', (req, res) => {
+
+})
 
 module.exports = router
