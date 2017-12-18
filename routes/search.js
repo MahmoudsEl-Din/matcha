@@ -22,4 +22,6 @@ router.get('/', (req, res) => {
     res.render('pages/search', {session : req.session, username: username })
 })
 
+router.post('')
+
 module.exports = router

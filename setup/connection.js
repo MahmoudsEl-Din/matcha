@@ -5,7 +5,7 @@ class init_db {
         this.connection = this.mysql.createConnection({
             host     : 'localhost',
             user     : 'root',
-            password : 'qwerty'
+            password : 'root'
         })
 
         this.connection.connect((error) => {

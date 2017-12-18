@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
     $(function() {
         $("#ageslider-range").slider({
             classes: {

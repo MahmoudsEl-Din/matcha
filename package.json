@@ -34,6 +34,7 @@
     "nodemailer": "^4.4.1",
     "nodemon": "^1.12.6",
     "public-ip": "^2.4.0",
-    "pug": "^2.0.0-rc.4"
+    "pug": "^2.0.0-rc.4",
+    "tags-input": "^1.1.1"
   }
 }
