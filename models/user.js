@@ -120,6 +120,20 @@ class User {
         })
     }
 
+    static IdExists(id) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM users WHERE id = ?"
+            connection.query(sql, id, (error, results) => {
+                if (error)
+                    reject(error)
+                else if (results[0])
+                    resolve(true)
+                else
+                    resolve(false)
+            })
+        })
+    }
+
     static GetAllById(id){
         return new Promise((resolve, reject) => {
             let sql = "SELECT * FROM users WHERE id = ?"
@@ -372,11 +386,57 @@ class User {
 
     static ResetTimer(userid) {
         if (userid) {
-            let sql = "UPDATE logged SET time = NULL, logout = 0 WHERE userid = ?;"
-            connection.query(sql, [ userid], (error, pic) => {
+            let time = (new Date).getTime();
+            let sql = "UPDATE logged SET time = ?, logout = 0 WHERE userid = ?;"
+            connection.query(sql, [time, userid], (error, pic) => {
                 if (error) throw error
             })            
         }
+    }
+
+    static IsBlocked(uid, uid_target) {
+        return new Promise((resolve, reject) => {
+            if (uid && uid_target) {
+                let sql = "SELECT * FROM blocked WHERE uid = ? AND uid_target = ?;"
+                connection.query(sql, [uid, uid_target], (error, result) => {
+                    if (error) throw error
+                    if (result[0])
+                        resolve(true)
+                    else
+                        resolve(false)
+                })            
+                    
+            }
+        })
+    }
+
+    static GetTime(uid) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM logged WHERE userid = ?;"
+            connection.query(sql, [uid], (error, result) => {
+                if (error) throw error
+                if (result[0])
+                    resolve(result)
+                else
+                    resolve(undefined)
+            })            
+        })
+    }
+
+    static ReportBlock(uid, uid_target, type) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM " + type + " WHERE uid = ? AND uid_target = ?;"
+            connection.query(sql, [ uid, uid_target], (error, result) => {
+                if (error) throw error
+                if (result[0])
+                    return resolve([false, 'User already ' + type])
+                let sql = "INSERT INTO " + type +" VALUES(NULL, ?, ?);"
+                connection.query(sql, [uid, uid_target], (error, result) => {
+                    if (error) throw error
+                    resolve([true, undefined])
+                })         
+            })
+        })
     }
 }
 

@@ -27,7 +27,7 @@
     "formidable": "^1.1.1",
     "geoip-lite": "^1.2.1",
     "jquery-ui": "^1.12.1",
-    "moment": "^2.19.4",
+    "moment": "^2.20.1",
     "mv": "^2.1.1",
     "mysql": "^2.15.0",
     "node-where": "^1.1.0",

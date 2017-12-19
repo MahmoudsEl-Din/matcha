@@ -52,6 +52,8 @@ var code_verif = require('./routes/code_verif.js')
 var error = require('./routes/error.js')
 var profil = require('./routes/profil')
 var search = require('./routes/search')
+var user = require('./routes/user')
+
 
 app.use('/', middlewares.user_timer, index)
 app.use('/login', login)
@@ -66,7 +68,8 @@ app.use('/reset_password', reset_password)
 app.use('/change_password', change_password)
 app.use('/error', error)
 app.use('/profil', middlewares.logged_needed, profil)
-app.use('/search', search)
+app.use('/search', middlewares.logged_needed, search)
+app.use('/user', middlewares.logged_needed, user)
 
 //Port :+: Localhost
 app.listen(7777)

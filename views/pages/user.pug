@@ -1,0 +1,77 @@
+extends layout
+        
+block content
+        
+        div.container.text-center
+
+                h1#username.text-white= user['username']
+
+                div.w-100.d-flex.justify-content-between
+                        div#connected
+                        div#popu
+                                h4.text-white Popularity: 75%
+
+                div.row-3.h-50.m-5.border.border-dark.container-fluid#div_pictures
+
+                        div.row.border.h-50.justify-content-center
+                                div.col-3.border.border-dark
+                                        img.img-circle.border.img-responsive.h-100#img1.picture_none
+                        div.row.border.border-dark.h-50.p-5.d-flex.justify-content-around
+                                div.col-2.border
+                                        img.img-circle.border.img-responsive.h-100#img2.picture_none
+                                div.col-2.border
+                                        img.img-circle.border.img-responsive.h-100#img3.picture_none
+                                div.col-2.border
+                                        img.img-circle.border.img-responsive.h-100#img4.picture_none
+                                div.col-2.border
+                                        img.img-circle.border.img-responsive.h-100#img5.picture_none
+        
+                div.form-group.row.justify-content-center.mb-3
+                        div.col-2
+                                label#label_firstname.text-white(for="profil_firstname")= user['name']
+                        //- div.w-100
+
+                div.form-group.row.justify-content-center.mb-3
+                        div.col-2
+                                label#label_lastname.text-white(for="profil_lastname")= user['lastname']
+                        //- div.w-100
+
+                div.form-group.row.justify-content-center.mb-3
+                        div.col-2
+                                label#label_gender.text-white(for="profil_gender")= user['genre']
+                        //- div.w-100
+
+                div.form-group.row.justify-content-center.mb-3
+                        div.col-2
+                                label#label_desire.text-white(for="profil_desire")= user['desire']
+                        //- div.w-100
+
+                div.form-group.row.justify-content-center.mb-3
+                        div.col-2
+                                label#label_age.text-white(for="profil_age")= user['age']
+                        //- div.w-100
+
+                div.form-group.row.justify-content-center.mb-3
+                        div.col-2
+                                h3.text-white Biography
+                        div.w-100                        
+                        div.w-50
+                                label#label_bio.text-white(for="profil_bio")= user['bio']
+                        div.w-100
+
+                div.form-group.row.justify-content-center.mb-3
+                        div.col-2
+                                h3.text-white Tags
+                        div.w-100                        
+                        div#div_user_tags.col-4
+
+                div.d-flex.w-100.justify-content-around
+                        div
+                                button#report(type="submit").btn.btn-warning Report fake account
+                                div#return_report
+                        div
+                                button#block(type="submit").btn.btn-danger Block user
+                                div#return_report                                
+
+
+                script(src="assets/javascript/user.js")
