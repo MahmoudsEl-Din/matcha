@@ -1,6 +1,7 @@
 let express = require('express')
 let router = express()
 var User = require('../models/user.js')
+let geolib = require('geolib')
 
 
 
@@ -8,7 +9,7 @@ let catchError = error => {
     console.log(error)
 }
 
-router.get('/', (req, res) => {
+router.get('/search', (req, res) => {
     let username = undefined
      
     if (!req.session.connected) {
@@ -22,8 +23,20 @@ router.get('/', (req, res) => {
     res.render('pages/search', {session : req.session, username: username })
 })
 
-router.post('/search_them', (req, res) => {
-
+router.get('/search_them_alls/:ageRange/:popRange/:geoRange/:tag',
+    (req, res) => {
+    if (req.session.connected && req.session.connected.id)
+    {
+        User
+        .GetAllById(req.connected.id)
+        .then(user_info => {
+            gender = user_info['gender']
+            desire = user_info['desire']
+            // maxLat = 
+        })
+        .catch(console.log)
+    }
+    res.send('wewewe');
 })
 
 module.exports = router

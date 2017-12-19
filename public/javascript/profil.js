@@ -300,7 +300,6 @@ $(document).ready(function(){
 
     function click_tags() { 
         $("#div_list_tags").children().on('click', function(e){
-            console.log("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJs")
             
             console.log($(e.target).text())
             clear_returns()
