@@ -30,7 +30,6 @@ $(document).ready(function(){
     
     var uid = getUrlParameter('uid');
     getUserInfo(uid)
-    // get_pictures()
 
     function getUserInfo(uid) {
         console.log(uid)
@@ -40,7 +39,8 @@ $(document).ready(function(){
             if (data) {
                 get_user_time(uid)
                 get_user_tags(data)
-                get_pictures(data) 
+                get_pictures(data)
+                get_like(data)
             }
         })
     }
@@ -65,6 +65,13 @@ $(document).ready(function(){
                 }
             }
         })
+    }
+
+    function get_like(user) {
+        $.get('/user/get_like_status', {uid: user['id']},(data, jqHXR) => {
+            if (data)
+                $("#like").removeClass('btn-success').addClass('btn-danger').text('Unlike')
+        })            
     }
 
     function EpochToDate(epoch) {
@@ -94,6 +101,7 @@ $(document).ready(function(){
     function clear_returns() {
         $("#return_report").empty()        
         $("#return_block").empty()        
+        $("#return_like").empty()        
     }
 
     $('#report').click((e) => {
@@ -106,6 +114,36 @@ $(document).ready(function(){
                 }
                 else
                     $("#return_report").append('<p style=\'color:red\'>' + data[1] +'</p>')            
+            }
+        })
+    })
+
+    $('#block').click((e) => {
+        e.preventDefault()
+        clear_returns()                        
+        $.get('/user/report_block', {uid: uid, type: 'blocked'}, (data, jqHXR) => {
+            if (data) {
+                if (data[0] === true) {
+                    $("#return_block").append('<p style=\'color:green\'> User blocked successfully</p>')
+                }
+                else
+                    $("#return_block").append('<p style=\'color:red\'>' + data[1] +'</p>')            
+            }
+        })
+    })
+
+    $('#like').click((e) => {
+        e.preventDefault()
+        clear_returns()                        
+        $.get('/user/like_user', {uid: uid}, (data, jqHXR) => {
+            if (data) {
+                console.log(data)
+                if (data[0] === true)
+                    $("#like").removeClass('btn-danger').addClass('btn-success').text('Like')
+                else if (data[0] === false)
+                    $("#like").removeClass('btn-success').addClass('btn-danger').text('Unlike')
+                else
+                    $("#return_like").append('<p style=\'color:red\'>' + data +'</p>')            
             }
         })
     })

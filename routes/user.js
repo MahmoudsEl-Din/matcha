@@ -83,4 +83,18 @@ router.get('/report_block', (req, res) => {
     }).catch(catchError)
 })
 
+router.get('/like_user', (req, res) => {
+    User.Like(req.session.connected.id, req.query.uid)
+    .then((ret) => {
+        res.send(ret)
+    }).catch(catchError)
+})
+
+router.get('/get_like_status', (req, res) => {
+    User.IsLiking(req.session.connected.id, req.query.uid)
+    .then((liking) => {
+        res.send(liking)
+    }).catch(catchError)
+})
+
 module.exports = router

@@ -438,6 +438,51 @@ class User {
             })
         })
     }
+
+    static IsLiking(uid, uid_target) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM likes WHERE uid = ? AND uid_target = ?;"
+            connection.query(sql, [uid, uid_target], (error, result) => {
+                if (error) throw error
+                if (result[0])
+                    resolve(true)
+                else
+                    resolve(false)
+            })
+        })
+        
+    }
+
+    static Like(uid, uid_target) {
+        return new Promise((resolve, reject) => {
+            let ret = undefined
+            let sql = "SELECT * FROM pictures WHERE userid = ? AND position = 1;"                    
+            connection.query(sql, [uid], (error, result) => {
+                console.log(result)
+                if (!result[0])
+                    return resolve('You have no profile picture')
+                this.IsLiking(uid, uid_target)
+                .then((liking) => {
+                let sql = undefined
+                if (liking) {
+                    sql = "DELETE FROM likes WHERE uid = ? AND uid_target = ?;"                    
+                    ret = [true, 'User already']
+                    return [sql, ret]                            
+                }
+                else {
+                    sql = "INSERT INTO likes VALUES(NULL, ?, ?);"                    
+                    ret = [false, 'User already']
+                    return [sql, ret]                                    
+                }
+                }).then((ret) => {
+                    connection.query(ret[0], [uid, uid_target], (error, result) => {
+                        if (error) throw error
+                        resolve(ret[1])
+                })         
+                }).catch(catchError)
+            })
+        })
+    }
 }
 
 module.exports = User
