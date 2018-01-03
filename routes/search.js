@@ -23,7 +23,7 @@ router.get('/search', (req, res) => {
     res.render('pages/search', {session : req.session, username: username })
 })
 
-router.get('/search_them_alls/:ageRange/:popRange/:geoRange/:tag',
+router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag',
     (req, res) => {
     if (req.session.connected && req.session.connected.id)
     {
@@ -36,7 +36,8 @@ router.get('/search_them_alls/:ageRange/:popRange/:geoRange/:tag',
         })
         .catch(console.log)
     }
-    res.send('wewewe');
+    console.log(res.params)
+    res.send(req.params);
 })
 
 module.exports = router

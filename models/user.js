@@ -370,6 +370,22 @@ class User {
         })
     }
 
+    static getAroundMe(lat, lng, range) {
+        return new Promise((resolve, reject) => {
+            lng1 = lng - range / abs(cos(radians(lat))*69)
+            lng2 = lng + range / abs(cos(radian(lat)) * 69)
+            lat1 = lat - (range /69)
+            lat2 = lat + (range / 69)
+            let sql = "SELECT * FROM users WHERE lng > ? AND lng < ? AND lat > ? AND lat < ?"
+            connection.query(sql, [lng1, lng2, lat1, lat2], (error, pic) => {
+                if (error)
+                    reject(error)
+                else
+                    resolve(true);
+            })
+        })
+    }
+
     static ResetTimer(userid) {
         if (userid) {
             let sql = "UPDATE logged SET time = NULL, logout = 0 WHERE userid = ?;"
