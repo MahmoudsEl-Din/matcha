@@ -17,10 +17,10 @@ $(document).ready(function () {
             max: 77,
             values: [18, 26],
             slide: function (event, ui) {
-                $("#ageRange").val(ui.values[0] + " cm - " + ui.values[1] + " cm");
+                $("#ageRange").val(ui.values[0] + " ans - " + ui.values[1] + " ans");
             }
         })
-        $("#ageRange").val($("#ageslider-range").slider("values", 0) + " cm - " + $("#ageslider-range").slider("values", 1) + " cm");
+        $("#ageRange").val($("#ageslider-range").slider("values", 0) + " ans - " + $("#ageslider-range").slider("values", 1) + " ans");
 
         $("#popslider-range").slider({
             range: true,
@@ -59,8 +59,16 @@ $(document).ready(function () {
 
     $('#search-button').click(function (e) {
         e.stopPropagation()
+
+
+        $('#div_user_tag').children().each(()=> {
+            $(this).remove()
+        })
+
+        console.log($('#div_user_tags').first().text())
+     
         new Promise((res, rej) => {
-            let url = `/search_them_all/${
+            let url = `/search/search_them_all/${
             JSON.stringify(
                 $("#ageslider-range").slider("values")
             )}/${JSON.stringify(
@@ -68,7 +76,9 @@ $(document).ready(function () {
             )}/${JSON.stringify(
                 $("#geoslider-range").slider("value")
             )}/${JSON.stringify(
-                $('#profil_tag')[0].value
+                $('#div_user_tag:first-child').each(index => {
+                    $(this).text()
+                })
             )}`;
             $.get(url)
             .fail(rej)

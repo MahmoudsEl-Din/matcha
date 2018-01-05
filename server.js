@@ -66,7 +66,7 @@ app.use('/reset_password', reset_password)
 app.use('/change_password', change_password)
 app.use('/error', error)
 app.use('/profil', middlewares.logged_needed, profil)
-app.use(search)
+app.use('/search', middlewares.logged_needed, middlewares.gender_needed, search)
 
 //Port Localhost
 app.listen(7777);

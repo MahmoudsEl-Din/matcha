@@ -370,18 +370,28 @@ class User {
         })
     }
 
-    static getAroundMe(lat, lng, range) {
+    static getAroundMe(ulat, ulng, range) {
+        console.log("getAroundMe")
         return new Promise((resolve, reject) => {
-            lng1 = lng - range / abs(cos(radians(lat))*69)
-            lng2 = lng + range / abs(cos(radian(lat)) * 69)
-            lat1 = lat - (range /69)
-            lat2 = lat + (range / 69)
-            let sql = "SELECT * FROM users WHERE lng > ? AND lng < ? AND lat > ? AND lat < ?"
-            connection.query(sql, [lng1, lng2, lat1, lat2], (error, pic) => {
-                if (error)
+            console.log("hey there")
+            const delta = range / (Math.abs((Math.cos((ulat * Math.PI / 180) * 111))))
+            const xMin = ulng - delta
+            const xMax = ulng + delta
+            const dist = range / 111
+            const yMin = ulat - dist
+            const yMax = ulat + dist
+            console.log(xMin + ' ' + xMax + ' ' + yMin + ' ' + yMax)
+            let sql = "SELECT * , (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? HAVING distance < ? ORDER BY distance;"
+            connection.query(sql, [ulng, ulat, ulng, xMin, xMax, yMin, yMax, range], (error, results) => {
+                if (error) {
+                    console.log(error)
                     reject(error)
-                else
-                    resolve(true);
+                }
+                else if (results[0]) {
+                    console.log(results)
+                    resolve(results[0])
+                }
+                resolve(undefined)
             })
         })
     }
