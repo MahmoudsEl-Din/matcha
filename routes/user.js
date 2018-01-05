@@ -97,4 +97,19 @@ router.get('/get_like_status', (req, res) => {
     }).catch(catchError)
 })
 
+router.get('/get_other_like', (req, res) => {
+    User.IsLiking(req.query.uid, req.session.connected.id)
+    .then((liking) => {
+        if (!liking)
+            return res.send([0])
+        else
+            return User.IsLiking(req.session.connected.id, req.query.uid)
+    }).then((current_liking) => {
+        if (current_liking === true)
+            return res.send([2])
+        if (current_liking === false)
+            return res.send([1])
+    }).catch(catchError)
+})
+
 module.exports = router

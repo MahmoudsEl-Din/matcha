@@ -30,6 +30,7 @@ $(document).ready(function(){
     
     var uid = getUrlParameter('uid');
     getUserInfo(uid)
+    var usr = undefined
 
     function getUserInfo(uid) {
         console.log(uid)
@@ -37,10 +38,12 @@ $(document).ready(function(){
         $.get('/user/get_user_info', {uid: uid},(data, jqHXR) => {
             console.log(data)      
             if (data) {
+                usr = data;
                 get_user_time(uid)
                 get_user_tags(data)
                 get_pictures(data)
                 get_like(data)
+                get_other_like(data)
             }
         })
     }
@@ -71,6 +74,19 @@ $(document).ready(function(){
         $.get('/user/get_like_status', {uid: user['id']},(data, jqHXR) => {
             if (data)
                 $("#like").removeClass('btn-success').addClass('btn-danger').text('Unlike')
+        })            
+    }
+
+    function get_other_like(user) {
+        $.get('/user/get_other_like', {uid: user['id']},(data, jqHXR) => {
+            if (data)
+                if (data[0] === 0)
+                    $("#other_like").attr('style', 'color:red').text(user['username'] + ' is not liking you yet')
+                if (data[0] === 1)
+                    $("#other_like").attr('style', 'color:blue').text(user['username'] + ' is liking you')
+                if (data[0] === 2)
+                    $("#other_like").attr('style', 'color:green').text(user['username'] + ' and you are connected')
+        
         })            
     }
 
@@ -144,6 +160,7 @@ $(document).ready(function(){
                     $("#like").removeClass('btn-success').addClass('btn-danger').text('Unlike')
                 else
                     $("#return_like").append('<p style=\'color:red\'>' + data +'</p>')            
+                get_other_like(usr)
             }
         })
     })

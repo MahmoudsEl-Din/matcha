@@ -7,8 +7,7 @@ var session = require('express-session')
 var bodyParser = require('body-parser')
 var connection = require('./setup/connection')
 var request = require('ajax-request')
-var path = require('path');
-
+var path = require('path')
 const pug = require('pug')
 
 // Template Engine
