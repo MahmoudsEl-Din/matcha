@@ -44,6 +44,25 @@ $(document).ready(function(){
                 get_pictures(data)
                 get_like(data)
                 get_other_like(data)
+                get_popularity(data)
+            }
+        })
+    }
+
+    function get_popularity(user) {
+        $.get('/user/get_popularity', {uid: user['id']},(data, jqHXR) => {
+            if (jqHXR === 'success') {
+                if (data) {
+                    let msg = undefined
+                    if (data.pop)
+                        msg = Number(data.pop) * 100 + '%'
+                    else if (data.pop !== undefined)
+                        msg = '0%'
+                    else
+                        msg = data
+                    console.log(data)           
+                    $('#popu').children().text("Popularity: " + msg)
+                }
             }
         })
     }
@@ -102,7 +121,10 @@ $(document).ready(function(){
             if (data) {
                 var n = (new Date).getTime();                
                 sub = n - data[0]['time']
-                if (data[0]['logout'] === 1 || n - data[0]['time'] > 300) { // if user is not logged or no activity in 5 minutes
+                console.log(data[0])
+                console.log(n)
+                console.log(data[0]['time'])                
+                if (data[0]['logout'] === 1 || n - data[0]['time'] > 300000) { // if user is not logged or no activity in 5 minutes
                     $('#connected').append('<h4 id=\'connected_p\'>Last logged: ' + data[1] + '</h4>')
                     $('#connected_p').attr('style', 'color:red; text-shadow: 2px 2px black;')
                 }

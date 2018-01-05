@@ -483,6 +483,38 @@ class User {
             })
         })
     }
+    
+    static GetPopularity(uid) {
+        return new Promise((resolve, reject) => {    
+            this.GetAllById(uid)
+            .then(user_info => {
+                let sql = "SELECT A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE "
+                let sql2 = undefined
+                if (user_info['desire'] === 'M' && user_info['genre'] === 'M')
+                    sql2 = '(genre = "M" AND (desire = "M" OR desire = "B"))) AS B;'
+                else if (user_info['desire'] === 'F' && user_info['genre'] === 'M')
+                    sql2 = '(genre = "F" AND (desire = "M" OR desire = "B"))) AS B;'
+                else if (user_info['desire'] === 'F' && user_info['genre'] === 'F')
+                    sql2 = '(genre = "F" AND (desire = "F" OR desire = "B"))) AS B;'
+                else if (user_info['desire'] === 'M' && user_info['genre'] === 'F')
+                    sql2 = '(genre = "M" AND (desire = "F" OR desire = "B"))) AS B;'
+                else if (user_info['desire'] === 'B' && user_info['genre'] === 'M')
+                    sql2 = '((genre = "F" AND (desire = "M" OR desire = "B")) OR (genre = "M" AND (desire = "M" OR desire = "B")))) AS B;'
+                else if (user_info['desire'] === 'B' && user_info['genre'] === 'F')
+                    sql2 = '((genre = "F" AND (desire = "F" OR desire = "B")) OR (genre = "M" AND (desire = "F" OR desire = "B")))) AS B;'
+                if (sql2 != undefined) {
+                    connection.query(sql + sql2, [uid], (error, result) => {
+                        if (error) throw error
+                        if (Number(result[0].pop) > 1)
+                            result[0].pop = 1
+                        resolve(result[0])
+                    })
+                }
+                else
+                    resolve("Has to select a genre")
+            })
+        })
+    }
 }
 
 module.exports = User

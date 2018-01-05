@@ -112,4 +112,12 @@ router.get('/get_other_like', (req, res) => {
     }).catch(catchError)
 })
 
+router.get('/get_popularity', (req, res) => {
+    User.GetPopularity(req.query.uid)
+    .then((popularity) => {
+        console.log(popularity)
+        res.send(popularity)
+    }).catch(catchError)
+})
+
 module.exports = router
