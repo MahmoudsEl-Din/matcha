@@ -81,7 +81,9 @@ $(document).ready(function () {
             $("#return_tags").empty()
             // $('#div_list_tags').empty()
             console.log(e.target)
-            $('#div_user_tags').prepend('<div class="user_tag">' + e.target.innerText + '<a id="del_tag_' + e.target.innerText + '" class="del_tag" href=\'#\'>x</a></div>')
+            let i = 0
+            $('#div_user_tags').prepend('<div class="user_tag">' + e.target.innerText + '<a id="del_tag_' + e.target.innerText + '" class="del_tag" href=\'#\'>⊗</a></div>')
+            i++
             click_del_tag($('#del_tag_' + e.target.innerText))
         })
     }

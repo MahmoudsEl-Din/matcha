@@ -65,7 +65,9 @@ $(document).ready(function () {
             $(this).remove()
         })
 
-        console.log($('#div_user_tags').first().text())
+        let tags = $('#div_user_tags').children().each(()=>{
+            $(this).text().replace('⊗', '')
+        })
      
         new Promise((res, rej) => {
             let url = `/search/search_them_all/${
@@ -76,13 +78,11 @@ $(document).ready(function () {
             )}/${JSON.stringify(
                 $("#geoslider-range").slider("value")
             )}/${JSON.stringify(
-                $('#div_user_tag:first-child').each(index => {
-                    $(this).text()
-                })
+                tags
             )}`;
             $.get(url)
             .fail(rej)
-            .done(res)
+            .done(res)  
         })
         // .then(d => {
         //     if (d === "login")
