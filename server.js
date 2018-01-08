@@ -49,10 +49,9 @@ var signup_password = require('./routes/check_signup/password.js')
 var signup_cpassword = require('./routes/check_signup/cpassword.js')
 var code_verif = require('./routes/code_verif.js')
 var error = require('./routes/error.js')
-var profil = require('./routes/profil')
-var search = require('./routes/search')
+const profil = require('./routes/profil')
+const search = require('./routes/search')
 var user = require('./routes/user')
-
 
 app.use('/', middlewares.user_timer, index)
 app.use('/login', login)
@@ -67,7 +66,7 @@ app.use('/reset_password', reset_password)
 app.use('/change_password', change_password)
 app.use('/error', error)
 app.use('/profil', middlewares.logged_needed, profil)
-app.use('/search', middlewares.logged_needed, search)
+app.use('/search', middlewares.logged_needed, middlewares.gender_needed, search)
 app.use('/user', middlewares.logged_needed, user)
 
 app.use(function(req, res) {

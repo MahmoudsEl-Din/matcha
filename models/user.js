@@ -382,6 +382,32 @@ class User {
         })
     }
 
+    static getAroundMe(ulat, ulng, range) {
+        console.log("getAroundMe")
+        return new Promise((resolve, reject) => {
+            console.log("hey there")
+            const delta = range / (Math.abs((Math.cos((ulat * Math.PI / 180) * 111))))
+            const xMin = ulng - delta
+            const xMax = ulng + delta
+            const dist = range / 111
+            const yMin = ulat - dist
+            const yMax = ulat + dist
+            console.log(xMin + ' ' + xMax + ' ' + yMin + ' ' + yMax)
+            let sql = "SELECT * , (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? HAVING distance < ? ORDER BY distance;"
+            connection.query(sql, [ulng, ulat, ulng, xMin, xMax, yMin, yMax, range], (error, results) => {
+                if (error) {
+                    console.log(error)
+                    reject(error)
+                }
+                else if (results[0]) {
+                    console.log(results)
+                    resolve(results[0])
+                }
+                resolve(undefined)
+            })
+        })
+    }
+
     static ResetTimer(userid) {
         if (userid) {
             let time = (new Date).getTime();

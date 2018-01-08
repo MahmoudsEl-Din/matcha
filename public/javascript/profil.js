@@ -139,7 +139,7 @@ $(document).ready(function(){
 
     $("#profil_email").keyup(function(e){
         $.post('/profil/first_email', $('#profil_email'), function(data, jqHXR) {   
-            if (jqHXR === "success") {
+            if (jqHXR === "success") { 
                 if (data === true){
                     if ($('#profil_email').hasClass('border-success'))
                         $('#profil_email').removeClass('border-success')
@@ -300,7 +300,6 @@ $(document).ready(function(){
 
     function click_tags() { 
         $("#div_list_tags").children().on('click', function(e){
-            console.log("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJs")
             
             console.log($(e.target).text())
             clear_returns()

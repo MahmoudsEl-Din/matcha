@@ -26,6 +26,7 @@
     "express-session": "^1.15.6",
     "formidable": "^1.1.1",
     "geoip-lite": "^1.2.1",
+    "geolib": "^2.0.24",
     "jquery-ui": "^1.12.1",
     "moment": "^2.20.1",
     "mv": "^2.1.1",
