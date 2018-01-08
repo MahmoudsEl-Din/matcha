@@ -508,31 +508,31 @@ class User {
     static getAroundMe(ulat, ulng, range, uid) {
         console.log("getAroundMe")
         return new Promise((resolve, reject) => {
-            this.getMyChoice(uid)
-            .then(sql2 => {
+            // this.getMyChoice(uid)
+            // .then(sql2 => {
                 console.log("hey there")
-                const delta = range / (Math.abs((Math.cos((ulat * Math.PI / 180) * 111))))
-                const lngMin = ulng - delta
-                const lngMax = ulng + delta
-                const dist = range / 111
+                let delta = range / (111.1 / Math.cos(ulat * 180 / Math.PI))
+                const lngMax = ulng - delta
+                const lngMin = ulng + delta
+                const dist = range / 111.1
                 const latMin = ulat - dist
                 const latMax = ulat + dist
                 console.log(lngMin + ' ' + lngMax + ' ' + latMin + ' ' + latMax)
-                let sql = "SELECT * , (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ?  AND WHERE HAVING distance < ? ORDER BY distance, SELECT WHERE;"
-                connection.query(sql, [ulng, ulat, ulng, latMin, latMax, lngMin, lngMax, range], (error, results) => {
+                let sql = "SELECT * , (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? AND id != ? HAVING distance < ? ORDER BY distance;"
+                connection.query(sql, [ulat, ulng, ulat, latMin, latMax, lngMin, lngMax, uid, range], (error, results) => {
                     if (error) {
                         console.log(error)
                         reject(error)
                     }
-                    else if (results[0]) {
+                    else if (results) {
                         console.log(results)
-                        resolve(results[0])
+                        resolve(results)
                     }
                     resolve(undefined)
-                })
+            //     })
             })
-            .catch(catchError)
         })
+        .catch(catchError)
     }
 
     static GetPopularity(uid) {

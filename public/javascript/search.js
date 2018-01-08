@@ -36,7 +36,7 @@ $(document).ready(function () {
         $("#geoslider-range").slider({
             value: 10,
             min: 0,
-            max: 100,
+            max: 900,
             step: 2.5 ,
             slide: function (event, ui) {
                 $("#geoRange").val(ui.value + " km")
