@@ -245,6 +245,7 @@ router.post('/change_age', (req, res) => {
 router.get('/get_user_tags', (req, res) => {
     if (req.session.connected && req.session.connected.id)
     {
+        console.log('ON EST DANS UNE REAUETE')
         User.GetIdByUsername(req.query.username)
         .then((uid) => {
             return User.GetTags(uid)

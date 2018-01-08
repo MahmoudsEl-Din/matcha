@@ -72,8 +72,32 @@ class init_db {
         this.connection.query('CREATE TABLE IF NOT EXISTS logged('
         + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
         + 'userid INT NOT NULL,'        
-        + 'time TIMESTAMP,'
+        + 'time BIGINT NOT NULL,'
         + 'logout INT NOT NULL'
+        + ');', (error) => {
+            if (error) throw error
+        })
+
+        this.connection.query('CREATE TABLE IF NOT EXISTS blocked('
+        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
+        + 'uid INT NOT NULL,'        
+        + 'uid_target INT NOT NULL'
+        + ');', (error) => {
+            if (error) throw error
+        })
+
+        this.connection.query('CREATE TABLE IF NOT EXISTS reported('
+        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
+        + 'uid INT NOT NULL,'        
+        + 'uid_target INT NOT NULL'
+        + ');', (error) => {
+            if (error) throw error
+        })
+
+        this.connection.query('CREATE TABLE IF NOT EXISTS likes('
+        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
+        + 'uid INT NOT NULL,'   
+        + 'uid_target INT NOT NULL'
         + ');', (error) => {
             if (error) throw error
         })

@@ -7,8 +7,7 @@ var session = require('express-session')
 var bodyParser = require('body-parser')
 var connection = require('./setup/connection')
 var request = require('ajax-request')
-var path = require('path');
-
+var path = require('path')
 const pug = require('pug')
 
 // Template Engine
@@ -52,6 +51,7 @@ var code_verif = require('./routes/code_verif.js')
 var error = require('./routes/error.js')
 const profil = require('./routes/profil')
 const search = require('./routes/search')
+var user = require('./routes/user')
 
 app.use('/', middlewares.user_timer, index)
 app.use('/login', login)
@@ -67,6 +67,11 @@ app.use('/change_password', change_password)
 app.use('/error', error)
 app.use('/profil', middlewares.logged_needed, profil)
 app.use('/search', middlewares.logged_needed, middlewares.gender_needed, search)
+app.use('/user', middlewares.logged_needed, user)
 
-//Port Localhost
-app.listen(7777);
+app.use(function(req, res) {
+    res.redirect('/error')
+});
+
+//Port :+: Localhost
+app.listen(7777)

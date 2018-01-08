@@ -3,9 +3,7 @@ var Tools = require('./tools')
 var AddDb = require('./add_db')
 var Check = require('./check')
 const publicIp = require('public-ip');
-
 var where = require('node-where');
-
 
 let catchError = (error) => {
     console.error(error)
@@ -117,6 +115,20 @@ class User {
                 Tools.SendMail(user['email'], "Matcha: password reset","Hi " + user['username'] + ",\nTo reset your password click this link :\n" + link + code)
                 resolve(true)
             }).catch(catchError)
+        })
+    }
+
+    static IdExists(id) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM users WHERE id = ?"
+            connection.query(sql, id, (error, results) => {
+                if (error)
+                    reject(error)
+                else if (results[0])
+                    resolve(true)
+                else
+                    resolve(false)
+            })
         })
     }
 
@@ -398,11 +410,134 @@ class User {
 
     static ResetTimer(userid) {
         if (userid) {
-            let sql = "UPDATE logged SET time = NULL, logout = 0 WHERE userid = ?;"
-            connection.query(sql, [ userid], (error, pic) => {
+            let time = (new Date).getTime();
+            let sql = "UPDATE logged SET time = ?, logout = 0 WHERE userid = ?;"
+            connection.query(sql, [time, userid], (error, pic) => {
                 if (error) throw error
             })            
         }
+    }
+
+    static IsBlocked(uid, uid_target) {
+        return new Promise((resolve, reject) => {
+            if (uid && uid_target) {
+                let sql = "SELECT * FROM blocked WHERE uid = ? AND uid_target = ?;"
+                connection.query(sql, [uid, uid_target], (error, result) => {
+                    if (error) throw error
+                    if (result[0])
+                        resolve(true)
+                    else
+                        resolve(false)
+                })            
+                    
+            }
+        })
+    }
+
+    static GetTime(uid) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM logged WHERE userid = ?;"
+            connection.query(sql, [uid], (error, result) => {
+                if (error) throw error
+                if (result[0])
+                    resolve(result)
+                else
+                    resolve(undefined)
+            })            
+        })
+    }
+
+    static ReportBlock(uid, uid_target, type) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM " + type + " WHERE uid = ? AND uid_target = ?;"
+            connection.query(sql, [ uid, uid_target], (error, result) => {
+                if (error) throw error
+                if (result[0])
+                    return resolve([false, 'User already ' + type])
+                let sql = "INSERT INTO " + type +" VALUES(NULL, ?, ?);"
+                connection.query(sql, [uid, uid_target], (error, result) => {
+                    if (error) throw error
+                    resolve([true, undefined])
+                })         
+            })
+        })
+    }
+
+    static IsLiking(uid, uid_target) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM likes WHERE uid = ? AND uid_target = ?;"
+            connection.query(sql, [uid, uid_target], (error, result) => {
+                if (error) throw error
+                if (result[0])
+                    resolve(true)
+                else
+                    resolve(false)
+            })
+        })
+        
+    }
+
+    static Like(uid, uid_target) {
+        return new Promise((resolve, reject) => {
+            let ret = undefined
+            let sql = "SELECT * FROM pictures WHERE userid = ? AND position = 1;"                    
+            connection.query(sql, [uid], (error, result) => {
+                console.log(result)
+                if (!result[0])
+                    return resolve('You have no profile picture')
+                this.IsLiking(uid, uid_target)
+                .then((liking) => {
+                let sql = undefined
+                if (liking) {
+                    sql = "DELETE FROM likes WHERE uid = ? AND uid_target = ?;"                    
+                    ret = [true, 'User already']
+                    return [sql, ret]                            
+                }
+                else {
+                    sql = "INSERT INTO likes VALUES(NULL, ?, ?);"                    
+                    ret = [false, 'User already']
+                    return [sql, ret]                                    
+                }
+                }).then((ret) => {
+                    connection.query(ret[0], [uid, uid_target], (error, result) => {
+                        if (error) throw error
+                        resolve(ret[1])
+                })         
+                }).catch(catchError)
+            })
+        })
+    }
+    
+    static GetPopularity(uid) {
+        return new Promise((resolve, reject) => {    
+            this.GetAllById(uid)
+            .then(user_info => {
+                let sql = "SELECT A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE "
+                let sql2 = undefined
+                if (user_info['desire'] === 'M' && user_info['genre'] === 'M')
+                    sql2 = '(genre = "M" AND (desire = "M" OR desire = "B"))) AS B;'
+                else if (user_info['desire'] === 'F' && user_info['genre'] === 'M')
+                    sql2 = '(genre = "F" AND (desire = "M" OR desire = "B"))) AS B;'
+                else if (user_info['desire'] === 'F' && user_info['genre'] === 'F')
+                    sql2 = '(genre = "F" AND (desire = "F" OR desire = "B"))) AS B;'
+                else if (user_info['desire'] === 'M' && user_info['genre'] === 'F')
+                    sql2 = '(genre = "M" AND (desire = "F" OR desire = "B"))) AS B;'
+                else if (user_info['desire'] === 'B' && user_info['genre'] === 'M')
+                    sql2 = '((genre = "F" AND (desire = "M" OR desire = "B")) OR (genre = "M" AND (desire = "M" OR desire = "B")))) AS B;'
+                else if (user_info['desire'] === 'B' && user_info['genre'] === 'F')
+                    sql2 = '((genre = "F" AND (desire = "F" OR desire = "B")) OR (genre = "M" AND (desire = "F" OR desire = "B")))) AS B;'
+                if (sql2 != undefined) {
+                    connection.query(sql + sql2, [uid], (error, result) => {
+                        if (error) throw error
+                        if (Number(result[0].pop) > 1)
+                            result[0].pop = 1
+                        resolve(result[0])
+                    })
+                }
+                else
+                    resolve("Has to select a genre")
+            })
+        })
     }
 }
 

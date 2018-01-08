@@ -67,10 +67,11 @@ class addDb {
                 console.log(ret)
                 if (ret[0] === true) {
                     console.log('jisuisici')
+                    let time = (new Date).getTime();
                     var content = "Hi " + form.signup_username + ",Activate your account by clicking here :\n" + req.protocol + '://' + req.get('host') + "/code_verif?code=" + code + "\n"
                     Tools.SendMail(form.signup_email , 'Matcha: account activation', content)
-                    let sql = "INSERT INTO logged (`userid`, `time`, `logout`) VALUES(?, NULL, 1);"
-                    connection.query(sql, [uid], (error, results) => {
+                    let sql = "INSERT INTO logged (`userid`, `time`, `logout`) VALUES(?, ?, 1);"
+                    connection.query(sql, [uid, time], (error, results) => {
                         if (error) throw error
                     })
                     return User.SetPosByIp(ret[1])
