@@ -3,9 +3,7 @@ var Tools = require('./tools')
 var AddDb = require('./add_db')
 var Check = require('./check')
 const publicIp = require('public-ip');
-
 var where = require('node-where');
-
 
 let catchError = (error) => {
     console.error(error)

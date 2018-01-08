@@ -10,7 +10,7 @@ let catchError = (error) => {
 router.get('/', (req, res) => {
     let username = undefined
     let user_info = undefined
-    if (req.query && req.query.uid) {
+    if (req.query && req.query.uid && req.query.uid != req.session.connected.id) {
         console.log(req.query.uid)        
         User.IsBlocked(req.session.connected.id, req.query.uid)
         .then((blocked) => {

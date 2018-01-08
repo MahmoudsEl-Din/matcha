@@ -70,5 +70,9 @@ app.use('/profil', middlewares.logged_needed, profil)
 app.use('/search', middlewares.logged_needed, search)
 app.use('/user', middlewares.logged_needed, user)
 
+app.use(function(req, res) {
+    res.redirect('/error')
+});
+
 //Port :+: Localhost
 app.listen(7777)
