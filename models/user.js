@@ -382,32 +382,6 @@ class User {
         })
     }
 
-    static getAroundMe(ulat, ulng, range) {
-        console.log("getAroundMe")
-        return new Promise((resolve, reject) => {
-            console.log("hey there")
-            const delta = range / (Math.abs((Math.cos((ulat * Math.PI / 180) * 111))))
-            const xMin = ulng - delta
-            const xMax = ulng + delta
-            const dist = range / 111
-            const yMin = ulat - dist
-            const yMax = ulat + dist
-            console.log(xMin + ' ' + xMax + ' ' + yMin + ' ' + yMax)
-            let sql = "SELECT * , (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? HAVING distance < ? ORDER BY distance;"
-            connection.query(sql, [ulng, ulat, ulng, xMin, xMax, yMin, yMax, range], (error, results) => {
-                if (error) {
-                    console.log(error)
-                    reject(error)
-                }
-                else if (results[0]) {
-                    console.log(results)
-                    resolve(results[0])
-                }
-                resolve(undefined)
-            })
-        })
-    }
-
     static ResetTimer(userid) {
         if (userid) {
             let time = (new Date).getTime();
@@ -507,12 +481,11 @@ class User {
             })
         })
     }
-    
-    static GetPopularity(uid) {
-        return new Promise((resolve, reject) => {    
+
+    static getMyChoice(uid) {
+        return new Promise((resolve, reject) => {
             this.GetAllById(uid)
             .then(user_info => {
-                let sql = "SELECT A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE "
                 let sql2 = undefined
                 if (user_info['desire'] === 'M' && user_info['genre'] === 'M')
                     sql2 = '(genre = "M" AND (desire = "M" OR desire = "B"))) AS B;'
@@ -526,6 +499,47 @@ class User {
                     sql2 = '((genre = "F" AND (desire = "M" OR desire = "B")) OR (genre = "M" AND (desire = "M" OR desire = "B")))) AS B;'
                 else if (user_info['desire'] === 'B' && user_info['genre'] === 'F')
                     sql2 = '((genre = "F" AND (desire = "F" OR desire = "B")) OR (genre = "M" AND (desire = "F" OR desire = "B")))) AS B;'
+                return (sql2)
+            })
+            .catch(catchError)
+        })
+    }
+    
+    static getAroundMe(ulat, ulng, range, uid) {
+        console.log("getAroundMe")
+        return new Promise((resolve, reject) => {
+            this.getMyChoice(uid)
+            .then(sql2 => {
+                console.log("hey there")
+                const delta = range / (Math.abs((Math.cos((ulat * Math.PI / 180) * 111))))
+                const lngMin = ulng - delta
+                const lngMax = ulng + delta
+                const dist = range / 111
+                const latMin = ulat - dist
+                const latMax = ulat + dist
+                console.log(lngMin + ' ' + lngMax + ' ' + latMin + ' ' + latMax)
+                let sql = "SELECT * , (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ?  AND WHERE HAVING distance < ? ORDER BY distance, SELECT WHERE;"
+                connection.query(sql, [ulng, ulat, ulng, latMin, latMax, lngMin, lngMax, range], (error, results) => {
+                    if (error) {
+                        console.log(error)
+                        reject(error)
+                    }
+                    else if (results[0]) {
+                        console.log(results)
+                        resolve(results[0])
+                    }
+                    resolve(undefined)
+                })
+            })
+            .catch(catchError)
+        })
+    }
+
+    static GetPopularity(uid) {
+        return new Promise((resolve, reject) => {    
+            this.getMychoiced(uid)
+            .then(sql2 => {
+                let sql = "SELECT A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE "
                 if (sql2 != undefined) {
                     connection.query(sql + sql2, [uid], (error, result) => {
                         if (error) throw error

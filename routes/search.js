@@ -31,9 +31,9 @@ router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag',
                 let uLat = user_info['lat']
                 let range = req.params.geoRange
                 User
-                .getAroundMe(uLat, uLng, range)
+                .getAroundMe(uLat, uLng, range, req.session.connected.id)
                 .then(target => {
-                    res.send(req.params)
+                    res.send(target)
                 })
                 .catch(console.log)
             })

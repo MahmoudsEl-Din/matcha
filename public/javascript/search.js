@@ -13,7 +13,7 @@ $(document).ready(function () {
             },
             animate: "fast",
             range: true,
-            min: 17,
+            min: 18,
             max: 77,
             values: [18, 26],
             slide: function (event, ui) {
@@ -37,7 +37,7 @@ $(document).ready(function () {
             value: 10,
             min: 0,
             max: 100,
-            step: 2.5,
+            step: 2.5 ,
             slide: function (event, ui) {
                 $("#geoRange").val(ui.value + " km")
                 tooltip.text(ui.value)
