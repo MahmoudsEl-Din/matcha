@@ -65,10 +65,13 @@ $(document).ready(function () {
             $(this).remove()
         })
 
-        let tags = $('#div_user_tags').children().each(()=>{
-            $(this).text().replace('⊗', '')
-        })
-     
+        let tags = $('.user_tag')
+
+        let taggs = []
+        for (let i = 0; i < tags.length; i++) {
+            let inst = tags[i]
+            taggs[i] = $(inst).text().replace('⊗', '')
+        }
         new Promise((res, rej) => {
             let url = `/search/search_them_all/${
             JSON.stringify(
@@ -78,7 +81,7 @@ $(document).ready(function () {
             )}/${JSON.stringify(
                 $("#geoslider-range").slider("value")
             )}/${JSON.stringify(
-                tags
+                taggs
             )}`;
             $.get(url)
             .fail(rej)

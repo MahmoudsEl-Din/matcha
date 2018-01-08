@@ -71,20 +71,31 @@ $(document).ready(function () {
 
 
     function click_tags() { 
-        $("#div_list_tags").children().on('click', function(e){
+        $("#div_list_tags").children().on('click', e =>{
             // $("#div_user_tags").children().each(i => {
                 
             //     console.log(i)
             //     // if (e.target.innerText === i.val)
             // })
             console.log($(e.target).text())
-            $("#return_tags").empty()
-            // $('#div_list_tags').empty()
-            console.log(e.target)
-            let i = 0
-            $('#div_user_tags').prepend('<div class="user_tag">' + e.target.innerText + '<a id="del_tag_' + e.target.innerText + '" class="del_tag" href=\'#\'>⊗</a></div>')
-            i++
-            click_del_tag($('#del_tag_' + e.target.innerText))
+            var divs = $('.user_tag')
+            var ret = 0
+            for(var i = 0; i < divs.length; i++){
+                if ($(divs[i]).text().replace('⊗', '') === $(e.target).text())
+                    ret = 1
+                // do stuff
+            }
+            if (ret === 1)
+                document.getElementById("return_tags").innerHTML = 'Tag already added' 
+            else {
+                $("#return_tags").empty()
+                // $('#div_list_tags').empty()
+                console.log(e.target)
+                let i = 0
+                $('#div_user_tags').prepend('<div class="user_tag">' + e.target.innerText + '<a id="del_tag_' + e.target.innerText + '" class="del_tag" href=\'#\'>⊗</a></div>')
+                i++
+                click_del_tag($('#del_tag_' + e.target.innerText))
+            }
         })
     }
 
