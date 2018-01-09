@@ -488,38 +488,39 @@ class User {
             .then(user_info => {
                 let sql2 = undefined
                 if (user_info['desire'] === 'M' && user_info['genre'] === 'M')
-                    sql2 = '(genre = "M" AND (desire = "M" OR desire = "B"))) AS B;'
+                    sql2 = '(genre = "M" AND (desire = "M" OR desire = "B"))) AS B'
                 else if (user_info['desire'] === 'F' && user_info['genre'] === 'M')
-                    sql2 = '(genre = "F" AND (desire = "M" OR desire = "B"))) AS B;'
+                    sql2 = '(genre = "F" AND (desire = "M" OR desire = "B"))) AS B'
                 else if (user_info['desire'] === 'F' && user_info['genre'] === 'F')
-                    sql2 = '(genre = "F" AND (desire = "F" OR desire = "B"))) AS B;'
+                    sql2 = '(genre = "F" AND (desire = "F" OR desire = "B"))) AS B'
                 else if (user_info['desire'] === 'M' && user_info['genre'] === 'F')
-                    sql2 = '(genre = "M" AND (desire = "F" OR desire = "B"))) AS B;'
+                    sql2 = '(genre = "M" AND (desire = "F" OR desire = "B"))) AS B'
                 else if (user_info['desire'] === 'B' && user_info['genre'] === 'M')
-                    sql2 = '((genre = "F" AND (desire = "M" OR desire = "B")) OR (genre = "M" AND (desire = "M" OR desire = "B")))) AS B;'
+                    sql2 = '((genre = "F" AND (desire = "M" OR desire = "B")) OR (genre = "M" AND (desire = "M" OR desire = "B")))) AS B'
                 else if (user_info['desire'] === 'B' && user_info['genre'] === 'F')
-                    sql2 = '((genre = "F" AND (desire = "F" OR desire = "B")) OR (genre = "M" AND (desire = "F" OR desire = "B")))) AS B;'
-                return (sql2)
+                    sql2 = '((genre = "F" AND (desire = "F" OR desire = "B")) OR (genre = "M" AND (desire = "F" OR desire = "B")))) AS B'
+                resolve(sql2)
             })
             .catch(catchError)
         })
     }
-    
-    static getAroundMe(ulat, ulng, range, uid) {
-        console.log("getAroundMe")
-        return new Promise((resolve, reject) => {
-            // this.getMyChoice(uid)
-            // .then(sql2 => {
-                console.log("hey there")
-                let delta = range / (111.1 / Math.cos(ulat * 180 / Math.PI))
+
+    static theBigSearch(ulat, ulng, params, uid) {
+        return new Promise((res, rej)=> {
+            this.getMyChoice(uid)
+            .then(sql2 =>{
+                let delta = params.geoRange / (111.1 / Math.cos(ulat * 180 / Math.PI))
                 const lngMax = ulng - delta
                 const lngMin = ulng + delta
-                const dist = range / 111.1
+                const dist = params.geoRange / 111.1
                 const latMin = ulat - dist
                 const latMax = ulat + dist
                 console.log(lngMin + ' ' + lngMax + ' ' + latMin + ' ' + latMax)
-                let sql = "SELECT * , (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? AND id != ? HAVING distance < ? ORDER BY distance;"
-                connection.query(sql, [ulat, ulng, ulat, latMin, latMax, lngMin, lngMax, uid, range], (error, results) => {
+                const age = JSON.parse(params.ageRange)
+                const pop = JSON.parse(params.popRange)
+                let sql1 =  "SELECT name, lastname, age, bio, genre, id, (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance, A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE"
+                let sql3 = "lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? AND id != ? AND age BETWEEN ? AND ? HAVING distance < ? HAVING pop BETWEEN ? AND ? ORDER BY distance;"
+                connection.query(sql1 + sql2 + ',' + sql3, [ulat, ulng, ulat, uid, latMin, latMax, lngMin, lngMax, uid, age[0], age[1], params.geoRange, pop[0], pop[1]], (error, results) => {
                     if (error) {
                         console.log(error)
                         reject(error)
@@ -529,19 +530,19 @@ class User {
                         resolve(results)
                     }
                     resolve(undefined)
-            //     })
+                })
             })
+            .catch(catchError)
         })
-        .catch(catchError)
     }
 
     static GetPopularity(uid) {
         return new Promise((resolve, reject) => {    
-            this.getMychoiced(uid)
+            this.getMyChoice(uid)
             .then(sql2 => {
                 let sql = "SELECT A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE "
                 if (sql2 != undefined) {
-                    connection.query(sql + sql2, [uid], (error, result) => {
+                    connection.query(sql + sql2 + ";", [uid], (error, result) => {
                         if (error) throw error
                         if (Number(result[0].pop) > 1)
                             result[0].pop = 1

@@ -2,31 +2,31 @@ $(document).ready(function () {
 
     get_all_tags()
     
-    // function click_tags() { 
-    //     $("#div_list_tags").children().on('click', function(e){
+    function click_tags() { 
+        $("#div_list_tags").children().on('click', function(e){
             
-    //         console.log($(e.target).text())
-    //         $("#return_tags").empty()
-    //         // $('#div_list_tags').empty()
+            console.log($(e.target).text())
+            $("#return_tags").empty()
+            // $('#div_list_tags').empty()
 
-    //         if ($(e.target).text().length < 15) {
-    //             $.get('/profil/add_tag', {new_tag: $(e.target).text()}, (data, jqHXR) => {
-    //                 if (jqHXR === "success") {
-    //                     if (data[0] === false && data[1] === 'redirect_error')
-    //                         window.location.replace("/error")
-    //                     else if (data[0] === false)
-    //                         document.getElementById("return_tags").innerHTML = data[1]
-    //                     else if (data[0] === true) {
-    //                         $('#div_user_tags').prepend('<div class="user_tag">' + data[1] + '<a id="del_tag_' + data[1] + '" class="del_tag" href=\'#\'>x</a></div>')
-    //                         click_del_tag($('#del_tag_' + data[1]))
-    //                     }
-    //                 }
-    //             })
-    //         }
-    //         else
-    //             document.getElementById("return_tags").innerHTML = 'Tag too long' 
-    //     })
-    // }
+            if ($(e.target).text().length < 15) {
+                $.get('/profil/add_tag', {new_tag: $(e.target).text()}, (data, jqHXR) => {
+                    if (jqHXR === "success") {
+                        if (data[0] === false && data[1] === 'redirect_error')
+                            window.location.replace("/error")
+                        else if (data[0] === false)
+                            document.getElementById("return_tags").innerHTML = data[1]
+                        else if (data[0] === true) {
+                            $('#div_user_tags').prepend('<div class="user_tag">' + data[1] + '<a id="del_tag_' + data[1] + '" class="del_tag" href=\'#\'>x</a></div>')
+                            click_del_tag($('#del_tag_' + data[1]))
+                        }
+                    }
+                })
+            }
+            else
+                document.getElementById("return_tags").innerHTML = 'Tag too long' 
+        })
+    }
 
     function get_all_tags() {
         $.get('/profil/get_all_tags', {tag_search: ''}, (data, jqHXR) => {
