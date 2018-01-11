@@ -87,16 +87,6 @@ $(document).ready(function () {
             .fail(rej)
             .done(res)  
         })
-        // .then(d => {
-        //     if (d === "login")
-        //     {
-        //         return new Promise((res, rej) => {
-        //             $.get(url)
-        //             .fail(rej)
-        //             .done(res)
-        //         })
-        //     }
-        // })
         .then(funcCallBackRequest)
         .catch(console.log);
     })

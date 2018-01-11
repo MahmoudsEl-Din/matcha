@@ -114,12 +114,12 @@ class init_db {
                 "(5, 'Lucielaouf', 'Lucie', 'f5df468b0b927da659265c05988bdb8b8ed54e1abc21770215e6f381feaaa6080d06ac3e3ec7a9ab0d7bdab953849ea2151752f3b66c04fb11f1e94c0aaa7a5a', 'Mailly', 'lucie@mailinator.com', 'F', 'F', 'Coucou, moi c lucie je cherche des filles sympa pour discuter et peut etre plus. Bisous', 27, 43.587613, 1.446247)," + //mdp = Lulu123456789 Toulouse (musee des augustins suce moi)                                              
                 "(6, 'Botozo', 'Audric', '876b1d2a8ff6ed427770d3351d824a4e2230d52a5cd73f4bd979cb600a2df87da55601e242d792fa255befcad8fc59a23df859f448ae66ada580a7f6cb3522b5', 'Proulx', 'botozo78@mailinator.com', 'M', 'M', 'Cherche partenaire serieux pour choses', 45, 45.764043, 4.835759)," + //mdp = Lolcat78  Lyon Cordeliers                                             
                 "(7, 'LeaPassionCheval', 'Lea', '450a3792b22bfdae3bd8c144507d90ac08f4368168d63871b90187bb06ed59ab55dbf099a73f8b37f293353e5302fc967d57612766bc72e203392296548978dc', 'Blanc', 'cheval.love@mailinator.com', 'F', 'M', 'Si t un cheval like moi', 24, 43.593909, 4.468983)," + //mdp = ChevalAmour6 Arles Parc Naturel regional de Camargues
-                "(8, 'Coucou', 'Hello', '1455336ca87d3d07e7885ba9808f2a44171eef95bdbeeb16266e0d13afe9aeff21786e8bf81a790d328b896ca602ea5cc62fecefdb5a5d9878db6bf9cda3710a', 'tamere', 'coucou.hello@mailinator.com', 'H', 'F', 'Je veux des petites', 65, 48.8582, 2.3387)" + // test user pass ArthurestunC0n 42    
+                "(8, 'Coucou', 'Hello', '1455336ca87d3d07e7885ba9808f2a44171eef95bdbeeb16266e0d13afe9aeff21786e8bf81a790d328b896ca602ea5cc62fecefdb5a5d9878db6bf9cda3710a', 'tamere', 'coucou.hello@mailinator.com', 'M', 'F', 'Je veux des petites', 65, 48.8582, 2.3387)" + // test user pass ArthurestunC0n 42    
                 ";" 
                 this.connection.query(sql, (error) => {
                     if (error) throw error
                 })
-                sql = "INSERT INTO `tag_list` (`tag_name`) VALUES ('sexy'), ('cheum'), ('tesson de bouteille'), ('hashtag'), ('boucherie')" +
+                sql = "INSERT INTO `tag_list` (`tag_name`) VALUES ('sexy'), ('cheum'), ('bardot'), ('hashtag'), ('boucherie')" +
                 ";" 
                 this.connection.query(sql, (error) => {
                 if (error) throw error
