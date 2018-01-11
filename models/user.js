@@ -524,10 +524,11 @@ class User {
                 for (let i = 0; i < results.length; i++) {
                     this.GetPopularity(results[i]['id'])
                     .then(grade => {
-                        if (grade < pop[0] || grade > pop[1])
-                            results.splice(i, 1)
-                        else
-                            results[i]['pop'] = grade
+                        if (grade * 100 < pop[0] || grade * 100 > pop[1])
+                            console.log("delete")
+                            // results.splice(i, 1)
+                        
+                        results[i]['pop'] = grade
                     })
                     .catch(catchError)
                 }
@@ -580,11 +581,11 @@ class User {
                         let sql = "SELECT A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE "
                         if (sql2 != undefined) {
                             connection.query(sql + sql2 + ") AS B;", [uid], (error, result) => {
-                                console.log(result)
                                 if (error) throw error
                                 if (Number(result[0].pop) > 1)
                                     result[0].pop = 1
-                                resolve(result[0])
+                                console.log(result)
+                                resolve(result)                             
                             })
                         }
                         else
