@@ -517,23 +517,16 @@ class User {
     }
 
     static AddPop(results, pop) {
-        console.log("coucou")
-        return new Promise(
-            (res, rej) => {
-                console.log(results)
-                for (let i = 0; i < results.length; i++) {
-                    this.GetPopularity(results[i]['id'])
-                    .then(grade => {
-                        if (grade * 100 < pop[0] || grade * 100 > pop[1])
-                            console.log("delete")
-                            // results.splice(i, 1)
-                        
-                        results[i]['pop'] = grade
-                    })
-                    .catch(catchError)
-                }
-                res(results)
+       Promise.all(results.map(item => {
+        this.GetPopularity(item.id)
+        .then(grade => {
+            item.note = grade
+            console.log(item)            
         })
+    })).then(diditwork => {
+           console.log("did it work ? : " +diditwork)
+           return diditwork
+       })
     }
 
     static theBigSearch(params, uid) {
@@ -552,7 +545,7 @@ class User {
                
                         let sql = "SELECT name, lastname, age, bio, genre, id, (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? AND id != ? AND "
                         let sql3 = "AND age BETWEEN ? AND ? HAVING distance < ? ORDER BY distance;"
-                       // console.log("SELECT name, lastname, age, bio, genre, id, (6371 * acos(cos(radians("+ulat+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+ulng+")) + sin(radians("+ulat+")) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" AND lng BETWEEN "+geoArray[0]+" AND "+geoArray[1]+" AND id != "+uid+" AND " + sql2 + "AND age BETWEEN "+age[0]+" AND "+age[1]+" HAVING distance < "+params.geoRange+" ORDER BY distance;" )
+                       //console.log("SELECT name, lastname, age, bio, genre, id, (6371 * acos(cos(radians("+ulat+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+ulng+")) + sin(radians("+ulat+")) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" AND lng BETWEEN "+geoArray[0]+" AND "+geoArray[1]+" AND id != "+uid+" AND " + sql2 + "AND age BETWEEN "+age[0]+" AND "+age[1]+" HAVING distance < "+params.geoRange+" ORDER BY distance;" )
                         connection.query(sql + sql2 + sql3, [ulat, ulng, ulat, geoArray[2], geoArray[3], geoArray[0], geoArray[1], uid, age[0], age[1], params.geoRange], (error, results) => {
                             if (error)
                                 console.log("coucou")
@@ -572,7 +565,7 @@ class User {
     }
 
     static GetPopularity(uid) {
-        console.log("getPopu")
+        console.log("getPopu, uid = " + uid)
         return new Promise((resolve, reject) => {
             this.GetAllById(uid)
             .then(user_info => {
@@ -580,12 +573,13 @@ class User {
                     .then(sql2 => {
                         let sql = "SELECT A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE "
                         if (sql2 != undefined) {
+                            console.log()
                             connection.query(sql + sql2 + ") AS B;", [uid], (error, result) => {
                                 if (error) throw error
                                 if (Number(result[0].pop) > 1)
                                     result[0].pop = 1
-                                console.log(result)
-                                resolve(result)                             
+                                console.log("end getPopu" + result[0].pop)
+                                resolve(result[0].pop)                             
                             })
                         }
                         else
