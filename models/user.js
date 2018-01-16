@@ -133,13 +133,16 @@ class User {
     }
 
     static GetAllById(id){
+        console.log("usefull method")
         return new Promise((resolve, reject) => {
             let sql = "SELECT * FROM users WHERE id = ?"
             connection.query(sql, id, (error, results) => {
                 if (error)
                     reject(error)
-                else if (results[0])
+                else if (results[0]) {
+                    console.log(results[0])
                     resolve(results[0])
+                }
                 resolve(undefined)
             })
         })
@@ -497,6 +500,8 @@ class User {
     }
 
     static getMyTarget(genre, desire) { //I dont want to do it but im forced please help me
+        console.log("getMyTarget") 
+        console.log(genre + ' ' + desire)
         return new Promise (
             (res, rej) => {
                 let target = undefined
@@ -512,21 +517,9 @@ class User {
                     target = "(genre = 'F' AND (desire = 'F' OR desire = 'B'))"
                 else if (genre === 'F' && desire === 'B')
                     target = "((genre = 'F' AND (desire = 'F' OR desire = 'B')) OR (genre = 'M' AND (desire = 'F' OR desire = 'B')))"
+                console.log(target)
                 res(target)
             })
-    }
-
-    static AddPop(results, pop) {
-       Promise.all(results.map(item => {
-        this.GetPopularity(item.id)
-        .then(grade => {
-            item.note = grade
-            console.log(item)            
-        })
-    })).then(diditwork => {
-           console.log("did it work ? : " +diditwork)
-           return diditwork
-       })
     }
 
     static theBigSearch(params, uid) {
@@ -544,17 +537,15 @@ class User {
                     .then(sql2 => {
                
                         let sql = "SELECT name, lastname, age, bio, genre, id, (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? AND id != ? AND "
-                        let sql3 = "AND age BETWEEN ? AND ? HAVING distance < ? ORDER BY distance;"
+                        let sql3 = " AND age BETWEEN ? AND ? HAVING distance < ? ORDER BY distance;"
                        //console.log("SELECT name, lastname, age, bio, genre, id, (6371 * acos(cos(radians("+ulat+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+ulng+")) + sin(radians("+ulat+")) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" AND lng BETWEEN "+geoArray[0]+" AND "+geoArray[1]+" AND id != "+uid+" AND " + sql2 + "AND age BETWEEN "+age[0]+" AND "+age[1]+" HAVING distance < "+params.geoRange+" ORDER BY distance;" )
                         connection.query(sql + sql2 + sql3, [ulat, ulng, ulat, geoArray[2], geoArray[3], geoArray[0], geoArray[1], uid, age[0], age[1], params.geoRange], (error, results) => {
                             if (error)
-                                console.log("coucou")
+                                rej(error)
                             else if (results) {
-                                this.AddPop(results, pop)
                                 res(results)
                             }
                         })
-
                     })
                     .catch(catchError)
                 })
