@@ -1,9 +1,9 @@
-import { v4 } from 'public-ip'
-const sqlLoader = require("sql-loader")
+// import { v4 } from 'public-ip'
 
 class init_db {
     constructor() {
         this.mysql = require('mysql')
+        const sqlLoader = require("sql-loader")
         this.connection = this.mysql.createConnection({
             host     : 'localhost',
             user     : 'root',
@@ -109,7 +109,8 @@ class init_db {
         this.connection.query(sql, (error, results) => {
             if (error) throw error
             if (results.length === 0) {
-                sql = sqlLoader("./user.sql")
+                // Larmina : Larmina777 JeanMiche : Test1234 s.foret2mailinator rAtOnLAVEUR888 lucie@mailinator.com Lulu123456789  botozo78@mailinator.com Lolcat78 cheval.love@mailinator.com ChevalAmour6
+                sql = sqlLoader("./users.sql")
                 this.connection.query(sql, (error) => {
                     if (error) throw error
                 })
