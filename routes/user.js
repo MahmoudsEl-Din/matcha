@@ -47,7 +47,7 @@ router.get('/get_user_info', (req, res) => {
     User.GetAllById(req.query.uid)
     .then((infos) => {
         res.send(infos)
-    })
+    }).catch(catchError)
 })
 
 router.get('/get_user_status', (req, res) => {
@@ -55,7 +55,7 @@ router.get('/get_user_status', (req, res) => {
     .then((time) => {
         momt = moment(time[0]['time']).fromNow()    
         res.send([time[0], momt])
-    })
+    }).catch(catchError)
 })
 
 router.get('/get_user_tags', (req, res) => {
@@ -86,6 +86,10 @@ router.get('/report_block', (req, res) => {
 router.get('/like_user', (req, res) => {
     User.Like(req.session.connected.id, req.query.uid)
     .then((ret) => {
+        if (ret[0] === true)
+            User.NewNotifLike(req.session.connected.id, req.query.uid, 'false')
+        else
+            User.NewNotifLike(req.session.connected.id, req.query.uid, 'true')    
         res.send(ret)
     }).catch(catchError)
 })

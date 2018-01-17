@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    var uid_current = undefined
     var getUrlParameter = function getUrlParameter(sParam) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
             sURLVariables = sPageURL.split('&'),
@@ -13,9 +14,17 @@ $(document).ready(function(){
             }
         }
     };
+    
+    $.get('/tools/user_id', null,(data, jqHXR) => { // Returns the id of the current user then we can put it in the socket
+        if (jqHXR === "success") {
+            if (data) {
+                uid_current = data
+                emit_visit(uid_current, uid)
+            }
+        }
+    })
 
     function get_user_tags(user) {
-        console.log(user)
         $.get('/user/get_user_tags', {uid: user['id']},(data, jqHXR) => {
             if (jqHXR === "success") {
                 if (data) {
@@ -33,10 +42,7 @@ $(document).ready(function(){
     var usr = undefined
 
     function getUserInfo(uid) {
-        console.log(uid)
-
         $.get('/user/get_user_info', {uid: uid},(data, jqHXR) => {
-            console.log(data)      
             if (data) {
                 usr = data;
                 get_user_time(uid)
@@ -60,7 +66,6 @@ $(document).ready(function(){
                         msg = '0%'
                     else
                         msg = data
-                    console.log(data)           
                     $('#popu').children().text("Popularity: " + msg)
                 }
             }
@@ -121,9 +126,6 @@ $(document).ready(function(){
             if (data) {
                 var n = (new Date).getTime();                
                 sub = n - data[0]['time']
-                console.log(data[0])
-                console.log(n)
-                console.log(data[0]['time'])                
                 if (data[0]['logout'] === 1 || n - data[0]['time'] > 300000) { // if user is not logged or no activity in 5 minutes
                     $('#connected').append('<h4 id=\'connected_p\'>Last logged: ' + data[1] + '</h4>')
                     $('#connected_p').attr('style', 'color:red; text-shadow: 2px 2px black;')
@@ -172,14 +174,17 @@ $(document).ready(function(){
 
     $('#like').click((e) => {
         e.preventDefault()
-        clear_returns()                        
+        clear_returns()
         $.get('/user/like_user', {uid: uid}, (data, jqHXR) => {
             if (data) {
-                console.log(data)
-                if (data[0] === true)
+                if (data[0] === true){
                     $("#like").removeClass('btn-danger').addClass('btn-success').text('Like')
-                else if (data[0] === false)
+                    emit_like(uid_current, uid, 'dislike')     
+                }
+                else if (data[0] === false) {
                     $("#like").removeClass('btn-success').addClass('btn-danger').text('Unlike')
+                    emit_like(uid_current, uid, 'like')                         
+                }
                 else
                     $("#return_like").append('<p style=\'color:red\'>' + data +'</p>')            
                 get_other_like(usr)

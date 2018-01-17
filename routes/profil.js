@@ -6,10 +6,13 @@ var GetDb = require('../models/get_db.js')
 var formidable = require('formidable');
 var fs = require('fs');
 var mv = require('mv')
+var history = require('./history.js')
 
 let catchError = (error) => {
     console.error(error)
 }
+
+router.use('/history', history)
 
 router.get('/', (req, res) => {
     let username = undefined
@@ -378,5 +381,7 @@ router.get(('/change_pos'), (req, res) => {
             res.send(ret)
         }).catch(catchError)
 })
+
+
 
 module.exports = router

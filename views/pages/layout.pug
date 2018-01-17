@@ -6,10 +6,10 @@ html
         script(src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous")
         script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous")
-        //script(src="https://cdn.jsdelivr.net/npm/vue")
-        script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js")
+        script(src="http://localhost:7777/socket.io/socket.io.js")
 
-        script(src="assets/javascript/layout.js")
+        script(src="assets/javascript/layout.js" type="text/javascript")
+        script(src="assets/javascript/sockets.js" type="text/javascript")        
 
         link(rel="stylesheet" href="/assets/semantic/semantic.min.css")
         link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous")
@@ -27,9 +27,11 @@ html
                 div.col-6.col-md-2
                     a(href="/")
                         h2.font-cheap.font-shadow-pink MATCHA
-                div.col-6.col-md-8
-                div.col-6.col-md-2.text-center
-                    -if (session.connected.state === false)
+
+                -if (session.connected.state === false)
+                    div.col-6.col-md-8
+                
+                    div.col-6.col-md-2.text-center
                         div.row.p-1.justify-content-center.d-flex
                             a
                                 h7#connexion.text-center.font-cheap.font-shadow-pink CONNEXION 
@@ -62,16 +64,26 @@ html
                         div.row.p-1.justify-content-center
                             a(href="/signup")
                                 h7.text-center.font-cheap.font-shadow-pink INSCRIPTION
-                    -else
-                        a(href="/profil")#profil 
-                            h1.font-cheap.font-shadow-pink= username
-                        a#logout
-                            h3.font-cheap.font-shadow-pink LOGOUT
+                -else
+                    div.col-6.col-md-6
+                    div.col-6.col-md-4.container-fluid
+                        div.row
+                            div.col 
+                                a
+                                    img#notif_picture(src='/assets/ressources/bell.png' style='background-color: white;border-radius:500px;height:50px;')
+                                    h4#notif_number.text-center.d-none(style='color:white;background-color:red;width:25px;border-radius:100px;position:relative;bottom:15px;left:33px;') 0
+                                div#dropdown_notif.dropdown-menu.p-3.w-100
+                                    div#div_notif
+                            div.col.p-1.justify-content-right.d-flex
+                                a(href="/profil")#profil 
+                                    h1.font-cheap.font-shadow-pink= username
+                                a#logout
+                                    h3.font-cheap.font-shadow-pink LOGOUT
             div#maindiv.row.h-100   
                 block content
 
             div.footer.row.p-2
                 span afanneau + nterol
-        script(src="assets/javascript/login.js")
-        script(src="assets/javascript/reset_password.js")
-        script(src="assets/javascript/logout.js")
+        script(src="assets/javascript/login.js" type="text/javascript")
+        script(src="assets/javascript/reset_password.js" type="text/javascript")
+        script(src="assets/javascript/logout.js" type="text/javascript")

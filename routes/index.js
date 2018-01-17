@@ -8,7 +8,7 @@ let catchError = (error) => {
 
 router.get('/', (req, res) => {
     let username = undefined
-    console.log(req.session)
+
     if (!req.session.connected){
         req.session.connected = {'state': false, 'id': undefined}
     }
