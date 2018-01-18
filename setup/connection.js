@@ -119,7 +119,7 @@ class init_db {
             if (error) throw error
             if (results.length === 0) {
                 // Larmina : Larmina777 JeanMiche : Test1234 s.foret2mailinator rAtOnLAVEUR888 lucie@mailinator.com Lulu123456789  botozo78@mailinator.com Lolcat78 cheval.love@mailinator.com ChevalAmour6
-                sql = "LOAD DATA LOCAL INFILE '/users.csv' INTO TABLE users FIELDS TERMINATED BY ',' ENCLOSED BY '\"'LINES TERMINATED BY '\n' IGNORE 1 ROWS;"
+                sql = "LOAD DATA LOCAL INFILE '~/http/MyWebSite/matcha/setup/users.csv' INTO TABLE users FIELDS TERMINATED BY ',' ENCLOSED BY '\"'LINES TERMINATED BY '\n' IGNORE 1 ROWS;"
                 this.connection.query(sql, (error) => {
                     if (error) throw error
                 })
