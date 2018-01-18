@@ -3,12 +3,6 @@
 class init_db {
     constructor() {
         this.mysql = require('mysql')
-        this.importer = require("node-mysql-importer")
-        // this.importer.config({
-        //     host: 'localhost',
-        //     user : 'root',
-        //     password : 'qwerty'
-        // })
         this.connection = this.mysql.createConnection({
             host     : 'localhost',
             user     : 'root',
@@ -110,33 +104,25 @@ class init_db {
             if (error) throw error
         })
 
-        function dontLeaveMeEmpty (table, file) {
-            let sql = "SELECT * FROM ?;"
-            thi.connection.query(sql, [table], (error, results) => {
-                if (error) throw error
-                if (results.length === 0) {
-                    importer.importSQL(file).then(()=> {
-                        console.log("OK")
-                    }).catch(err => {
-                        console.log(`error: ${err}`)
-                    })
-                }
-            })
-        }
+        // function dontLeaveMeEmpty (table, file) {
+        //     let sql = "SELECT * FROM ?;"
+        //     thi.connection.query(sql, [table], (error, results) => {
+        //         if (error) throw error
+        //         if (results.length === 0) {
+                   
+        //         }
+        //     })
+        // }
 
         let sql = "SELECT * FROM users;"
         this.connection.query(sql, (error, results) => {
             if (error) throw error
             if (results.length === 0) {
                 // Larmina : Larmina777 JeanMiche : Test1234 s.foret2mailinator rAtOnLAVEUR888 lucie@mailinator.com Lulu123456789  botozo78@mailinator.com Lolcat78 cheval.love@mailinator.com ChevalAmour6
-                importer.importSQL('./users.sql').then(() => {
-                    console.log("OK")
-                }).catch(err => {
-                    console.log(`error : ${err}`)
+                sql = "LOAD DATA LOCAL INFILE '/users.csv' INTO TABLE users FIELDS TERMINATED BY ',' ENCLOSED BY '\"'LINES TERMINATED BY '\n' IGNORE 1 ROWS;"
+                this.connection.query(sql, (error) => {
+                    if (error) throw error
                 })
-                // this.connection.query(sql, (error) => {
-                //     if (error) throw error
-                // })
                 sql = "INSERT INTO `tag_list` (`tag_name`) VALUES ('sexy'), ('cheum'), ('bardot'), ('hashtag'), ('boucherie')" +
                 ";" 
                 this.connection.query(sql, (error) => {
