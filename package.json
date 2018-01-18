@@ -31,13 +31,13 @@
     "moment": "^2.20.1",
     "mv": "^2.1.1",
     "mysql": "^2.15.0",
+    "node-mysql-importer": "0.0.10",
     "node-where": "^1.1.0",
     "nodemailer": "^4.4.1",
     "nodemon": "^1.14.11",
     "public-ip": "^2.4.0",
     "pug": "^2.0.0-rc.4",
     "socket.io": "^2.0.4",
-    "sql-loader": "^1.0.3",
     "tags-input": "^1.1.1"
   }
 }
