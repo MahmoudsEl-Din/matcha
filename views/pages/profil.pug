@@ -7,33 +7,32 @@ block content
                 div.form-group.row.justify-content-center.mt-5
                         h1#username.text-white= user['username']
 
-                div.row-3.h-50.m-5.border.border-dark.container-fluid#div_pictures
-
-                        div.row.border.h-50.justify-content-center
-                                div.col-3.border.border-dark
+                div.row-8.m-8.border.border-dark.container-fluid#div_pictures(style={height: '400px'})
+                        div.row.border.justify-content-center(style={height:'73%', padding:'1%'})
+                                div.col-12.border.border-dark.h-100.w-100
                                         form(action="fileupload" method="post" enctype="multipart/form-data")
                                                 input(type='file' name='picture').d-none#pic1
                                                 input(type='submit' name="submitphotos").d-none#pic_sub                        
                                         img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img1.picture_none
-                                        div.picture_tools.w-100.d-none
+                                        div.picture_tools.w-25.d-none.m-auto
                                                 a.delete_picture Delete
-                        div.row.border.border-dark.h-50.p-5.d-flex.justify-content-around
-                                div.col-2.border
+                        div.row.border.border-dark.d-flex.justify-content-around(style={height:'25%'})
+                                div.col-2.border.h-100.w-100
                                         img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img2.picture_none
                                         div.picture_tools.w-100.d-none
                                                 a.delete_picture Delete
                                                 a.set_profil_pic Set profil pic
-                                div.col-2.border
+                                div.col-2.border.h-100.w-100
                                         img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img3.picture_none
                                         div.picture_tools.w-100.d-none
                                                 a.delete_picture Delete
                                                 a.set_profil_pic Set profil pic
-                                div.col-2.border
+                                div.col-2.border.h-100.w-100
                                         img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img4.picture_none
                                         div.picture_tools.w-100.d-none
                                                 a.delete_picture Delete
                                                 a.set_profil_pic Set profil pic
-                                div.col-2.border
+                                div.col-2.border.h-100.w-100
                                         img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img5.picture_none
                                         div.picture_tools.w-100.d-none
                                                 a.delete_picture Delete
@@ -41,7 +40,16 @@ block content
                         div.row
                                 div.w-100.d-flex.justify-content-center.form-group
                                         p#return_picture.text-danger
-                
+
+                button#button_historic(type="submit").btn.btn-success Historic
+                div#div_historic.container-fluid.justify-content-between.m-5(style={height:'15%'})
+                    div.row.p-3.m-5(style={height:'80%'}).justify-content-around
+                        div.col-4.h-100(style={color: 'red', padding: '50px', background: 'white'})
+                                h4.text-center Views
+                                div#div_notif_views.pre-scrollable.h-100(style={color: 'red', padding: '50px',  background: 'yellow'})                      
+                        div.col-4.h-100(style={color: 'red', padding: '50px', background: 'white'})
+                                h4.text-center Likes                       
+                                div#div_notif_likes.h-100(style={color: 'red', background: 'yellow', padding: '50px'}).pre-scrollable                    
                 form#form_profil.container(method="POST").text-center
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2

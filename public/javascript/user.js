@@ -183,7 +183,11 @@ $(document).ready(function(){
                 }
                 else if (data[0] === false) {
                     $("#like").removeClass('btn-success').addClass('btn-danger').text('Unlike')
-                    emit_like(uid_current, uid, 'like')                         
+                    console.log('data ---> ' + data)
+                    if (data[2] === true)
+                        emit_like(uid_current, uid, 'match')                         
+                    else
+                        emit_like(uid_current, uid, 'like')                         
                 }
                 else
                     $("#return_like").append('<p style=\'color:red\'>' + data +'</p>')            

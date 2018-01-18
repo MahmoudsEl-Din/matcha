@@ -477,6 +477,20 @@ class User {
         
     }
 
+    static IsMatching(uid, uid_target) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT COUNT(*) FROM likes WHERE (uid = ? AND uid_target = ?) OR (uid = ? AND uid_target = ?);"
+            connection.query(sql, [uid, uid_target, uid_target, uid], (error, result) => {
+                if (error) throw error
+                if (result && result[0] && result[0]['COUNT(*)'] === 2)
+                    resolve(true)
+                else
+                    resolve(false)
+            })
+        })
+        
+    }
+
     static Like(uid, uid_target) {
         return new Promise((resolve, reject) => {
             let ret = undefined

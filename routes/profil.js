@@ -6,13 +6,10 @@ var GetDb = require('../models/get_db.js')
 var formidable = require('formidable');
 var fs = require('fs');
 var mv = require('mv')
-var history = require('./history.js')
 
 let catchError = (error) => {
     console.error(error)
 }
-
-router.use('/history', history)
 
 router.get('/', (req, res) => {
     let username = undefined
@@ -41,6 +38,13 @@ router.get('/', (req, res) => {
     
 })
 
+router.get('/historic', (req, res) => {
+    User.GetAllById(req.session.connected.id)
+    .then((user_info) => {
+        username = user_info['username'].toUpperCase()
+        res.render('pages/historic', {session :req.session, username: username, user: user_info})
+    }).catch(catchError)
+}) 
 
 //Check email validity when user is typing
 router.post('/first_email', (req, res) => {

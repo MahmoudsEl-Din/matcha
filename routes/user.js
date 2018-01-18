@@ -84,13 +84,36 @@ router.get('/report_block', (req, res) => {
 })
 
 router.get('/like_user', (req, res) => {
+    var retfi = undefined
     User.Like(req.session.connected.id, req.query.uid)
     .then((ret) => {
-        if (ret[0] === true)
+        if (ret[0] === true) { //dislike
+            console.log('1')
             User.NewNotifLike(req.session.connected.id, req.query.uid, 'false')
-        else
-            User.NewNotifLike(req.session.connected.id, req.query.uid, 'true')    
-        res.send(ret)
+            res.send(ret)        
+        }
+        else { //like
+            console.log('2')
+            retfi = ret
+            return User.IsMatching(req.session.connected.id, req.query.uid)
+        }
+    })
+    .then((ret2) => {
+        console.log('ret2 ' + ret2)
+        if (ret2 !== undefined) {
+            console.log('3')
+            if (ret2 === false) {
+                console.log('dsfibdsifbiubsfiubsduibfiubwifubsiufbiub')
+                User.NewNotifLike(req.session.connected.id, req.query.uid, 'true')
+                retfi[2] = false
+            }
+            else {
+                console.log('lklklklkllklklklkllklklkllklklklklkllklklklkl')
+                User.NewNotifLike(req.session.connected.id, req.query.uid, 'match')
+                retfi[2] = true
+            }
+            return res.send(retfi)
+        }
     }).catch(catchError)
 })
 
@@ -125,3 +148,4 @@ router.get('/get_popularity', (req, res) => {
 })
 
 module.exports = router
+

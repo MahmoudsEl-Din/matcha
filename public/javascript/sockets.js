@@ -11,8 +11,10 @@
                     sender_name = data2
                     if (data.type === 1)
                         content = sender_name + ' viewed your profile'
-                    else if (data.type === 2)
+                    else if (data.type === 2 && data.like_type !== 'match')
                         content = sender_name + ' ' + data.like_type +'d your profile'
+                    else if (data.type === 2 && data.like_type === 'match')
+                        content = 'It\'s a match with ' + sender_name + ', nice !'
                     $('#div_notif').prepend('<a class=\'w-100 m-1 h-25 \' href(\'#\')><div class=\'notif\' style=\'background-color: #ffffff;\' >' + content + '</div></a>')
                 }
             })

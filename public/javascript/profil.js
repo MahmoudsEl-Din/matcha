@@ -3,6 +3,7 @@ $(document).ready(function(){
     get_user_tags()
     get_all_tags()
     get_pictures()
+    $('#div_historic').hide()
 
     function get_user_tags() {
         $.get('/profil/get_user_tags', { username : $('#username').text()},(data, jqHXR) => {
@@ -423,6 +424,47 @@ $(document).ready(function(){
             })
         }
         console.log(position); 
+    })
+
+    var historic_shown = false
+
+    $('#button_historic').click(function(e){
+        e.preventDefault()
+        if (historic_shown === false){
+            $('#div_historic').show('slow')    
+            historic_shown = true
+        }
+        else if (historic_shown === true){
+            $('#div_historic').hide('slow')    
+            historic_shown = false
+        }
+    })
+
+    $.post('/notif/get_notif', null, function(data, jqHXR) {  
+        if (jqHXR === "success") {
+            var content = ''
+            var sender_name = undefined
+            data.forEach((elem) => {
+                if (elem['shown'] === 0)
+                    new_notif += 1
+                if (elem['type'] === 1 || (elem['type'] === 2 && elem['data'] === 'true')) {
+                    $.get('/notif/get_user', {id: elem['uid_sender']}, function(data, jqHXR) {
+                        if (jqHXR === "success") {
+                            sender_name = data
+                            var style = 'style=\'background-color: #ffffff;\''
+                            if (elem['type'] === 1) {
+                                content = sender_name + ' viewed your profile'
+                                $('#div_notif_views').prepend('<a class=\'w-100 m-2 h-25 \' href(\'#\')><div class=\'notif\'' + style + ' >' + content + '</div></a>')
+                            }
+                            else if (elem['type'] === 2 && elem['data'] === 'true') {
+                                content = sender_name + ' liked your profile'
+                                $('#div_notif_likes').prepend('<a class=\'w-100 m-2 h-25 \' href(\'#\')><div class=\'notif\'' + style + ' >' + content + '</div></a>')
+                            }
+                        }
+                    })
+                }
+            })
+        }
     })
 
 })

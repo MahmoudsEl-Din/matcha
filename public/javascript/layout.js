@@ -1,28 +1,8 @@
 $(document).ready(function(){
     // var socket = io.connect('http://localhost:7777');        
-    // console.log(socket)
 
     var displayed = false;
     display_notif()    
-
-    // socket.on('new_notif', data => {
-    //     console.log('new_notif BITCH')
-    //     var content = ''
-    //     var sender_name = undefined
-    //     if (data.type === 1 || data.type === 2) {
-    //         $.get('/notif/get_user', {id: data.uid_visitor}, function(data2, jqHXR) {
-    //             if (jqHXR === "success") {
-    //                 sender_name = data2
-    //                 if (data.type === 1)
-    //                     content = sender_name + ' viewed your profile'
-    //                 else if (data.type === 2)
-    //                     content = sender_name + ' liked your profile'
-    //                 $('#div_notif').prepend('<a class=\'w-100 m-1 h-25 \' href(\'#\')><div class=\'notif\' style=\'background-color: #ffffff;\' >' + content + '</div></a>')
-    //             }
-    //         })
-    //     }
-    //     $('#notif_number').text($('#notif_number').innerHTML() + 1)
-    // })
 
     function display_notif(){
         $.post('/notif/get_notif', null, function(data, jqHXR) {  
@@ -39,8 +19,12 @@ $(document).ready(function(){
                                 sender_name = data
                                 if (elem['type'] === 1)
                                     content = sender_name + ' viewed your profile'
-                                else if (elem['type'] === 2)
+                                else if (elem['type'] === 2 && elem['data'] === 'true')
                                     content = sender_name + ' liked your profile'
+                                else if (elem['type'] === 2 && elem['data'] === 'false')
+                                    content = sender_name + ' disliked your profile'
+                                else if (elem['type'] === 2 && elem['data'] === 'match')
+                                    content = 'It\'s a match with ' + sender_name + ', nice !'
                                 if (elem['shown'] === 1)
                                     var style = 'style=\'background-color: #f2f2f2;\''
                                 else
@@ -67,6 +51,7 @@ $(document).ready(function(){
         $("#dropdown_notif").hide("slow")
         if (displayed === true) {
             $('#div_notif a .notif').removeAttr('style').attr('style', 'background-color: #f2f2f2;');
+            $('#notif_number').addClass('d-none')
             document.getElementById('notif_number').innerHTML = 0;
             displayed = false
         }
@@ -115,4 +100,37 @@ $(document).ready(function(){
         e.stopPropagation() // This is the preferred method.
         return false
     })
+
+    console.log(window.location.pathname)
+    if (window.location.pathname === '/profil/historic') {
+        console.log('testsetsdnco osic osoic so')
+        $.post('/notif/get_notif', null, function(data, jqHXR) {  
+            if (jqHXR === "success") {
+                console.log('sdfjnsndof nsoninsoinoin')
+
+                var content = ''
+                var sender_name = undefined
+                data.forEach((elem) => {
+                    if (elem['type'] === 1 || (elem['type'] === 2 && elem['data'] === 'true')) {
+                        $.get('/notif/get_user', {id: elem['uid_sender']}, function(data, jqHXR) {
+                            if (jqHXR === "success") {
+                                sender_name = data
+                                if (elem['type'] === 1)
+                                    content = sender_name + ' viewed your profile'
+                                else if (elem['type'] === 2 && elem['data'] === 'true')
+                                    content = sender_name + ' liked your profile'
+                                var style = 'style=\'background-color: #ffffff;\''
+                                if (elem['type'] === 1)
+                                    $('#div_notif_views').prepend('<a class=\'w-100 m-1 h-25 \' href(\'#\')><div class=\'notif\'' + style + ' >' + content + '</div></a>')
+                                if (elem['type'] === 1)
+                                    $('#div_notif_likes').prepend('<a class=\'w-100 m-1 h-25 \' href(\'#\')><div class=\'notif\'' + style + ' >' + content + '</div></a>')
+                                
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }
+
 })

@@ -14,7 +14,6 @@ router.post('/get_notif', (req, res) => {
 })
 
 router.get('/get_user', (req, res) => {
-    console.log(req.query.id)
     if (req.query.id) {
         User.GetAllById(req.query.id)
         .then((user) => {
