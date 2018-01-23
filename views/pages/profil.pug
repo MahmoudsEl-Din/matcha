@@ -2,38 +2,38 @@ extends layout
         
 block content
         
-        div.container.text-center
+        div.mt-5.mb-5.container.text-center(style="background-color: white")
 
                 div.form-group.row.justify-content-center.mt-5
-                        h1#username.text-white= user['username']
+                        h1#username= user['username']
 
-                div.row-8.m-8.border.border-dark.container-fluid#div_pictures(style={height: '400px'})
-                        div.row.border.justify-content-center(style={height:'73%', padding:'1%'})
-                                div.col-12.border.border-dark.h-100.w-100
+                div.row-8.m-8.border.container-fluid#div_pictures(style={height: '400px'})
+                        div.row.justify-content-center(style={height:'73%', padding:'1%'})
+                                div.col-12.h-100.w-100
                                         form(action="fileupload" method="post" enctype="multipart/form-data")
                                                 input(type='file' name='picture').d-none#pic1
                                                 input(type='submit' name="submitphotos").d-none#pic_sub                        
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img1.picture_none
+                                        img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img1.picture_none
                                         div.picture_tools.w-25.d-none.m-auto
                                                 a.delete_picture Delete
-                        div.row.border.border-dark.d-flex.justify-content-around(style={height:'25%'})
+                        div.row.d-flex.justify-content-around(style={height:'25%'})
                                 div.col-2.border.h-100.w-100
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img2.picture_none
+                                        img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img2.picture_none
                                         div.picture_tools.w-100.d-none
                                                 a.delete_picture Delete
                                                 a.set_profil_pic Set profil pic
                                 div.col-2.border.h-100.w-100
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img3.picture_none
+                                        img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img3.picture_none
                                         div.picture_tools.w-100.d-none
                                                 a.delete_picture Delete
                                                 a.set_profil_pic Set profil pic
                                 div.col-2.border.h-100.w-100
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img4.picture_none
+                                        img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img4.picture_none
                                         div.picture_tools.w-100.d-none
                                                 a.delete_picture Delete
                                                 a.set_profil_pic Set profil pic
                                 div.col-2.border.h-100.w-100
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img5.picture_none
+                                        img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img5.picture_none
                                         div.picture_tools.w-100.d-none
                                                 a.delete_picture Delete
                                                 a.set_profil_pic Set profil pic
@@ -41,23 +41,23 @@ block content
                                 div.w-100.d-flex.justify-content-center.form-group
                                         p#return_picture.text-danger
 
-                button#button_historic(type="submit").btn.btn-success Historic
-                div#div_historic.container-fluid.justify-content-between.m-5(style={height:'15%'})
-                    div.row.p-3.m-5(style={height:'80%'}).justify-content-around
+                button#button_historic(type="submit").btn.btn-success.m-5.mb-0 Historic
+                div#div_historic.container-fluid.justify-content-between.m-5(style={height:'15%'}).border.m-auto
+                    div.row.p-3.m-5(style={height:'80%'}).justify-content-around.mt-0
                         div.col-4.h-100(style={color: 'red', padding: '50px', background: 'white'})
                                 h4.text-center Views
                                 div#div_notif_views.pre-scrollable.h-100(style={color: 'red', padding: '50px',  background: 'yellow'})                      
                         div.col-4.h-100(style={color: 'red', padding: '50px', background: 'white'})
                                 h4.text-center Likes                       
                                 div#div_notif_likes.h-100(style={color: 'red', background: 'yellow', padding: '50px'}).pre-scrollable                    
-                form#form_profil.container(method="POST").text-center
+                form#form_profil.container(method="POST")
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2
-                                        label#label_firstname.text-white(for="profil_firstname")= user['name']
+                                        label#label_firstname(for="profil_firstname")= user['name']
                                 //- div.w-100
-                                div.col-2
+                                div.col-2.mt-auto.mb-auto
                                         input#profil_firstname.form-control(type="text" placeholder="Edit first name" maxlength="20" name="profil_firstname")
-                                div.col-1
+                                div.col-1.mt-auto.mb-auto
                                         button#submit_firstname(type="submit").btn.btn-primary Edit
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_firstname.text-danger
@@ -65,21 +65,21 @@ block content
                 form#form_profil.container(method="POST").text-center
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2
-                                        label#label_lastname.text-white(for="profil_lastname")= user['lastname']
+                                        label#label_lastname(for="profil_lastname")= user['lastname']
                                 //- div.w-100
-                                div.col-2
+                                div.col-2.mt-auto.mb-auto
                                         input#profil_lastname.form-control.border(type="text" placeholder="Edit last name" maxlength="199" name="profil_lastname")
-                                div.col-1
+                                div.col-1.mt-auto.mb-auto
                                         button#submit_lastname(type="submit").btn.btn-primary Edit
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_lastname.text-danger
 
                 form#form_profil.container(method="POST").text-center
                         div.form-group.row.justify-content-center.mb-3
-                                div.col-2
-                                        label#label_gender.text-white(for="profil_gender")= user['genre']
+                                div.col-2.mt-auto.mb-auto
+                                        label#label_gender(for="profil_gender")= user['genre']
                                 //- div.w-100
-                                div.col-2
+                                div.col-3.mt-auto.mb-auto
                                         select#profil_gender(name="profil_gender")
                                                 -if (user['genre'] === 'No gender')
                                                         option(value="B") No gender
@@ -99,9 +99,9 @@ block content
                 form#form_profil.container(method="POST").text-center.mt-5
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2
-                                        label#label_desire.text-white(for="profil_desire")= user['desire']
+                                        label#label_desire(for="profil_desire")= user['desire']
                                 //- div.w-100
-                                div.col-2
+                                div.col-3.mt-auto.mb-auto
                                         select#profil_desire(name="profil_desire")
                                                 -if (user['desire'] === 'I like all')
                                                         option(value="B") I like both
@@ -121,11 +121,11 @@ block content
                 form#form_profil.container(method="POST").text-center.mt-5
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2
-                                        label#label_email.text-white(for="profil_email")= user['email']
+                                        label#label_email(for="profil_email")= user['email']
                                 //- div.w-100
-                                div.col-2
+                                div.col-2.mt-auto.mb-auto
                                         input#profil_email.form-control(type="email" placeholder="Edit email" maxlength="199" name="profil_email")
-                                div.col-1
+                                div.col-1.mt-auto.mb-auto
                                         button#submit_email(type="submit").btn.btn-primary Edit
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_email.text-danger
@@ -133,11 +133,11 @@ block content
                 form#form_profil.container(method="POST").text-center
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2
-                                                label#label_age.text-white(for="profil_age")= user['age']
+                                        label#label_age(for="profil_age")= user['age']
                                 //- div.w-100
-                                div.col-2
+                                div.col-2.mt-auto.mb-auto
                                         input#profil_age.form-control(type="number" placeholder="Set your age" maxlength="20" name="profil_age")
-                                div.col-1
+                                div.col-1.mt-auto.mb-auto
                                         button#submit_age(type="submit").btn.btn-primary Edit
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_age.text-danger
@@ -146,14 +146,14 @@ block content
                 form#form_profil.container(method="POST").text-center.mt-5      
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2
-                                        h3.text-white Biography
+                                        h3 Biography
                                 div.w-100                        
                                 div.w-50
                                         label#label_bio.text-white(for="profil_bio")= user['bio']
                                 div.w-100
-                                div.w-50
+                                div.w-50.mt-auto.mb-auto
                                         input#profil_bio.form-control(type="text" placeholder="Edit your biography (Max 249 characters)" maxlength="249" name="profil_bio")
-                                div.col-1
+                                div.col-1.mt-auto.mb-auto
                                         button#submit_bio(type="submit").btn.btn-primary Edit
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_bio.text-danger
@@ -161,8 +161,8 @@ block content
                 form#form_profil.container(method="POST").text-center.mt-5      
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2
-                                        h3.text-white Tags
-                                div.w-100                        
+                                        h3 Tags
+                                div.w-100
                                 div#div_user_tags.col-4
                                         
                                 div.w-100

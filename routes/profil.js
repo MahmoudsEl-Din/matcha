@@ -13,7 +13,6 @@ let catchError = (error) => {
 
 router.get('/', (req, res) => {
     let username = undefined
-    console.log(req.connection.remoteAddress)
     if (req.session.connected.state !== false) {
         User.GetAllById(req.session.connected.id)
         .then((user_info) => {
@@ -252,7 +251,6 @@ router.post('/change_age', (req, res) => {
 router.get('/get_user_tags', (req, res) => {
     if (req.session.connected && req.session.connected.id)
     {
-        console.log('ON EST DANS UNE REAUETE')
         User.GetIdByUsername(req.query.username)
         .then((uid) => {
             return User.GetTags(uid)
@@ -266,7 +264,6 @@ router.get('/get_user_tags', (req, res) => {
 
 // Del tags to print the page
 // router.get('/del_user_tags', (req, res) => {
-//     console.log(req)
 //     // User.GetIdByUsername(req.query.username)
 //     // .then((uid) => {
 //         // return User.GetTags(uid)

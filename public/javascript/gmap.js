@@ -53,12 +53,10 @@ $(document).ready(function(){
         marker.setPosition(null)
         sendPos(null)
       })
-      console.log()
     }
   }
 
   function sendPos(pos) {
-    console.log(pos)
     if (pos === null) {
       $.get('/profil/change_pos', {}, function(data, jqHXR) {  
         if (jqHXR === "success")

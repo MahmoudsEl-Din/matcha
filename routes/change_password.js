@@ -10,7 +10,6 @@ let catchError = (error) => {
 }
 
 router.post('/', (req, res) => {
-    console.log(req.body)
     var id = undefined
     if (req.body.username === '' || req.body.password === '' || req.body.cpassword === '')
         return res.send([false, 'Empty field(s)'])
@@ -45,7 +44,6 @@ router.post('/', (req, res) => {
             res.send([false, 'Code doesn\'t match'])
     }).then((password_changed) => {
         if (password_changed){
-            console.log("MTNONGI")
             return AddDb.RemoveCodeByCode(req.body.code, 2)
         }
         else if (password_changed === false)

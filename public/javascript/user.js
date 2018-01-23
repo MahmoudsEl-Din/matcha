@@ -28,7 +28,6 @@ $(document).ready(function(){
         $.get('/user/get_user_tags', {uid: user['id']},(data, jqHXR) => {
             if (jqHXR === "success") {
                 if (data) {
-                    console.log('get user tag DATA  TATAT')
                     data.forEach((elem) => {
                         $('#div_user_tags').append('<div class="user_tag">' + elem['tag_name'] + '</div>')
                     })
@@ -183,7 +182,6 @@ $(document).ready(function(){
                 }
                 else if (data[0] === false) {
                     $("#like").removeClass('btn-success').addClass('btn-danger').text('Unlike')
-                    console.log('data ---> ' + data)
                     if (data[2] === true)
                         emit_like(uid_current, uid, 'match')                         
                     else

@@ -157,7 +157,7 @@ class init_db {
 
                 sql = "INSERT INTO `notif` VALUES"+
                     "(1, 6, 2, 1, NULL, 1)," +
-                    "(2, 6, 2, 2, NULL, 0)" +                    
+                    "(2, 6, 2, 2, 'false', 0)" +                    
                 ";" 
                 this.connection.query(sql, (error) => {
                     if (error) throw error

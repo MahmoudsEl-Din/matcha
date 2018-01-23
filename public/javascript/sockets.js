@@ -1,11 +1,9 @@
     var socket = io.connect('http://localhost:7777');        
 
     socket.on('new_notif', data => {
-        console.log('new_notif BITCH')
         var content = ''
         var sender_name = undefined
         if (data.type === 1 || data.type === 2) {
-            console.log(data)
             $.get('/notif/get_user', {id: data.uid_visitor}, function(data2, jqHXR) {
                 if (jqHXR === "success") {
                     sender_name = data2

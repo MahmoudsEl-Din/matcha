@@ -2,8 +2,10 @@ $(document).ready(function(){
     // var socket = io.connect('http://localhost:7777');        
 
     var displayed = false;
-    display_notif()    
 
+    if($("#notif_picture").length !== 0)
+        display_notif()
+        
     function display_notif(){
         $.post('/notif/get_notif', null, function(data, jqHXR) {  
             if (jqHXR === "success") {
@@ -101,13 +103,9 @@ $(document).ready(function(){
         return false
     })
 
-    console.log(window.location.pathname)
     if (window.location.pathname === '/profil/historic') {
-        console.log('testsetsdnco osic osoic so')
         $.post('/notif/get_notif', null, function(data, jqHXR) {  
-            if (jqHXR === "success") {
-                console.log('sdfjnsndof nsoninsoinoin')
-
+            if (jqHXR === "success" && data) {
                 var content = ''
                 var sender_name = undefined
                 data.forEach((elem) => {
@@ -124,7 +122,6 @@ $(document).ready(function(){
                                     $('#div_notif_views').prepend('<a class=\'w-100 m-1 h-25 \' href(\'#\')><div class=\'notif\'' + style + ' >' + content + '</div></a>')
                                 if (elem['type'] === 1)
                                     $('#div_notif_likes').prepend('<a class=\'w-100 m-1 h-25 \' href(\'#\')><div class=\'notif\'' + style + ' >' + content + '</div></a>')
-                                
                             }
                         })
                     }

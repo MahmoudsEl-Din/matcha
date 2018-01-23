@@ -23,7 +23,6 @@ class Check {
             else {
                 let sql = 'SELECT * FROM code WHERE code = ?'
                 connection.query(sql, code, (error, results) => {
-                    console.log(results)
                     if (error)
                         reject(error)
                     if (results.length === 0)

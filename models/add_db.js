@@ -64,9 +64,7 @@ class addDb {
                 uid = userid
                 return this.AddCode(userid, code, 1, 1)
             }).then((ret) => {
-                console.log(ret)
                 if (ret[0] === true) {
-                    console.log('jisuisici')
                     let time = (new Date).getTime();
                     var content = "Hi " + form.signup_username + ",Activate your account by clicking here :\n" + req.protocol + '://' + req.get('host') + "/code_verif?code=" + code + "\n"
                     Tools.SendMail(form.signup_email , 'Matcha: account activation', content)
@@ -97,9 +95,6 @@ class addDb {
 
     static AddCode(userid, code, type, req){
         return new Promise((resolve, reject) => {
-            console.log(userid)
-            console.log(code)
-            console.log(type)
             let sql = "INSERT INTO code (userid, code, type) VALUES(?, ?, ?);"
             connection.query(sql, [userid, code, type], (error, results) => {
                 if (error)

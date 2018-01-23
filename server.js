@@ -58,6 +58,8 @@ const search = require('./routes/search')
 var user = require('./routes/user')
 var notif = require('./routes/notif')
 var tools = require('./routes/tools')
+var chat = require('./routes/chat')
+
 
 
 app.use('/', middlewares.user_timer, index)
@@ -77,6 +79,7 @@ app.use('/search', middlewares.logged_needed, middlewares.gender_needed, search)
 app.use('/user', middlewares.logged_needed, user)
 app.use('/notif', middlewares.logged_needed, notif)
 app.use('/tools', middlewares.logged_needed, tools)
+app.use('/chat', middlewares.logged_needed, chat)
 
 app.use(function(req, res) {
     res.redirect('/error')
@@ -98,11 +101,9 @@ io.on('connection', function (socket) {
     var cookies = cookieParser.signedCookies(cookie.parse(socket.handshake.headers.cookie), 'clefchiffrement');
     var session_id = cookies['connect.sid'];
 
-    console.log(socket.client.id + '   Session id -> ' + session_id + ' Referer -> ' + socket.request.headers.referer)
     User.SetSocketID(socket.client.id, session_id)
 
     socket.on("user_login", data => {
-        // console.log(sessionid)
         User.SetSessionID(session_id, data.uid)
     })
 

@@ -31,7 +31,6 @@ $(document).ready(function(){
         $.post('/change_password', $('form#form_change').serialize() + '&code=' + code, function(data, jqHXR) {  
             if (jqHXR === "success") {
                 if (data[0] === false){
-                    console.log(data[1])
                     
                     $("#return-change").empty()
                     $("#return-change").addClass('text-danger').removeClass('text-success')
