@@ -18,35 +18,21 @@ router.get('/', (req, res) => {
     }).catch(catchError)
 })
 
-// router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag', 
+// router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag',
 //     (req, res) => {
+//         console.log("prout")
 //         if (req.session.connected.state !== false) {
-//             new Promise((res, rej) => {
-//                 User.theBigSearch(req.params, req.session.connected.id)
+//             console.log("lol")
+//             new Promise((resolve, reject) => {
+//                 User
+//                 .theBigSearch(req.params, req.session.connected.id)
 //                 .then(target => {
 //                     res.send(target)
 //                 })
 //                 .catch(console.log)
-//             })
+//             })     
 //         } else
-//             res.send(req.params)
+//             res.send(req.params);
 // })
-
-router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag',
-    (req, res) => {
-        console.log("prout")
-        if (req.session.connected.state !== false) {
-            console.log("lol")
-            new Promise((resolve, reject) => {
-                User
-                .theBigSearch(req.params, req.session.connected.id)
-                .then(target => {
-                    res.send(target)
-                })
-                .catch(console.log)
-            })     
-        } else
-            res.send(req.params);
-})
 
 module.exports = router

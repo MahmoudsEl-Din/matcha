@@ -20,7 +20,25 @@ router.get('/', (req, res) => {
         }).catch(catchError)
     }
     else 
-        res.render('pages/index', {session :req.session, username: username})
+        res.render('pages/index', {session :req.session, username: username})      
+})
+
+router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag',
+(req, res) => {
+    console.log("prout")
+    if (req.session.connected.state !== false) {
+        console.log("lol")
+        new Promise((resolve, reject) => {
+            User
+            .theBigSearch(req.params, req.session.connected.id)
+            .then(target => {
+                console.log(target)
+                res.render('pages/index', {session :req.session, target: target})
+            })
+            .catch(console.log)
+        })     
+    } else
+        res.send(req.params);
 })
 
 module.exports = router
