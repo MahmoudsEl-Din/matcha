@@ -536,13 +536,14 @@ class User {
                     this.getMyTarget(user_info['genre'], user_info['desire'])
                     .then(sql2 => {
                
-                        let sql = "SELECT name, lastname, age, bio, genre, id, (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? AND id != ? AND "
-                        let sql3 = " AND age BETWEEN ? AND ? HAVING distance < ? ORDER BY distance;"
-                       //console.log("SELECT name, lastname, age, bio, genre, id, (6371 * acos(cos(radians("+ulat+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+ulng+")) + sin(radians("+ulat+")) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" AND lng BETWEEN "+geoArray[0]+" AND "+geoArray[1]+" AND id != "+uid+" AND " + sql2 + "AND age BETWEEN "+age[0]+" AND "+age[1]+" HAVING distance < "+params.geoRange+" ORDER BY distance;" )
-                        connection.query(sql + sql2 + sql3, [ulat, ulng, ulat, geoArray[2], geoArray[3], geoArray[0], geoArray[1], uid, age[0], age[1], params.geoRange], (error, results) => {
+                        let sql = "SELECT name, lastname, age, bio, genre, id, pop, desire, (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? AND id != ? AND "
+                        let sql3 = " AND age BETWEEN ? AND ? AND pop BETWEEN ? AND ? HAVING distance < ? ORDER BY distance;"
+                        console.log("SELECT name, lastname, age, bio, genre, id, (6371 * acos(cos(radians("+ulat+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+ulng+")) + sin(radians("+ulat+")) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" AND lng BETWEEN "+geoArray[0]+" AND "+geoArray[1]+" AND id != "+uid+" AND " + sql2 + "AND age BETWEEN "+age[0]+" AND "+age[1]+" HAVING distance < "+params.geoRange+" ORDER BY distance;" )
+                        connection.query(sql + sql2 + sql3, [ulat, ulng, ulat, geoArray[2], geoArray[3], geoArray[0], geoArray[1], uid, age[0], age[1], pop[0], pop[1], params.geoRange], (error, results) => {
                             if (error)
                                 rej(error)
                             else if (results) {
+                                console.log(results)
                                 res(results)
                             }
                         })
