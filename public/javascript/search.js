@@ -52,10 +52,10 @@ $(document).ready(function () {
     })
 
 
-    const funcCallBackRequest = data => {
-            console.log(data)
+    // const funcCallBackRequest = data => {
+    //         console.log(data)
             
-    };
+    // };
 
     $('#search-button').click(function (e) {
         e.stopPropagation()
@@ -87,7 +87,7 @@ $(document).ready(function () {
             .fail(rej)
             .done(res)  
         })
-        .then(funcCallBackRequest)
+        // .then(funcCallBackRequest)
         .catch(console.log);
     })
 })
