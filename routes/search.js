@@ -20,14 +20,18 @@ router.get('/', (req, res) => {
 
 router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag',
     (req, res) => {
-        console.log("prout")
+        console.log("search them all")
+        console.log(req.params.tag)
         if (req.session.connected.state !== false) {
             console.log("lol")
             new Promise((resolve, reject) => {
                 User.theBigSearch(req.params, req.session.connected.id)
                 .then(target => {
-                    console.log(target)
-                    res.send(target)
+                        res.send(target)
+                    // else
+                    //    res.send(filter.map(i => {
+                    //        i.filter()
+                    //    })) 
                 })
                 .catch(console.log)
             })     
