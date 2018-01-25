@@ -53,15 +53,15 @@ $(document).ready(function () {
 
 
     const funcCallBackRequest = data => {
-            console.log('jquery' + data)
+            console.log('search jquery : ' + data)
             console.log("success")
-            new Promise((res, rej) => {
-                let url = `/${
-                    JSON.stringify(
-                        data
-                    )}`;
-                    $.get(url)
-            })
+            // new Promise((res, rej) => {
+            //     let url = `/${
+            //         JSON.stringify(
+            //             data
+            //         )}`;
+            //         $.get(url)
+            // })
     };
 
     $('#search-button').click(function (e) {
@@ -80,7 +80,7 @@ $(document).ready(function () {
             taggs[i] = $(inst).text().replace('⊗', '')
         }
         new Promise((res, rej) => {
-            let url = `/search_them_all/${
+            let url = `/search/search_them_all/${
             JSON.stringify(
                 $("#ageslider-range").slider("values")
             )}/${JSON.stringify(

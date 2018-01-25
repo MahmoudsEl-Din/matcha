@@ -133,14 +133,12 @@ class User {
     }
 
     static GetAllById(id){
-        console.log("usefull method")
         return new Promise((resolve, reject) => {
             let sql = "SELECT * FROM users WHERE id = ?"
             connection.query(sql, id, (error, results) => {
                 if (error)
                     reject(error)
                 else if (results[0]) {
-                    console.log(results[0])
                     resolve(results[0])
                 }
                 resolve(undefined)
@@ -524,7 +522,6 @@ class User {
 
     static theBigSearch(params, uid) {
         return new Promise((res, rej) => {
-
             this.GetAllById(uid)
             .then(user_info => {
                 const ulat = user_info['lat']
@@ -535,15 +532,15 @@ class User {
                 .then(geoArray => {
                     this.getMyTarget(user_info['genre'], user_info['desire'])
                     .then(sql2 => {
-               
                         let sql = "SELECT name, lastname, age, bio, genre, id, pop, desire, (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? AND id != ? AND "
-                        let sql3 = " AND age BETWEEN ? AND ? AND pop BETWEEN ? AND ? HAVING distance < ? ORDER BY distance;"
-                        console.log("SELECT name, lastname, age, bio, genre, id, (6371 * acos(cos(radians("+ulat+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+ulng+")) + sin(radians("+ulat+")) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" AND lng BETWEEN "+geoArray[0]+" AND "+geoArray[1]+" AND id != "+uid+" AND " + sql2 + "AND age BETWEEN "+age[0]+" AND "+age[1]+" HAVING distance < "+params.geoRange+" ORDER BY distance;" )
+                        let sql3 = "  AND age BETWEEN ? AND ? AND pop BETWEEN ? AND ? HAVING distance < ? ORDER BY pop;"
+                        console.log("SELECT name, lastname, age, bio, genre, id, pop, desire, (6371 * acos(cos(radians("+ulat+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+ulng+")) + sin(radians("+ulat+")) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" AND lng BETWEEN "+geoArray[0]+" AND "+geoArray[1]+" AND id != "+uid+" AND "+sql2+"  AND age BETWEEN "+age[0]+" AND "+age[1]+" AND pop BETWEEN "+pop[0]+" AND "+pop[1]+" HAVING distance < "+params.geoRange+" ORDER BY pop;" + "\n")
+                        console.log(sql + sql2 + sql3 + "\n")
                         connection.query(sql + sql2 + sql3, [ulat, ulng, ulat, geoArray[2], geoArray[3], geoArray[0], geoArray[1], uid, age[0], age[1], pop[0], pop[1], params.geoRange], (error, results) => {
                             if (error)
                                 rej(error)
                             else if (results) {
-                                console.log(results)
+                                console.log(results[0])
                                 res(results)
                             }
                         })

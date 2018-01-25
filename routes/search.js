@@ -24,9 +24,9 @@ router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag',
         if (req.session.connected.state !== false) {
             console.log("lol")
             new Promise((resolve, reject) => {
-                User
-                .theBigSearch(req.params, req.session.connected.id)
+                User.theBigSearch(req.params, req.session.connected.id)
                 .then(target => {
+                    console.log(target)
                     res.send(target)
                 })
                 .catch(console.log)
