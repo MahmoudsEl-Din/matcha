@@ -19,22 +19,23 @@ html
         link(rel="stylesheet" href="/stylesheets/signup.css")
         link(rel="stylesheet" href="/stylesheets/search.css")
         link(rel="stylesheet" href="/stylesheets/princeps.css")
+        link(rel="stylesheet" href="/stylesheets/layout.css")        
         link(rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css")
     
     body
         div.container-fluid.justify-content-between.fill
-            div.row.p-3(style={color: 'red', background: 'black', height: '100px'})
-                div.col-6.col-md-2.m-auto
-                    a(href="/")
-                        h2.font-cheap.font-shadow-pink MATCHA
+            div.row.p-3(style={color: 'red', background: '#383838', height: '100px'})
+                //- div.col-6.col-md-2.m-auto
+                div.col-md-4.col-lg-2.m-auto                
+                    h1.sarina.font-shadow-pink MATCHA
 
                 -if (session.connected.state === false)
-                    div.col-4.col-md-8
+                    div.col-md-8
                 
-                    div.col-8.col-md-2.text-center.m-auto
+                    div.col-md-2.text-center.m-auto
                         div.row.p-1.justify-content-center
                             a
-                                h7#connexion.text-center.font-cheap.font-shadow-pink CONNEXION 
+                                h7#connexion.text-center.sarina.font-shadow-pink CONNEXION 
                             div#dropdown_connexion.dropdown-menu.p-3.w-100
                                 div#div_connect
                                     div#div_ret.aler(role="alert").d-none
@@ -63,33 +64,32 @@ html
                                                 button#button_reset.btn.btn-primary(type="submit") Reset password
                         div.row.p-1.justify-content-center
                             a(href="/signup")
-                                h7.text-center.font-cheap.font-shadow-pink INSCRIPTION
+                                h7.text-center.sarina.font-shadow-pink INSCRIPTION
                 -else
-                    div.col-7.col-md-5
-                    div.col-5.col-md-3.container-fluid
+                    div.col-md-5.col-lg-8.container-fluid(style="padding:inherit;")
                         div.row.m-auto.container-fluid
-                            div.col.m-auto
-                                a(href="/chat")
-                                    h4#chat_link.font-cheap.font-shadow-pink CHAT                                
-                            div.col-1.m-auto 
-                                a
-                                    img#notif_picture(src='/assets/ressources/bell.png' style='background-color: white;border-radius:500px;height:50px;')
-                                    h4#notif_number.text-center.d-none(style='color:white;background-color:red;width:25px;border-radius:100px;position:relative;bottom:15px;left:33px;') 0
+                            div.col-md-6.m-auto.text-center
+                                h3#chat_link.sarina.font-shadow-pink Exploration
+                            div.col-md-6.m-auto.text-center
+                                h3#chat_link.sarina.font-shadow-pink Chat                         
+                    div.col-md-3.col-lg-2.container
+                        div.row
+                            div.col-md-5(style="margin-top:auto;margin-bottom:auto;margin-left:auto;margin-right:auto;")
+                                img#notif_picture(src='/assets/ressources/bell.png' style='background-color: white;border-radius:500px;height:50px;margin-left: auto;margin-right: auto;display: block;cursor: pointer;')
+                                h4#notif_number.text-center.d-none(style='color:white;background-color:red;width:25px;border-radius:100px;position:relative;bottom:15px;left:83px;') 0
                                 div#dropdown_notif.dropdown-menu.pre-scrollable.p-3.w-100
                                     div#div_notif
-                    div.col-5.col-md-2.container-fluid
-                            div.col.p-1.justify-content-right.container.m-auto
+                            div.col-md-7.p-1.justify-content-right.container
                                 div.row.p-1.justify-content-center
-                                    a(href="/profil")#profil 
-                                        h7.font-cheap.font-shadow-pink= username
+                                    h4.sarina.font-shadow-pink= username
                                 div.row.p-1.justify-content-center
-                                    a#logout
-                                        h7.font-cheap.font-shadow-pink LOGOUT
+                                    h4#logout.sarina.font-shadow-pink LOGOUT
             div#maindiv.row(style="height: 92%")   
                 block content
 
-            div.footer.row.p-2
-                span afanneau + nterol
+            footer.footer
+                div.container
+                span.muffin afanneau + nterol
         script(src="assets/javascript/login.js" type="text/javascript")
         script(src="assets/javascript/reset_password.js" type="text/javascript")
         script(src="assets/javascript/logout.js" type="text/javascript")
