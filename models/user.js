@@ -568,32 +568,48 @@ class User {
     }
 
     static GetPopularity(uid) {
+        console.log("getPopu")
+        return new Promise((resolve, reject) => {
+            this.GetAllById(uid).then(user_info => {
+                return this.getMyTarget(user_info['genre'], user_info['desire'])
+            }).then(sql2 => {
+                let sql = "SELECT A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE "
+                if (sql2 != undefined) {
+                    connection.query(sql + sql2 + ") AS B", [uid], (error, result) => {
+                        if (error) throw error
+                        console.log(result[0].pop)
+                        resolve(result[0].pop)
+                    })
+                } else
+                    resolve("You Must select a genre")
+            }).catch(catchError)
+        })
+    }
+
+    static GetPopularity(uid) {
         console.log("getPopu, uid = " + uid)
         return new Promise((resolve, reject) => {
             this.GetAllById(uid)
             .then(user_info => {
-                    this.getMyTarget(user_info['genre'], user_info['desire'])
-                    .then(sql2 => {
-                        let sql = "SELECT A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE "
-                        if (sql2 != undefined) {
-                            console.log()
-                            connection.query(sql + sql2 + ") AS B;", [uid], (error, result) => {
-                                if (error) throw error
-                                if (Number(result[0].pop) > 1)
-                                    result[0].pop = 1
-                                console.log("end getPopu" + result[0].pop)
-                                resolve(result[0].pop)                             
-                            })
-                        }
-                        else
-                            resolve("Has to select a genre")
-                    })
-                    .catch(catchError)
-                })
-                .catch(catchError)
+                    return this.getMyTarget(user_info['genre'], user_info['desire'])
+            }).then(sql2 => {
+                    let sql = "SELECT A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE "
+                    if (sql2 != undefined) {
+                        console.log()
+                        connection.query(sql + sql2 + ") AS B;", [uid], (error, result) => {
+                            if (error) throw error
+                            if (Number(result[0].pop) > 1)
+                                result[0].pop = 1
+                            console.log("end getPopu" + result[0].pop)
+                            resolve(result[0].pop)                             
+                        })
+                    }
+                    else
+                        resolve("Has to select a genre")
             })
+        }).catch(catchError)
         }
-    }
+    
 
     static GetNotif(uid) {
         return new Promise((resolve, reject) => {
