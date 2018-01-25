@@ -4,8 +4,8 @@ block content
 
     div.search-card.card.col-6.container-fluid(style=': 55rem')
         div.card-block
-            .search-title
-                h3 Rechercher un membre
+            .search-title.muffin.border.border-top-0.border-left-0.border-right-0.text-center
+                h2.mb-3 Rechercher un membre
             .search-container
                 form#search-form(action="POST")
                     .age-range
@@ -31,7 +31,7 @@ block content
                         div.w-100.d-flex.justify-content-center.form-group
                             p#return_tags.text-danger
 
-                button#search-button(type="submit").btn.btn-primary Rechercher        
+                button#search-button(type="submit" style).btn.btn-primary Rechercher        
 
         script(src="assets/javascript/search.js")
         script(src="assets/javascript/tagsinput.js")

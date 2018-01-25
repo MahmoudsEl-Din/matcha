@@ -27,7 +27,7 @@ html
             div.row.p-3(style={color: 'red', background: '#383838', height: '100px'})
                 //- div.col-6.col-md-2.m-auto
                 div.col-md-4.col-lg-2.m-auto                
-                    h1.sarina.font-shadow-pink MATCHA
+                    h1#matcha.sarina.font-shadow-pink Matcha
 
                 -if (session.connected.state === false)
                     div.col-md-8
@@ -69,7 +69,7 @@ html
                     div.col-md-5.col-lg-8.container-fluid(style="padding:inherit;")
                         div.row.m-auto.container-fluid
                             div.col-md-6.m-auto.text-center
-                                h3#chat_link.sarina.font-shadow-pink Exploration
+                                h3#explo_link.sarina.font-shadow-pink Exploration
                             div.col-md-6.m-auto.text-center
                                 h3#chat_link.sarina.font-shadow-pink Chat                         
                     div.col-md-3.col-lg-2.container
@@ -81,9 +81,9 @@ html
                                     div#div_notif
                             div.col-md-7.p-1.justify-content-right.container
                                 div.row.p-1.justify-content-center
-                                    h4.sarina.font-shadow-pink= username
+                                    h7#profile.sarina.font-shadow-pink= username
                                 div.row.p-1.justify-content-center
-                                    h4#logout.sarina.font-shadow-pink LOGOUT
+                                    h7#logout.sarina.font-shadow-pink LOGOUT
             div#maindiv.row(style="height: 92%")   
                 block content
 

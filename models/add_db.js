@@ -54,7 +54,6 @@ class addDb {
             var uid = undefined;           
             Tools.HashPassword(form.signup_password)
             .then((password_h) => {
-                
                 let sql = "INSERT INTO users (`username`, `name`, `password`, `lastname`, `email`, `genre`, `desire`, `bio`, `age`, `lat`, `lng`) VALUES(" + connection.escape(form.signup_username) + ", " + connection.escape(form.signup_firstname) + ", " + connection.escape(password_h) + ", " + connection.escape(form.signup_lastname) + ", " + connection.escape(form.signup_email) + ", 'B', 'B', 'Unwritten yet', 25, 0, 0);"
                 connection.query(sql, (error, results) => {
                     if (error) throw error

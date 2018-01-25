@@ -190,7 +190,7 @@ class init_db {
                 })
             }
         })
-//         global.connection = this.connection
+        global.connection = this.connection
     }
 }
 

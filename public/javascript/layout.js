@@ -103,6 +103,22 @@ $(document).ready(function(){
         return false
     })
 
+    $("#profile").click(function(e) {
+        window.location.replace("/profil")
+    })
+
+    $("#matcha").click(function(e) {
+        window.location.replace("/")
+    })
+
+    $("#chat_link").click(function(e) {
+        window.location.replace("/chat")
+    })
+    
+    $("#explo_link").click(function(e) {
+        window.location.replace("/search")
+    })
+
     if (window.location.pathname === '/profil/historic') {
         $.post('/notif/get_notif', null, function(data, jqHXR) {  
             if (jqHXR === "success" && data) {
