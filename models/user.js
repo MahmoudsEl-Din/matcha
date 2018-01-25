@@ -476,22 +476,22 @@ class User {
                     return resolve('You have no profile picture')
                 this.IsLiking(uid, uid_target)
                 .then((liking) => {
-                let sql = undefined
-                if (liking) {
-                    sql = "DELETE FROM likes WHERE uid = ? AND uid_target = ?;"                    
-                    ret = [true, 'User already']
-                    return [sql, ret]                            
-                }
-                else {
-                    sql = "INSERT INTO likes VALUES(NULL, ?, ?);"                    
-                    ret = [false, 'User already']
-                    return [sql, ret]                                    
-                }
+                    let sql = undefined
+                    if (liking) {
+                        sql = "DELETE FROM likes WHERE uid = ? AND uid_target = ?;"                    
+                        ret = [true, 'User already']
+                        return [sql, ret]                            
+                    }
+                    else {
+                        sql = "INSERT INTO likes VALUES(NULL, ?, ?);"                    
+                        ret = [false, 'User already']
+                        return [sql, ret]                                    
+                    }
                 }).then((ret) => {
                     connection.query(ret[0], [uid, uid_target], (error, result) => {
                         if (error) throw error
                         resolve(ret[1])
-                })         
+                    })         
                 }).catch(catchError)
             })
         })
@@ -511,9 +511,7 @@ class User {
         })
     }
 
-    static getMyTarget(genre, desire) { //I dont want to do it but im forced please help me
-        console.log("getMyTarget") 
-        console.log(genre + ' ' + desire)
+    static getMyTarget(genre, desire) {
         return new Promise (
             (res, rej) => {
                 let target = undefined
