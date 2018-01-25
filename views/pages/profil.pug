@@ -2,54 +2,63 @@ extends layout
         
 block content
         
-        div.container.text-center
+        div.mt-5.mb-5.container.text-center(style="background-color: white;border-radius: 2px;padding-left:50px;padding-right:50px;").pb-4
 
-                div.form-group.row.justify-content-center.mt-5
-                        h1#username.text-white= user['username']
+                div.pb-2.form-group.row.justify-content-center.mt-5.border.border-top-0.border-left-0.border-right-0
+                        h1#username.sarina= user['username']
 
-                div.row-3.h-50.m-5.border.border-dark.container-fluid#div_pictures
-
-                        div.row.border.h-50.justify-content-center
-                                div.col-3.border.border-dark
+                div.row-8.p-4.container-fluid#div_pictures(style="height: 400px; border-radius: 2px;").border.border-top-0.border-left-0.border-right-0
+                        div.row.justify-content-center(style={height:'73%', padding:'1%'})
+                                div.col-12.h-100.w-100
                                         form(action="fileupload" method="post" enctype="multipart/form-data")
                                                 input(type='file' name='picture').d-none#pic1
                                                 input(type='submit' name="submitphotos").d-none#pic_sub                        
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img1.picture_none
-                                        div.picture_tools.w-100.d-none
+                                        img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img1.picture_none
+                                        div.picture_tools.w-25.d-none.m-auto
                                                 a.delete_picture Delete
-                        div.row.border.border-dark.h-50.p-5.d-flex.justify-content-around
-                                div.col-2.border
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img2.picture_none
-                                        div.picture_tools.w-100.d-none
-                                                a.delete_picture Delete
-                                                a.set_profil_pic Set profil pic
-                                div.col-2.border
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img3.picture_none
+                        div.row.d-flex.justify-content-around(style={height:'25%'})
+                                div.col-2.h-100.w-100
+                                        img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img2.picture_none
+                                        
                                         div.picture_tools.w-100.d-none
                                                 a.delete_picture Delete
                                                 a.set_profil_pic Set profil pic
-                                div.col-2.border
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img4.picture_none
+                                div.col-2.h-100.w-100
+                                        img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img3.picture_none
                                         div.picture_tools.w-100.d-none
                                                 a.delete_picture Delete
                                                 a.set_profil_pic Set profil pic
-                                div.col-2.border
-                                        img(src="/assets/ressources/add_icon.png").img-circle.border.img-responsive.h-100#img5.picture_none
+                                div.col-2.h-100.w-100
+                                        img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img4.picture_none
+                                        div.picture_tools.w-100.d-none
+                                                a.delete_picture Delete
+                                                a.set_profil_pic Set profil pic
+                                div.col-2.h-100.w-100
+                                        img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img5.picture_none
                                         div.picture_tools.w-100.d-none
                                                 a.delete_picture Delete
                                                 a.set_profil_pic Set profil pic
                         div.row
                                 div.w-100.d-flex.justify-content-center.form-group
                                         p#return_picture.text-danger
-                
-                form#form_profil.container(method="POST").text-center
+
+                button#button_historic(type="submit").btn.btn-primary.m-5.mb-0 Historic
+                div#div_historic.container-fluid.justify-content-between.m-5(style={height:'15%'}).m-auto
+                    div.row.p-3.m-5(style={height:'80%'}).justify-content-around.mt-0
+                        div.col-4(style={color: 'black', padding: '2px', background: 'white', height: '90%'})
+                                h4.muffin.text-center Views
+                                div#div_notif_views.pre-scrollable.h-100(style={padding: '50px',  background: 'white', 'border-radius': '2px', overflow: 'auto'}).border                      
+                        div.col-4(style={padding: '2px', background: 'white', height: '90%'})
+                                h4.muffin.text-center Likes                       
+                                div#div_notif_likes.h-100(style={background: 'white', padding: '50px', 'border-radius': '2px', overflow: 'auto'}).pre-scrollable.border                    
+                form#form_profil.container(method="POST")
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2
-                                        label#label_firstname.text-white(for="profil_firstname")= user['name']
+                                        label#label_firstname.sarina(for="profil_firstname")= user['name']
                                 //- div.w-100
-                                div.col-2
+                                div.col-2.mt-auto.mb-auto
                                         input#profil_firstname.form-control(type="text" placeholder="Edit first name" maxlength="20" name="profil_firstname")
-                                div.col-1
+                                div.col-1.mt-auto.mb-auto
                                         button#submit_firstname(type="submit").btn.btn-primary Edit
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_firstname.text-danger
@@ -57,21 +66,21 @@ block content
                 form#form_profil.container(method="POST").text-center
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2
-                                        label#label_lastname.text-white(for="profil_lastname")= user['lastname']
+                                        label#label_lastname.sarina(for="profil_lastname")= user['lastname']
                                 //- div.w-100
-                                div.col-2
+                                div.col-2.mt-auto.mb-auto
                                         input#profil_lastname.form-control.border(type="text" placeholder="Edit last name" maxlength="199" name="profil_lastname")
-                                div.col-1
+                                div.col-1.mt-auto.mb-auto
                                         button#submit_lastname(type="submit").btn.btn-primary Edit
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_lastname.text-danger
 
                 form#form_profil.container(method="POST").text-center
                         div.form-group.row.justify-content-center.mb-3
-                                div.col-2
-                                        label#label_gender.text-white(for="profil_gender")= user['genre']
+                                div.col-2.mt-auto.mb-auto
+                                        label#label_gender.sarina(for="profil_gender")= user['genre']
                                 //- div.w-100
-                                div.col-2
+                                div.col-3.mt-auto.mb-auto
                                         select#profil_gender(name="profil_gender")
                                                 -if (user['genre'] === 'No gender')
                                                         option(value="B") No gender
@@ -91,9 +100,9 @@ block content
                 form#form_profil.container(method="POST").text-center.mt-5
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2
-                                        label#label_desire.text-white(for="profil_desire")= user['desire']
+                                        label#label_desire.sarina(for="profil_desire")= user['desire']
                                 //- div.w-100
-                                div.col-2
+                                div.col-3.mt-auto.mb-auto
                                         select#profil_desire(name="profil_desire")
                                                 -if (user['desire'] === 'I like all')
                                                         option(value="B") I like both
@@ -112,62 +121,69 @@ block content
 
                 form#form_profil.container(method="POST").text-center.mt-5
                         div.form-group.row.justify-content-center.mb-3
-                                div.col-2
-                                        label#label_email.text-white(for="profil_email")= user['email']
+                                div.col-3
+                                        label#label_email.sarina(for="profil_email")= user['email']
                                 //- div.w-100
-                                div.col-2
+                                div.col-2.mt-auto.mb-auto
                                         input#profil_email.form-control(type="email" placeholder="Edit email" maxlength="199" name="profil_email")
-                                div.col-1
+                                div.col-1.mt-auto.mb-auto
                                         button#submit_email(type="submit").btn.btn-primary Edit
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_email.text-danger
 
-                form#form_profil.container(method="POST").text-center
+                form#form_profil.container(method="POST").text-center.border.border-top-0.border-left-0.border-right-0
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2
-                                                label#label_age.text-white(for="profil_age")= user['age']
+                                        label#label_age.sarina(for="profil_age")= user['age']
                                 //- div.w-100
-                                div.col-2
+                                div.col-2.mt-auto.mb-auto
                                         input#profil_age.form-control(type="number" placeholder="Set your age" maxlength="20" name="profil_age")
-                                div.col-1
+                                div.col-1.mt-auto.mb-auto
                                         button#submit_age(type="submit").btn.btn-primary Edit
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_age.text-danger
 
 
-                form#form_profil.container(method="POST").text-center.mt-5      
+                form#form_profil.container(method="POST").text-center.mt-5.border.border-top-0.border-left-0.border-right-0      
                         div.form-group.row.justify-content-center.mb-3
                                 div.col-2
-                                        h3.text-white Biography
+                                        h3.muffin Biography
                                 div.w-100                        
                                 div.w-50
-                                        label#label_bio.text-white(for="profil_bio")= user['bio']
+                                        label#label_bio.sarina(for="profil_bio")= user['bio']
                                 div.w-100
-                                div.w-50
+                                div.w-50.mt-auto.mb-auto
                                         input#profil_bio.form-control(type="text" placeholder="Edit your biography (Max 249 characters)" maxlength="249" name="profil_bio")
-                                div.col-1
+                                div.col-1.mt-auto.mb-auto
                                         button#submit_bio(type="submit").btn.btn-primary Edit
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_bio.text-danger
 
-                form#form_profil.container(method="POST").text-center.mt-5      
+                form#form_profil.container(method="POST").text-center.mt-5.border.border-top-0.border-left-0.border-right-0
                         div.form-group.row.justify-content-center.mb-3
-                                div.col-2
-                                        h3.text-white Tags
-                                div.w-100                        
-                                div#div_user_tags.col-4
+                                div.col-12.mb-4
+                                        h3.muffin Tags
+                                div.col-4                                                                
+                                div#div_user_tags.col-4.mb-3(style="max-height:200px;overflow:auto;")
+                                div.col-4                               
+                                
                                         
-                                div.w-100
-                                div.col-3
-                                        input#profil_tag.form-control(type="text" placeholder="Edit your biography (Max 249 characters)" maxlength="249" name="profil_bio")
+                                div.col-3                                
+                                div.col-6
+                                        input#profil_tag.form-control(type="text" placeholder="Search or create a tag (Max 249 characters)" maxlength="249" name="profil_bio")
                                         //- div#dropdown_tags
                                                 h1 TEST
-                                div#div_list_tags.col-3.justify-content-center
+                                div.col-3       
+                                div.col-1                         
+                                div#div_list_tags.col-10.justify-content-left(style="overflow:auto;")
+                                div.col-1
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_tags.text-danger
-                
-                button#button_map Geolocalize or Localize yourself
-                div#map.w-100.h-50.m-5.d-none
+                div.col-12.container
+                        div.col-4
+                        button.col-4#button_map.btn.btn-primary.m-5.p-2 Geolocalize or Localize yourself
+                        div.col-4
+                        div.col-8#map.w-100.m-auto.d-none
                 
         
                 script(src="assets/javascript/gmap.js")

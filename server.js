@@ -9,6 +9,8 @@ var connection = require('./setup/connection')
 var request = require('ajax-request')
 var path = require('path')
 const pug = require('pug')
+var cookieParser = require('cookie-parser');
+var cookie = require('cookie')
 
 // Template Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -36,6 +38,8 @@ new db()
 // Require middlewares
 var middlewares = require('./middlewares/middlewares')
 
+
+
 // Require routes
 var index = require('./routes/index.js')
 var login = require('./routes/login.js')
@@ -52,6 +56,11 @@ var error = require('./routes/error.js')
 const profil = require('./routes/profil')
 const search = require('./routes/search')
 var user = require('./routes/user')
+var notif = require('./routes/notif')
+var tools = require('./routes/tools')
+var chat = require('./routes/chat')
+
+
 
 app.use('/', middlewares.user_timer, index)
 app.use('/login', login)
@@ -68,10 +77,67 @@ app.use('/error', error)
 app.use('/profil', middlewares.logged_needed, profil)
 app.use('/search', middlewares.logged_needed, middlewares.gender_needed, search)
 app.use('/user', middlewares.logged_needed, user)
+app.use('/notif', middlewares.logged_needed, notif)
+app.use('/tools', middlewares.logged_needed, tools)
+app.use('/chat', middlewares.logged_needed, chat)
 
 app.use(function(req, res) {
     res.redirect('/error')
 });
 
 //Port :+: Localhost
-app.listen(7777)
+var serv = app.listen(7777)
+
+// SOCKETS //
+
+var User = require('./models/user')
+var httpServer = http.createServer(app, (req, res) => {
+    res.writeHead(200)
+})
+
+var io = require('socket.io').listen(serv);
+
+io.on('connection', function (socket) {
+    var cookies = cookieParser.signedCookies(cookie.parse(socket.handshake.headers.cookie), 'clefchiffrement');
+    var session_id = cookies['connect.sid'];
+
+    User.SetSocketID(socket.client.id, session_id)
+
+    socket.on("user_login", data => {
+        User.SetSessionID(session_id, data.uid)
+    })
+
+    socket.on("visit", data => {
+        User.NewVisit(data)
+        User.GetSocketID(data.uid_target)
+        .then((socket_id) => {
+            var socketList = io.sockets.server.eio.clients;
+            if (socketList[socket_id] !== undefined)            
+            {
+                io.sockets.in(socket_id).emit('new_notif',{
+                    type: 1,
+                    uid_visitor: data.uid
+                })
+            }
+        }).catch((err) => {throw err})
+    })
+    
+    socket.on("like", data => {
+        User.GetSocketID(data.uid_target)
+        .then((socket_id) => {
+            var socketList = io.sockets.server.eio.clients;
+            if (socketList[socket_id] !== undefined)            
+            {
+                io.sockets.in(socket_id).emit('new_notif',{
+                    type: 2,
+                    uid: data.uid_target,
+                    uid_visitor: data.uid,
+                    like_type: data.type
+                })
+            }
+        }).catch((err) => {throw err})
+    })
+
+    socket.on("like", data => {
+    })
+})

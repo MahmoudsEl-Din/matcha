@@ -11,6 +11,7 @@ $(document).ready(function(){
                 }
                 else {
                     $("#return-connect").empty()
+                    emit_user_login(data[1])
                     location.reload()
                 }
             }

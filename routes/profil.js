@@ -13,7 +13,6 @@ let catchError = (error) => {
 
 router.get('/', (req, res) => {
     let username = undefined
-    console.log(req.connection.remoteAddress)
     if (req.session.connected.state !== false) {
         User.GetAllById(req.session.connected.id)
         .then((user_info) => {
@@ -38,6 +37,13 @@ router.get('/', (req, res) => {
     
 })
 
+router.get('/historic', (req, res) => {
+    User.GetAllById(req.session.connected.id)
+    .then((user_info) => {
+        username = user_info['username'].toUpperCase()
+        res.render('pages/historic', {session :req.session, username: username, user: user_info})
+    }).catch(catchError)
+}) 
 
 //Check email validity when user is typing
 router.post('/first_email', (req, res) => {
@@ -245,7 +251,6 @@ router.post('/change_age', (req, res) => {
 router.get('/get_user_tags', (req, res) => {
     if (req.session.connected && req.session.connected.id)
     {
-        console.log('ON EST DANS UNE REAUETE')
         User.GetIdByUsername(req.query.username)
         .then((uid) => {
             return User.GetTags(uid)
@@ -259,7 +264,6 @@ router.get('/get_user_tags', (req, res) => {
 
 // Del tags to print the page
 // router.get('/del_user_tags', (req, res) => {
-//     console.log(req)
 //     // User.GetIdByUsername(req.query.username)
 //     // .then((uid) => {
 //         // return User.GetTags(uid)
@@ -378,5 +382,7 @@ router.get(('/change_pos'), (req, res) => {
             res.send(ret)
         }).catch(catchError)
 })
+
+
 
 module.exports = router

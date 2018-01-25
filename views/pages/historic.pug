@@ -1,0 +1,15 @@
+extends layout
+        
+block content
+
+        div.container-fluid.justify-content-between.fill
+            div.row.p-3.m-5.h-75(style={color: 'red', background: 'black'}).justify-content-around
+                div.col-4.h-100(style={color: 'red', background: 'white'})
+                        h4.text-center Views
+                        div#div_notif_views.fill.p-5(style={color: 'red', background: 'yellow'})                      
+                                div.fill.p-5.pre-scrollable(style={color: 'red', background: 'green'})                      
+                        
+                div.col-4.h-100(style={color: 'red', background: 'white'})
+                        h4.text-center Likes                       
+                        div#div_notif_likes.fill.p-5(style={color: 'red', background: 'yellow'})                      
+                                div.fill.p-5.pre-scrollable(style={color: 'red', background: 'green'}) 

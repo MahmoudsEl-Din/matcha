@@ -23,6 +23,7 @@ router.post('/', function(req, res) {
                     .then((id) => {
                         req.session.connected.state = true
                         req.session.connected.id = id
+                        ret[1] = id
                         return res.send(ret)
                     }).catch(catchError)
                 }

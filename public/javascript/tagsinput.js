@@ -5,7 +5,6 @@ $(document).ready(function () {
     function click_tags() { 
         $("#div_list_tags").children().on('click', function(e){
             
-            console.log($(e.target).text())
             $("#return_tags").empty()
             // $('#div_list_tags').empty()
 
@@ -42,14 +41,12 @@ $(document).ready(function () {
     }
 
     $("#profil_tag").keyup(function(e){
-        console.log($("#profil_tag").val())
         $("#return_tags").empty()
         $('#div_list_tags').empty()
         
         if ($("#profil_tag").val().length < 15) {
             $.get('/profil/get_all_tags', {tag_search: $("#profil_tag").val()}, (data, jqHXR) => {
                 if (jqHXR === "success") {
-                    console.log(data)
                     if (data) {
                         var res = false
                         data.forEach((elem) => {
@@ -74,10 +71,8 @@ $(document).ready(function () {
         $("#div_list_tags").children().on('click', e => {
             // $("#div_user_tags").children().each(i => {
                 
-            //     console.log(i)
             //     // if (e.target.innerText === i.val)
             // })
-            console.log($(e.target).text())
             var divs = $('.user_tag')
             var ret = 0
             for(var i = 0; i < divs.length; i++){
@@ -90,7 +85,6 @@ $(document).ready(function () {
             else {
                 $("#return_tags").empty()
                 // $('#div_list_tags').empty()
-                console.log(e.target)
                 let i = 0
                 $('#div_user_tags').prepend('<div class="user_tag">' + e.target.innerText + '<a id="del_tag_' + e.target.innerText + '" class="del_tag" href=\'#\'>⊗</a></div>')
                 i++

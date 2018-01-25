@@ -6,7 +6,6 @@ let catchError = (error) => {
 
 class GetDb {
     static TagList(str_search){
-        console.log('str_search ' + str_search)
         return new Promise((resolve, reject) => {
             let sql = "SELECT * FROM tag_list;"
             connection.query(sql, (error, results) => {
@@ -15,8 +14,6 @@ class GetDb {
                 else if (results[0]){
                     Tools.SelectInArray(results, 'tag_name', str_search)
                     .then((sorted_array) => {
-                        console.log('sorted_array\n')                        
-                        console.log(sorted_array)
                         resolve(sorted_array)
                     }).catch(catchError)
                 }

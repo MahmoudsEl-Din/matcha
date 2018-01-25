@@ -3,8 +3,31 @@
     src: url("/fonts/TrueStories.ttf");
 }
 
+@font-face {
+    font-family: "font_sarina";
+    src: url("/fonts/Sarina-Regular.ttf");
+}
+
+@font-face {
+    font-family: "muffin";
+    src: url("/fonts/Strawberry_Muffins_Demo.ttf");
+}
+
+.sarina{
+    font-family: font_sarina;    
+}
+
+.muffin{
+    font-family: muffin;    
+}
+
+.font-shadow-pink {
+    color:white;
+}
+
 .font-shadow-pink:hover{
-    text-shadow: 0px 0px 50px pink
+    text-shadow: 0px 0px 50px pink;
+    cursor: pointer;
 }
 
 .font-cheap {
@@ -15,6 +38,8 @@
 
 a {
     cursor: pointer;
+    text-decoration: none;    
+    color: transparent;
 }
 
 body {

@@ -23,7 +23,6 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
     const {signup_username, signup_email, signup_firstname, signup_lastname, signup_password, signup_cpassword, signup_sexdate} = req.body;
     let form = {signup_username, signup_email, signup_firstname, signup_lastname, signup_password, signup_cpassword, signup_sexdate}
-    console.log(form)
     if (signup_username === '' || signup_email === '' || signup_firstname === '' || signup_lastname === '' || signup_password === '' || signup_cpassword === '')
         return res.send([false, "Empty field(s)"])
     else if (signup_username.length > 15 || signup_email.length > 200 || signup_firstname.length > 15 || signup_lastname.length > 15 || signup_password.length > 200 || signup_cpassword.length > 200)
@@ -34,7 +33,6 @@ router.post('/', function(req, res) {
             if (ret[0] === false)
                 return res.send(ret)
             else {
-                console.log('test')
                 AddDb.user(form, req)
                 .then(() => {
                     return res.send([true, "Account succefully created, go check your mail to activate your account !"])

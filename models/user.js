@@ -414,7 +414,7 @@ class User {
             let sql = "SELECT * FROM logged WHERE userid = ?;"
             connection.query(sql, [uid], (error, result) => {
                 if (error) throw error
-                if (result[0])
+                if (result && result[0])
                     resolve(result)
                 else
                     resolve(undefined)
@@ -444,6 +444,20 @@ class User {
             connection.query(sql, [uid, uid_target], (error, result) => {
                 if (error) throw error
                 if (result[0])
+                    resolve(true)
+                else
+                    resolve(false)
+            })
+        })
+        
+    }
+
+    static IsMatching(uid, uid_target) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT COUNT(*) FROM likes WHERE (uid = ? AND uid_target = ?) OR (uid = ? AND uid_target = ?);"
+            connection.query(sql, [uid, uid_target, uid_target, uid], (error, result) => {
+                if (error) throw error
+                if (result && result[0] && result[0]['COUNT(*)'] === 2)
                     resolve(true)
                 else
                     resolve(false)
@@ -581,5 +595,75 @@ class User {
         }
     }
 
+    static GetNotif(uid) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT * FROM notif WHERE uid = ?"
+            connection.query(sql, [uid], (error, results) => {
+                if (error)
+                    reject(error)
+                else if (results)
+                    resolve(results)
+                resolve(undefined)
+            })
+        })
+    }
+
+    static NotifShown(uid) {
+        return new Promise((resolve, reject) => {
+            console.log('showzn : ' + uid)
+            let sql = "UPDATE notif SET shown = 1 WHERE uid = ? AND shown = 0"
+            connection.query(sql, [uid], (error, results) => {
+                if (error)
+                    reject(error)
+                else
+                    resolve()
+                resolve(undefined)
+            })
+        })
+    }
+
+    static SetSessionID(session_id, uid) {
+        let sql = "UPDATE sockets SET session_id = ? WHERE uid = ?"
+        connection.query(sql, [session_id, uid], (error, results) => {
+            if (error) throw error
+        })
+    }
+
+    static SetSocketID(socket_id, session_id) {
+        let sql = "UPDATE sockets SET socket_id = ? WHERE session_id = ?"
+        connection.query(sql, [socket_id, session_id], (error, results) => {
+            if (error) throw error
+        })
+    }
+
+    static GetSocketID(uid) {
+        return new Promise((resolve, reject) => {
+            let sql = "SELECT socket_id FROM sockets WHERE uid = ?"
+            connection.query(sql, [uid], (error, results) => {
+                if (error) throw error
+                else
+                    resolve(results[0]['socket_id'])
+            })
+        })
+    }
+
+    static NewVisit(data) {
+        let sql = "INSERT INTO history VALUES(null, ?, ?)"
+        connection.query(sql, [data.uid_target, data.uid], (error, results) => {
+            if (error) throw error
+        })
+        sql = "INSERT INTO notif VALUES(null, ?, ?, 1, null, 0)"
+        connection.query(sql, [data.uid_target, data.uid], (error, results) => {
+            if (error) throw error
+        })
+    }
+
+    static NewNotifLike(uid, uid_target, type) {
+        var sql = "INSERT INTO notif VALUES(null, ?, ?, 2, ?, 0)"
+        connection.query(sql, [uid_target, uid, type], (error, results) => {
+            if (error) throw error
+        })
+    }
+}
 
 module.exports = User

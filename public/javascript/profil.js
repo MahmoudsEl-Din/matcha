@@ -3,6 +3,7 @@ $(document).ready(function(){
     get_user_tags()
     get_all_tags()
     get_pictures()
+    $('#div_historic').hide()
 
     function get_user_tags() {
         $.get('/profil/get_user_tags', { username : $('#username').text()},(data, jqHXR) => {
@@ -256,7 +257,6 @@ $(document).ready(function(){
     })
 
     $(".del_tag").click(function(e) {
-        console.log("test")
         // e.preventDefault()
         clear_returns()
 
@@ -270,14 +270,12 @@ $(document).ready(function(){
     })
 
     $("#profil_tag").keyup(function(e){
-        console.log($("#profil_tag").val())
         clear_returns()
         $('#div_list_tags').empty()
         
         if ($("#profil_tag").val().length < 15) {
             $.get('/profil/get_all_tags', {tag_search: $("#profil_tag").val()}, (data, jqHXR) => {
                 if (jqHXR === "success") {
-                    console.log(data)
                     if (data) {
                         var res = false
                         data.forEach((elem) => {
@@ -300,10 +298,7 @@ $(document).ready(function(){
 
     function click_tags() { 
         $("#div_list_tags").children().on('click', function(e){
-            
-            console.log($(e.target).text())
             clear_returns()
-            // $('#div_list_tags').empty()
 
             if ($(e.target).text().length < 15) {
                 $.get('/profil/add_tag', {new_tag: $(e.target).text()}, (data, jqHXR) => {
@@ -327,12 +322,8 @@ $(document).ready(function(){
     function click_del_tag(elem) { 
         elem.click(function(e){
             e.preventDefault()    
-            console.log($(e.target).parent().text().substring(0, $(e.target).parent().text().length - 1))
             clear_returns()
-            // $('#div_list_tags').empty()
-
             if ($(e.target).parent().text().length < 16) {
-                console.log('test')
                 $.get('/profil/del_tag', {tag_name: $(e.target).parent().text().substring(0, $(e.target).parent().text().length - 1)}, (data, jqHXR) => {
                     if (jqHXR === "success") {
                         if (data[0] === false && data[1] === 'redirect_error')
@@ -384,12 +375,10 @@ $(document).ready(function(){
                     document.getElementById("return_picture").innerHTML = response[1]            
             }
         });
-        console.log(form_data); 
     })
 
     $('.delete_picture').click (function(e) {
         e.preventDefault()
-        console.log()
         position = $(e.target).parent().parent().find('img').prop('id').replace('img', '')
         if (position >= 1 && position <= 5) {
             $.get('/profil/del_picture', {position: position}, (data, jqHXR) => {
@@ -399,16 +388,13 @@ $(document).ready(function(){
                     }
                     else if (data[0] === false && data[1] === 'redirect_error')
                         window.location.replace("/error") 
-                    console.log(data)
                 }
             })
         }
-        console.log(position); 
     })
 
     $('.set_profil_pic').click (function(e) {
         e.preventDefault()
-        console.log()
         position = $(e.target).parent().parent().find('img').prop('id').replace('img', '')
         if (position >= 2 && position <= 5) {
             $.get('/profil/set_profil_pic', {position: position}, (data, jqHXR) => {
@@ -418,11 +404,50 @@ $(document).ready(function(){
                     }
                     else if (data[0] === false && data[1] === 'redirect_error')
                         window.location.replace("/error")           
-                    console.log(data)
                 }
             })
         }
-        console.log(position); 
+    })
+
+    var historic_shown = false
+
+    $('#button_historic').click(function(e){
+        e.preventDefault()
+        if (historic_shown === false){
+            $('#div_historic').show('slow')    
+            historic_shown = true
+        }
+        else if (historic_shown === true){
+            $('#div_historic').hide('slow')    
+            historic_shown = false
+        }
+    })
+
+    $.post('/notif/get_notif', null, function(data, jqHXR) {  
+        if (jqHXR === "success") {
+            var content = ''
+            var sender_name = undefined
+            data.forEach((elem) => {
+                if (elem['shown'] === 0)
+                    new_notif += 1
+                if (elem['type'] === 1 || (elem['type'] === 2 && elem['data'] === 'true')) {
+                    $.get('/notif/get_user', {id: elem['uid_sender']}, function(data, jqHXR) {
+                        if (jqHXR === "success") {
+                            sender_name = data
+                            var style = 'style=\'background-color: #ffffff;\''
+                            if (elem['type'] === 1) {
+                                content = sender_name + ' viewed your profile'
+                                $('#div_notif_views').prepend('<a class=\'w-100 m-2 h-25 \' href(\'#\')><div class=\'notif\'' + style + ' >' + content + '</div></a>')
+                            }
+                            else if (elem['type'] === 2 && elem['data'] === 'true') {
+                                content = sender_name + ' liked your profile'
+                                $('#div_notif_likes').prepend('<a class=\'w-100 m-2 h-25 \' href(\'#\')><div class=\'notif\'' + style + ' >' + content + '</div></a>')
+                            }
+                        }
+                    })
+                }
+            })
+        }
     })
 
 })
