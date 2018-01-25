@@ -138,8 +138,9 @@ class User {
             connection.query(sql, id, (error, results) => {
                 if (error)
                     reject(error)
-                else if (results[0])
+                else if (results[0]) {
                     resolve(results[0])
+                }
                 resolve(undefined)
             })
         })
@@ -382,32 +383,6 @@ class User {
         })
     }
 
-    static getAroundMe(ulat, ulng, range) {
-        console.log("getAroundMe")
-        return new Promise((resolve, reject) => {
-            console.log("hey there")
-            const delta = range / (Math.abs((Math.cos((ulat * Math.PI / 180) * 111))))
-            const xMin = ulng - delta
-            const xMax = ulng + delta
-            const dist = range / 111
-            const yMin = ulat - dist
-            const yMax = ulat + dist
-            console.log(xMin + ' ' + xMax + ' ' + yMin + ' ' + yMax)
-            let sql = "SELECT * , (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? HAVING distance < ? ORDER BY distance;"
-            connection.query(sql, [ulng, ulat, ulng, xMin, xMax, yMin, yMax, range], (error, results) => {
-                if (error) {
-                    console.log(error)
-                    reject(error)
-                }
-                else if (results[0]) {
-                    console.log(results)
-                    resolve(results[0])
-                }
-                resolve(undefined)
-            })
-        })
-    }
-
     static ResetTimer(userid) {
         if (userid) {
             let time = (new Date).getTime();
@@ -521,37 +496,103 @@ class User {
             })
         })
     }
-    
-    static GetPopularity(uid) {
-        return new Promise((resolve, reject) => {    
+
+
+    static getAroundMe(ulat, ulng, gRange) {
+        return new Promise((res,rej) => {
+            let delta = gRange / (111.1 / Math.cos(ulat * 180 / Math.PI))
+            const lngMax = ulng - delta
+            const lngMin = ulng + delta
+            const dist = gRange / 111.1
+            const latMin = ulat - dist
+            const latMax = ulat + dist
+            const geoArray = [lngMin, lngMax, latMin, latMax]
+            res(geoArray) 
+        })
+    }
+
+    static getMyTarget(genre, desire) { //I dont want to do it but im forced please help me
+        console.log("getMyTarget") 
+        console.log(genre + ' ' + desire)
+        return new Promise (
+            (res, rej) => {
+                let target = undefined
+                if (genre === 'M' && desire === 'M')
+                    target = "(genre = 'M' AND (desire = 'M' OR desire = 'B'))"
+                else if (genre === 'M' && desire === 'F')
+                    target = "(genre = 'F' AND  (desire = 'M' OR desire = 'B'))"
+                else if (genre === 'M' && desire === 'B')
+                    target = "((genre = 'M' AND (desire = 'M' OR desire = 'B')) OR (genre = 'F' AND  (desire = 'M' OR desire = 'B')))"
+                else if (genre === 'F' && desire === 'M')
+                    target = "(genre = 'M' AND (desire = 'F' OR desire = 'B'))"
+                else if (genre === 'F' && desire === 'F')
+                    target = "(genre = 'F' AND (desire = 'F' OR desire = 'B'))"
+                else if (genre === 'F' && desire === 'B')
+                    target = "((genre = 'F' AND (desire = 'F' OR desire = 'B')) OR (genre = 'M' AND (desire = 'F' OR desire = 'B')))"
+                console.log(target)
+                res(target)
+            })
+    }
+
+    static theBigSearch(params, uid) {
+        return new Promise((res, rej) => {
             this.GetAllById(uid)
             .then(user_info => {
-                let sql = "SELECT A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE "
-                let sql2 = undefined
-                if (user_info['desire'] === 'M' && user_info['genre'] === 'M')
-                    sql2 = '(genre = "M" AND (desire = "M" OR desire = "B"))) AS B;'
-                else if (user_info['desire'] === 'F' && user_info['genre'] === 'M')
-                    sql2 = '(genre = "F" AND (desire = "M" OR desire = "B"))) AS B;'
-                else if (user_info['desire'] === 'F' && user_info['genre'] === 'F')
-                    sql2 = '(genre = "F" AND (desire = "F" OR desire = "B"))) AS B;'
-                else if (user_info['desire'] === 'M' && user_info['genre'] === 'F')
-                    sql2 = '(genre = "M" AND (desire = "F" OR desire = "B"))) AS B;'
-                else if (user_info['desire'] === 'B' && user_info['genre'] === 'M')
-                    sql2 = '((genre = "F" AND (desire = "M" OR desire = "B")) OR (genre = "M" AND (desire = "M" OR desire = "B")))) AS B;'
-                else if (user_info['desire'] === 'B' && user_info['genre'] === 'F')
-                    sql2 = '((genre = "F" AND (desire = "F" OR desire = "B")) OR (genre = "M" AND (desire = "F" OR desire = "B")))) AS B;'
-                if (sql2 != undefined) {
-                    connection.query(sql + sql2, [uid], (error, result) => {
-                        if (error) throw error
-                        if (Number(result[0].pop) > 1)
-                            result[0].pop = 1
-                        resolve(result[0])
+                const ulat = user_info['lat']
+                const ulng = user_info['lng']
+                const age = JSON.parse(params.ageRange)
+                const pop = JSON.parse(params.popRange)
+                this.getAroundMe(ulat, ulng, params.geoRange)
+                .then(geoArray => {
+                    this.getMyTarget(user_info['genre'], user_info['desire'])
+                    .then(sql2 => {
+                        let sql = "SELECT name, lastname, age, bio, genre, id, pop, desire, (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? AND id != ? AND "
+                        let sql3 = "  AND age BETWEEN ? AND ? AND pop BETWEEN ? AND ? HAVING distance < ? ORDER BY pop;"
+                        console.log("SELECT name, lastname, age, bio, genre, id, pop, desire, (6371 * acos(cos(radians("+ulat+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+ulng+")) + sin(radians("+ulat+")) * sin(radians(lat)))) AS distance FROM users WHERE lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" AND lng BETWEEN "+geoArray[0]+" AND "+geoArray[1]+" AND id != "+uid+" AND "+sql2+"  AND age BETWEEN "+age[0]+" AND "+age[1]+" AND pop BETWEEN "+pop[0]+" AND "+pop[1]+" HAVING distance < "+params.geoRange+" ORDER BY pop;" + "\n")
+                        console.log(sql + sql2 + sql3 + "\n")
+                        connection.query(sql + sql2 + sql3, [ulat, ulng, ulat, geoArray[2], geoArray[3], geoArray[0], geoArray[1], uid, age[0], age[1], pop[0], pop[1], params.geoRange], (error, results) => {
+                            if (error)
+                                rej(error)
+                            else if (results) {
+                                console.log(results[0])
+                                res(results)
+                            }
+                        })
                     })
-                }
-                else
-                    resolve("Has to select a genre")
+                    .catch(catchError)
+                })
+                .catch(catchError)
             })
+            .catch(catchError)
         })
+    }
+
+    static GetPopularity(uid) {
+        console.log("getPopu, uid = " + uid)
+        return new Promise((resolve, reject) => {
+            this.GetAllById(uid)
+            .then(user_info => {
+                    this.getMyTarget(user_info['genre'], user_info['desire'])
+                    .then(sql2 => {
+                        let sql = "SELECT A.field/B.field AS pop FROM (SELECT count(*) AS field FROM likes WHERE uid_target = ?) AS A, (SELECT count(*) AS field FROM users WHERE "
+                        if (sql2 != undefined) {
+                            console.log()
+                            connection.query(sql + sql2 + ") AS B;", [uid], (error, result) => {
+                                if (error) throw error
+                                if (Number(result[0].pop) > 1)
+                                    result[0].pop = 1
+                                console.log("end getPopu" + result[0].pop)
+                                resolve(result[0].pop)                             
+                            })
+                        }
+                        else
+                            resolve("Has to select a genre")
+                    })
+                    .catch(catchError)
+                })
+                .catch(catchError)
+            })
+        }
     }
 
     static GetNotif(uid) {

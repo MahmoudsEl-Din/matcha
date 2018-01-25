@@ -1,6 +1,14 @@
 #div_list_tags {
     display: flex;
     flex-direction: row;
+    flex-flow: wrap-reverse;
+    margin-top: 0.5em;
+}
+
+#div_user_tags {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap-reverse;
 }
 
 .user_tag {

@@ -5,7 +5,6 @@ const catchError = error => {
 } 
 
 module.exports = {
-
     logged_needed: ((req, res, next) => {
         if (!req.session.connected || !req.session.connected.id || !req.session.connected.state){  
             req.session.connected = {'state': false, 'id': undefined}

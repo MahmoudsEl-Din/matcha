@@ -68,7 +68,7 @@ $(document).ready(function () {
 
 
     function click_tags() { 
-        $("#div_list_tags").children().on('click', e =>{
+        $("#div_list_tags").children().on('click', e => {
             // $("#div_user_tags").children().each(i => {
                 
             //     // if (e.target.innerText === i.val)

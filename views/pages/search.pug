@@ -2,7 +2,7 @@ extends layout
 
 block content
 
-    div.search-card.card.col-6.container-fluid(style='max-height: 55rem')
+    div.search-card.card.col-6.container-fluid(style=': 55rem')
         div.card-block
             .search-title
                 h3 Rechercher un membre
@@ -25,9 +25,9 @@ block content
                         div#geoslider-range
                     .tag-pool
                         label(for="tags") Par tags :
-                        div#div_user_tags.col-3 
+                        div#div_user_tags
                         input#profil_tag.form-control(type="text" placeholder="Search tag" maxlength="249" name="profil_bio")
-                        div#div_list_tags.col-3
+                        div#div_list_tags
                         div.w-100.d-flex.justify-content-center.form-group
                             p#return_tags.text-danger
 

@@ -13,7 +13,7 @@ $(document).ready(function () {
             },
             animate: "fast",
             range: true,
-            min: 17,
+            min: 18,
             max: 77,
             values: [18, 26],
             slide: function (event, ui) {
@@ -36,8 +36,8 @@ $(document).ready(function () {
         $("#geoslider-range").slider({
             value: 10,
             min: 0,
-            max: 100,
-            step: 2.5,
+            max: 900,
+            step: 2.5 ,
             slide: function (event, ui) {
                 $("#geoRange").val(ui.value + " km")
                 tooltip.text(ui.value)
@@ -53,8 +53,15 @@ $(document).ready(function () {
 
 
     const funcCallBackRequest = data => {
-            console.log(data)
+            console.log('search jquery : ' + data)
             console.log("success")
+            // new Promise((res, rej) => {
+            //     let url = `/${
+            //         JSON.stringify(
+            //             data
+            //         )}`;
+            //         $.get(url)
+            // })
     };
 
     $('#search-button').click(function (e) {
@@ -87,16 +94,6 @@ $(document).ready(function () {
             .fail(rej)
             .done(res)  
         })
-        // .then(d => {
-        //     if (d === "login")
-        //     {
-        //         return new Promise((res, rej) => {
-        //             $.get(url)
-        //             .fail(rej)
-        //             .done(res)
-        //         })
-        //     }
-        // })
         .then(funcCallBackRequest)
         .catch(console.log);
     })

@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
         }).catch(catchError)
     }
     else 
-        res.render('pages/index', {session :req.session, username: username})
+        res.render('pages/index', {session :req.session, username: username})      
 })
 
 module.exports = router
