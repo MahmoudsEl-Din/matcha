@@ -36,7 +36,7 @@ $(document).ready(function () {
         $("#geoslider-range").slider({
             value: 10,
             min: 0,
-            max: 900,
+            max: 1000,
             step: 2.5 ,
             slide: function (event, ui) {
                 $("#geoRange").val(ui.value + " km")
@@ -53,7 +53,8 @@ $(document).ready(function () {
 
 
     const funcCallBackRequest = data => {
-            console.log('search jquery : ' + data)
+            console.log('search jquery : ')
+            console.log(data)
             console.log("success")
             // new Promise((res, rej) => {
             //     let url = `/${
