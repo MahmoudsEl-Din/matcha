@@ -18,20 +18,37 @@ router.get('/', (req, res) => {
     }).catch(catchError)
 })
 
-router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag',
-    (req, res) => {
+// function checkTag(e, req) {
+//     var i = 0
+//     while (req.params.tag[i]){
+//         if (e.tag_name.search(req.params.tag[i]) !== -1)
+//             return false
+//         i += 1
+//     }
+//     return true
+// }
+
+router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag', (req, res) => {
         console.log("search them all")
         console.log(req.params.tag)
         if (req.session.connected.state !== false) {
             new Promise((resolve, reject) => {
+                req.params.tag = JSON.parse(req.params.tag)
                 User.theBigSearch(req.params, req.session.connected.id)
                 .then(target => {
-                    console.log("I got it")
-                        res.send(target)
-                    // else
-                    //    res.send(filter.map(i => {
-                    //        i.filter()
-                    //    })) 
+                    if (req.params.tag[0])
+                        res.send(target.filter((e) => {
+                            var i = 0
+                            while (req.params.tag[i]){
+                                if (e.tag_name.search(req.params.tag[i]) == -1)
+                                    return false
+                                i += 1
+                            }
+                            return true
+                        }))
+                    else
+                       res.send(target)
+
                 }).catch(console.log)
             })     
         } else
