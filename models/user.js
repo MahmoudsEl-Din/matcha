@@ -498,6 +498,7 @@ class User {
 
 
     static getAroundMe(ulat, ulng, gRange) {
+        console.log(gRange)
         return new Promise((res,rej) => {
             const delta = gRange / (111.1 / Math.cos(ulat * 180 / Math.PI))
             let lngMax = ulng - delta

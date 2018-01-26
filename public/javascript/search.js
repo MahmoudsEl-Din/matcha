@@ -81,7 +81,7 @@ $(document).ready(function () {
             taggs[i] = $(inst).text().replace('⊗', '')
         }
         new Promise((res, rej) => {
-            let url = `/search/search_them_all/${
+            let url = `/${
             JSON.stringify(
                 $("#ageslider-range").slider("values")
             )}/${JSON.stringify(
@@ -91,9 +91,11 @@ $(document).ready(function () {
             )}/${JSON.stringify(
                 taggs
             )}`;
-            $.get(url)
-            .fail(rej)
-            .done(res)  
+            console.log(url)
+            // window.location.replace(url)
+            // $.get(url)
+            // .fail(rej)
+            // .done(res)  
         })
         .then(funcCallBackRequest)
         .catch(console.log);
