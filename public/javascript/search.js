@@ -36,7 +36,7 @@ $(document).ready(function () {
         $("#geoslider-range").slider({
             value: 10,
             min: 0,
-            max: 900,
+            max: 1000,
             step: 2.5 ,
             slide: function (event, ui) {
                 $("#geoRange").val(ui.value + " km")
@@ -53,7 +53,8 @@ $(document).ready(function () {
 
 
     const funcCallBackRequest = data => {
-            console.log('search jquery : ' + data)
+            console.log('search jquery : ')
+            console.log(data)
             console.log("success")
             // new Promise((res, rej) => {
             //     let url = `/${
@@ -80,7 +81,7 @@ $(document).ready(function () {
             taggs[i] = $(inst).text().replace('⊗', '')
         }
         new Promise((res, rej) => {
-            let url = `/search/search_them_all/${
+            let url = `/${
             JSON.stringify(
                 $("#ageslider-range").slider("values")
             )}/${JSON.stringify(
@@ -90,9 +91,11 @@ $(document).ready(function () {
             )}/${JSON.stringify(
                 taggs
             )}`;
-            $.get(url)
-            .fail(rej)
-            .done(res)  
+            console.log(url)
+            // window.location.replace(url)
+            // $.get(url)
+            // .fail(rej)
+            // .done(res)  
         })
         .then(funcCallBackRequest)
         .catch(console.log);

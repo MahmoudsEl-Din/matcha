@@ -81,6 +81,7 @@ class init_db {
         + 'logout INT NOT NULL'
         + ');', (error) => {
             if (error) throw error
+            dontLeaveMeEmpty('logged', 'setup/logged.csv')
         })
 
         this.connection.query('CREATE TABLE IF NOT EXISTS blocked('
@@ -108,6 +109,36 @@ class init_db {
             dontLeaveMeEmpty('likes', 'setup/likes.csv')
         })
 
+        this.connection.query('CREATE TABLE IF NOT EXISTS sockets('
+        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
+        + 'uid INT NOT NULL,'   
+        + 'socket_id VARCHAR(50) NOT NULL,'
+        + 'session_id VARCHAR(50) NOT NULL'
+        + ');', (error) => {
+            if (error) throw error
+            dontLeaveMeEmpty('sockets', 'setup/sockets.csv')
+        })
+
+        this.connection.query('CREATE TABLE IF NOT EXISTS notif('
+        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
+        + 'uid INT NOT NULL,'   
+        + 'uid_sender INT,'
+        + 'type INT NOT NULL,'
+        + 'data VARCHAR(250),'
+        + 'shown INT NOT NULL'
+        + ');', (error) => {
+            if (error) throw error
+            dontLeaveMeEmpty('notif', 'setup/notif.csv')
+        })
+
+        this.connection.query('CREATE TABLE IF NOT EXISTS history('
+        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
+        + 'uid INT NOT NULL,'   
+        + 'uid_visitor INT NOT NULL'
+        + ');', (error) => {
+            if (error) throw error
+        })
+
         function dontLeaveMeEmpty (table, file) {
             let sql = "SELECT * FROM " +table+" ;"
             connection.query(sql, (error, results) => {
@@ -122,74 +153,48 @@ class init_db {
                 }
             })
         }
-        this.connection.query('CREATE TABLE IF NOT EXISTS notif('
-        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
-        + 'uid INT NOT NULL,'   
-        + 'uid_sender INT,'
-        + 'type INT NOT NULL,'
-        + 'data VARCHAR(250),'
-        + 'shown INT NOT NULL'
-        + ');', (error) => {
-            if (error) throw error
-        })
+       
 
-        this.connection.query('CREATE TABLE IF NOT EXISTS sockets('
-        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
-        + 'uid INT NOT NULL,'   
-        + 'socket_id VARCHAR(50) NOT NULL,'
-        + 'session_id VARCHAR(50) NOT NULL'
-        + ');', (error) => {
-            if (error) throw error
-        })
+        // let sql = "SELECT * FROM users;"
+        // this.connection.query(sql, (error, results) => {
+        //     if (error) throw error
+        //     if (results.length === 0) {
 
-        this.connection.query('CREATE TABLE IF NOT EXISTS history('
-        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
-        + 'uid INT NOT NULL,'   
-        + 'uid_visitor INT NOT NULL'
-        + ');', (error) => {
-            if (error) throw error
-        })
-
-        let sql = "SELECT * FROM users;"
-        this.connection.query(sql, (error, results) => {
-            if (error) throw error
-            if (results.length === 0) {
-
-                sql = "INSERT INTO `notif` VALUES"+
-                    "(1, 6, 2, 1, NULL, 1)," +
-                    "(2, 6, 2, 2, 'false', 0)" +                    
-                ";" 
-                this.connection.query(sql, (error) => {
-                    if (error) throw error
-                })
+        //         sql = "INSERT INTO `notif` VALUES"+
+        //             "(1, 6, 2, 1, NULL, 1)," +
+        //             "(2, 6, 2, 2, 'false', 0)" +                    
+        //         ";" 
+        //         this.connection.query(sql, (error) => {
+        //             if (error) throw error
+        //         })
                 
-                sql = "INSERT INTO `sockets` VALUES"+
-                    "(1, 1, 'fffff', 'fffff')," +
-                    "(2, 2, 'fffff', 'fffff')," +
-                    "(3, 3, 'fffff', 'fffff')," +
-                    "(4, 4, 'fffff', 'fffff')," +
-                    "(5, 5, 'fffff', 'fffff')," +
-                    "(6, 6, 'fffff', 'fffff')," +
-                    "(7, 7, 'fffff', 'fffff')" +                    
-                ";" 
-                this.connection.query(sql, (error) => {
-                    if (error) throw error
-                })
+        //         sql = "INSERT INTO `sockets` VALUES"+
+        //             "(1, 1, 'fffff', 'fffff')," +
+        //             "(2, 2, 'fffff', 'fffff')," +
+        //             "(3, 3, 'fffff', 'fffff')," +
+        //             "(4, 4, 'fffff', 'fffff')," +
+        //             "(5, 5, 'fffff', 'fffff')," +
+        //             "(6, 6, 'fffff', 'fffff')," +
+        //             "(7, 7, 'fffff', 'fffff')" +                    
+        //         ";" 
+        //         this.connection.query(sql, (error) => {
+        //             if (error) throw error
+        //         })
 
-                sql = "INSERT INTO `logged` VALUES" +
-                    "(1, 1, 1169059692, 1)," +
-                    "(2, 2, 1169059692, 1)," +
-                    "(3, 3, 1169059692, 1)," +
-                    "(4, 4, 1169059692, 1)," +
-                    "(5, 5, 1169059692, 1)," +
-                    "(6, 6, 1169059692, 1)," +
-                    "(7, 7, 1169059692, 1)" +
-                ";" 
-                this.connection.query(sql, (error) => {
-                    if (error) throw error
-                })
-            }
-        })
+        //         sql = "INSERT INTO `logged` VALUES" +
+        //             "(1, 1, 1169059692, 1)," +
+        //             "(2, 2, 1169059692, 1)," +
+        //             "(3, 3, 1169059692, 1)," +
+        //             "(4, 4, 1169059692, 1)," +
+        //             "(5, 5, 1169059692, 1)," +
+        //             "(6, 6, 1169059692, 1)," +
+        //             "(7, 7, 1169059692, 1)" +
+        //         ";" 
+        //         this.connection.query(sql, (error) => {
+        //             if (error) throw error
+        //         })
+        //     }
+        // })
         global.connection = this.connection
     }
 }
