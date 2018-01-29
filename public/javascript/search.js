@@ -53,16 +53,11 @@ $(document).ready(function () {
 
 
     const funcCallBackRequest = data => {
-            console.log('search jquery : ')
+            console.log('success')
             console.log(data)
-            console.log("success")
-            // new Promise((res, rej) => {
-            //     let url = `/${
-            //         JSON.stringify(
-            //             data
-            //         )}`;
-            //         $.get(url)
-            // })
+            let url = `/${JSON.stringify(data)}`
+            console.log(url)
+            // $.get(url)
     };
 
     $('#search-button').click(function (e) {
@@ -81,7 +76,7 @@ $(document).ready(function () {
             taggs[i] = $(inst).text().replace('⊗', '')
         }
         new Promise((res, rej) => {
-            let url = `/${
+            let url = `/search/search_them_all/${
             JSON.stringify(
                 $("#ageslider-range").slider("values")
             )}/${JSON.stringify(
@@ -93,9 +88,9 @@ $(document).ready(function () {
             )}`;
             console.log(url)
             // window.location.replace(url)
-            // $.get(url)
-            // .fail(rej)
-            // .done(res)  
+             $.get(url)
+             .fail(rej)
+             .done(res)  
         })
         .then(funcCallBackRequest)
         .catch(console.log);

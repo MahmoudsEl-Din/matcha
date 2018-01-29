@@ -34,9 +34,7 @@ class init_db {
             + 'pop INT, CHECK (pop BETWEEN 0 AND 100)'
             + ');', (error) => {
                 if (error) throw error
-                let table = 'users'
-                let file = 'setup/users.csv'
-                dontLeaveMeEmpty(table, file)
+            dontLeaveMeEmpty('users', 'setup/users.csv')
         })
       
         this.connection.query('CREATE TABLE IF NOT EXISTS code('
