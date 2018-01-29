@@ -2,14 +2,14 @@ extends layout
         
 block content
         
-        div.mt-5.mb-5.container.text-center(style="background-color: white;border-radius: 2px;padding-left:50px;padding-right:50px;").pb-4
+        div.mt-5.mb-5.container.text-center(style="background-color: white;border-radius: 2px;padding-left:50px;padding-right:50px;padding-bottom:10%;")
 
                 div.pb-2.form-group.row.justify-content-center.mt-5.border.border-top-0.border-left-0.border-right-0
                         h1#username.sarina= user['username']
 
                 div.row-8.p-4.container-fluid#div_pictures(style="height: 400px; border-radius: 2px;").border.border-top-0.border-left-0.border-right-0
                         div.row.justify-content-center(style={height:'73%', padding:'1%'})
-                                div.col-12.h-100.w-100
+                                div.col-3.h-100.w-100
                                         form(action="fileupload" method="post" enctype="multipart/form-data")
                                                 input(type='file' name='picture').d-none#pic1
                                                 input(type='submit' name="submitphotos").d-none#pic_sub                        
@@ -20,24 +20,28 @@ block content
                                 div.col-2.h-100.w-100
                                         img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img2.picture_none
                                         
-                                        div.picture_tools.w-100.d-none
-                                                a.delete_picture Delete
-                                                a.set_profil_pic Set profil pic
+                                        div.picture_tools.w-100.d-none.container
+                                                div.row
+                                                        a.col-4.delete_picture.m-auto Delete
+                                                        a.col-8.set_profil_pic.m-auto Set profil
                                 div.col-2.h-100.w-100
                                         img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img3.picture_none
-                                        div.picture_tools.w-100.d-none
-                                                a.delete_picture Delete
-                                                a.set_profil_pic Set profil pic
+                                        div.picture_tools.w-100.d-none.container
+                                                div.row
+                                                        a.delete_picture.m-auto Delete
+                                                        a.set_profil_pic.m-auto Set profil
                                 div.col-2.h-100.w-100
                                         img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img4.picture_none
-                                        div.picture_tools.w-100.d-none
-                                                a.delete_picture Delete
-                                                a.set_profil_pic Set profil pic
+                                        div.picture_tools.w-100.d-none.container
+                                                div.row
+                                                        a.delete_picture.m-auto Delete
+                                                        a.set_profil_pic.m-auto Set profil
                                 div.col-2.h-100.w-100
                                         img(src="/assets/ressources/add_icon.png" style="border: 1px solid red;border-radius: 500px 500px 500px 500px;").img-circle.border.img-responsive.h-100#img5.picture_none
-                                        div.picture_tools.w-100.d-none
-                                                a.delete_picture Delete
-                                                a.set_profil_pic Set profil pic
+                                        div.picture_tools.w-100.d-none.container
+                                                div.row
+                                                        a.delete_picture.m-auto Delete
+                                                        a.set_profil_pic.m-auto Set profil
                         div.row
                                 div.w-100.d-flex.justify-content-center.form-group
                                         p#return_picture.text-danger
@@ -171,19 +175,17 @@ block content
                                 div.col-3                                
                                 div.col-6
                                         input#profil_tag.form-control(type="text" placeholder="Search or create a tag (Max 249 characters)" maxlength="249" name="profil_bio")
-                                        //- div#dropdown_tags
-                                                h1 TEST
                                 div.col-3       
                                 div.col-1                         
                                 div#div_list_tags.col-10.justify-content-left(style="overflow:auto;")
                                 div.col-1
                         div.w-100.d-flex.justify-content-center.form-group
                                 p#return_tags.text-danger
-                div.col-12.container
+                div.col-12.container.pb-5
                         div.col-4
                         button.col-4#button_map.btn.btn-primary.m-5.p-2 Geolocalize or Localize yourself
                         div.col-4
-                        div.col-8#map.w-100.m-auto.d-none
+                        div.col-8#map(style="height:250px;width: 500px;").m-auto.d-none
                 
         
                 script(src="assets/javascript/gmap.js")

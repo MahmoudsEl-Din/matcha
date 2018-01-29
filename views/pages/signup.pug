@@ -2,37 +2,41 @@ extends layout
         
 block content
 
-        form.form-container#form_signup.container(method="POST")
-                span.col-3
-                        h1 Sign up
-                div.form-group.row.justify-content-center
-                        label(for="signup_username") Username
-                        div.w-100
-                        input#signup_username.form-control(type="text" placeholder="Enter username" name="signup_username").col-4
-                div.form-group.row.justify-content-center
-                        label(for="signup_email") Email
-                        div.w-100
-                        input#signup_email.form-control.border(type="email" placeholder="example@htomail.fr" name="signup_email").col-4
-                div.form-group.row.justify-content-center
-                        label(for="signup_firstname") First name
-                        div.w-100
-                        input#signup_firstname.form-control(type="text" placeholder="Enter first name" name="signup_firstname").col-4
-                div.form-group.row.justify-content-center
-                        label(for="signup_lastname") Last name
-                        div.w-100
-                        input#signup_lastname.form-control(type="text" placeholder="Enter last name" name="signup_lastname").col-4
-                div.form-group.row.justify-content-center
-                        label(for="signup_password") Password
-                        div.w-100
-                        input#signup_password.form-control(type="password" placeholder="Enter password" name="signup_password" data-toggle="tooltip" data-placement="right" title="Contain at least 8 characters, 1 number, 1 lowercase character (a-z), 1 uppercase character (A-Z) and contains only 0-9a-zA-Z").col-3
-                div.form-group.row.justify-content-center
-                        label(for="signup_cpassword") Confirm password
-                        div.w-100
-                        input#signup_cpassword.form-control(type="password" placeholder="Confirm password" name="signup_cpassword").col-4
-                div.w-100.d-flex.justify-content-center.form-group
-                        p#return-signup.text-danger
-                button#submit_signup(type="submit").btn.btn-primary Submit
-        
+        div#main_signup.mt-5.mb-5.container.text-center(style="background-color: white;border-radius: 2px;padding-left:50px;padding-right:50px;")
+                form.form-container#form_signup.container(method="POST").p-0.m-0
+                        div.row.w-100.pb-2.justify-content-center.border.border-top-0.border-left-0.border-right-0.mt-5
+                                div.col-4.w-100
+                                div.col-4.text-center
+                                        h1.sarina Sign up
+                                div.col-4                        
+                        div.form-group.row.justify-content-center
+                                label(for="signup_username") Username
+                                div.w-100
+                                input#signup_username.form-control(type="text" placeholder="Enter username" name="signup_username").col-4
+                        div.form-group.row.justify-content-center
+                                label(for="signup_email") Email
+                                div.w-100
+                                input#signup_email.form-control.border(type="email" placeholder="example@htomail.fr" name="signup_email").col-4
+                        div.form-group.row.justify-content-center
+                                label(for="signup_firstname") First name
+                                div.w-100
+                                input#signup_firstname.form-control(type="text" placeholder="Enter first name" name="signup_firstname").col-4
+                        div.form-group.row.justify-content-center
+                                label(for="signup_lastname") Last name
+                                div.w-100
+                                input#signup_lastname.form-control(type="text" placeholder="Enter last name" name="signup_lastname").col-4
+                        div.form-group.row.justify-content-center
+                                label(for="signup_password") Password
+                                div.w-100
+                                input#signup_password.form-control(type="password" placeholder="Enter password" name="signup_password" data-toggle="tooltip" data-placement="right" title="Contain at least 8 characters, 1 number, 1 lowercase character (a-z), 1 uppercase character (A-Z) and contains only 0-9a-zA-Z").col-3
+                        div.form-group.row.justify-content-center
+                                label(for="signup_cpassword") Confirm password
+                                div.w-100
+                                input#signup_cpassword.form-control(type="password" placeholder="Confirm password" name="signup_cpassword").col-4
+                        div.w-100.d-flex.justify-content-center.form-group
+                                p#return-signup.text-danger
+                        button#submit_signup(type="submit").btn.btn-primary Submit
+
         script(src="assets/javascript/signup.js")
         //- link(rel="stylesheet" href="/assets/stylesheets/signup.css")
         //- div(class="ui red container") mid

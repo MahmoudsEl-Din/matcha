@@ -379,7 +379,7 @@ $(document).ready(function(){
 
     $('.delete_picture').click (function(e) {
         e.preventDefault()
-        position = $(e.target).parent().parent().find('img').prop('id').replace('img', '')
+        position = $(e.target).parent().parent().parent().find('img').prop('id').replace('img', '')
         if (position >= 1 && position <= 5) {
             $.get('/profil/del_picture', {position: position}, (data, jqHXR) => {
                 if (jqHXR === "success") {
@@ -395,7 +395,7 @@ $(document).ready(function(){
 
     $('.set_profil_pic').click (function(e) {
         e.preventDefault()
-        position = $(e.target).parent().parent().find('img').prop('id').replace('img', '')
+        position = $(e.target).parent().parent().parent().find('img').prop('id').replace('img', '')
         if (position >= 2 && position <= 5) {
             $.get('/profil/set_profil_pic', {position: position}, (data, jqHXR) => {
                 if (jqHXR === "success") {
@@ -428,7 +428,7 @@ $(document).ready(function(){
             var content = ''
             var sender_name = undefined
             data.forEach((elem) => {
-                if (elem['shown'] === 0)
+                if (elem['shown'] === 0 && new_notif)
                     new_notif += 1
                 if (elem['type'] === 1 || (elem['type'] === 2 && elem['data'] === 'true')) {
                     $.get('/notif/get_user', {id: elem['uid_sender']}, function(data, jqHXR) {
