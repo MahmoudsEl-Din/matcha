@@ -49,7 +49,7 @@ $(document).ready(function(){
                 get_pictures(data)
                 get_like(data)
                 get_other_like(data)
-                get_popularity(data)
+                // get_popularity(data)
             }
         })
     }

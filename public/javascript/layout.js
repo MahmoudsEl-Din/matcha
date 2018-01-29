@@ -58,6 +58,7 @@ $(document).ready(function(){
             displayed = false
         }
     })
+    
     $("#connexion").click(function(e) {
         e.stopPropagation() // This is the preferred method.
         $("#div_forgot").hide()
