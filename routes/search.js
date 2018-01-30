@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
 //     return true
 // }
 
-router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag', (req, res) => {
+router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag/:page', (req, res) => {
         console.log("search them all")
         console.log(req.params.tag)
         if (req.session.connected.state !== false) {

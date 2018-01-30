@@ -2,9 +2,12 @@ extends layout
         
 block content
 
-        -if (session.connected.state === true) 
+        -if (session.connected.state === true)
+                div.col-md-3.p-3(style="background-color: white;").h-100
+                        button#button_page(style="position: fixed") Next Page
+                div.col-md-6#users
+                div.col-md-3
                 script(src="assets/javascript/index.js" type="text/javascript")
-                div#users
 
         //- div(class="ui red container") mid
         //- h5 Connection
