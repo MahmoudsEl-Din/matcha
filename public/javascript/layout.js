@@ -58,6 +58,7 @@ $(document).ready(function(){
             displayed = false
         }
     })
+    
     $("#connexion").click(function(e) {
         e.stopPropagation() // This is the preferred method.
         $("#div_forgot").hide()
@@ -101,6 +102,22 @@ $(document).ready(function(){
     $("#dropdown_notif").click(function(e) {
         e.stopPropagation() // This is the preferred method.
         return false
+    })
+
+    $("#profile").click(function(e) {
+        window.location.replace("/profil")
+    })
+
+    $("#matcha").click(function(e) {
+        window.location.replace("/")
+    })
+
+    $("#chat_link").click(function(e) {
+        window.location.replace("/chat")
+    })
+    
+    $("#explo_link").click(function(e) {
+        window.location.replace("/search")
     })
 
     if (window.location.pathname === '/profil/historic') {

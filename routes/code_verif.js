@@ -26,18 +26,18 @@ router.get('/', (req, res) => {
         Check.CodeExists(null, req.query.code, null)
         .then((results) => {
             if (results[false])
-                return res.redirect('/error')
+                res.redirect('/error')
             else if (results[2] === 1)
                 return [1, AddDb.ActivateCode(req.query.code)]
             else if (results[2] === 2)
                 return [2, true]
         }).then((ret) => {
             if (ret && ret[0] === 1)
-                return res.render('pages/code', {session :req.session, username: username, type: 1})
+                res.render('pages/code', {session :req.session, username: username, type: 1})
             else if (ret && ret[0] === 2)
-                return res.render('pages/code', {session :req.session, username: username, type: 2})
-            else
-                return res.redirect('/error')
+                res.render('pages/code', {session :req.session, username: username, type: 2})
+            else if (ret)
+                res.redirect('/error')
         }).catch(catchError)
     }
 })

@@ -4,8 +4,8 @@ block content
 
     div.search-card.card.col-6.container-fluid(style=': 55rem')
         div.card-block
-            .search-title
-                h3 Rechercher un membre
+            .search-title.muffin.border.border-top-0.border-left-0.border-right-0.text-center
+                h2.mb-3 Rechercher un membre
             .search-container
                 form#search-form(action="POST")
                     .age-range
@@ -25,13 +25,13 @@ block content
                         div#geoslider-range
                     .tag-pool
                         label(for="tags") Par tags :
-                        div#div_user_tags
+                        div#div_user_tags.text-center
                         input#profil_tag.form-control(type="text" placeholder="Search tag" maxlength="249" name="profil_bio")
-                        div#div_list_tags
+                        div#div_list_tags(style= "overflow-y: auto;")
                         div.w-100.d-flex.justify-content-center.form-group
                             p#return_tags.text-danger
 
-                button#search-button(type="submit").btn.btn-primary Rechercher        
+                    button#search-button(type="submit" style="margin-left:auto;").btn.btn-primary Rechercher        
 
         script(src="assets/javascript/search.js")
         script(src="assets/javascript/tagsinput.js")

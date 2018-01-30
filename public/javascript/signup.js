@@ -113,10 +113,10 @@ $(document).ready(function(){
                         document.getElementById("signup_cpassword").value = ''
                     }
                     else {
-                        $("#form_signup").empty()
-                        $("#maindiv").addClass('text-white')
-                        $("#maindiv").addClass('text-center')
-                        document.getElementById("maindiv").innerHTML = data[1]
+                        $("#main_signup").empty()
+                        $("#main_signup").addClass('text-center')
+                        document.getElementById("main_signup").innerHTML = data[1]
+
                     }
                 }
             else {
