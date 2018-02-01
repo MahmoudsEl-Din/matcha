@@ -489,8 +489,20 @@ class User {
                 }).then((ret) => {
                     connection.query(ret[0], [uid, uid_target], (error, result) => {
                         if (error) throw error
-                        resolve(ret[1])
-                    })         
+                    })
+                    // Bayesian Ratings
+                    let newPop = "\
+                    UPDATE users SET pop = \
+                    (SELECT 100 * (-2 + \
+                        ((COUNT(id) * (COUNT(id) / COUNT(DISTINCT uid_target))) + \
+                        ((SELECT COUNT(uid_target) FROM (SELECT * FROM likes) AS le_mysql WHERE uid_target = ?) * \
+                        (SELECT pop FROM (SELECT * FROM users) AS c_est WHERE id = ?))) / \
+                        (COUNT(id) + (SELECT COUNT (uid_target) FROM (SELECT * FROM likes) AS de_la WHERE uid_target = ?)))   \
+                    FROM (SELECT * FROM likes) AS zeub) WHERE id = ?;" 
+                    connection.query(newPop, uid_target, (error, result) => {
+                        if (error) throw error
+                    })
+                    resolve(ret[1])         
                 }).catch(catchError)
             })
         })
@@ -558,11 +570,43 @@ class User {
                 const pop = JSON.parse(params.popRange)
                 const geoArray = misc[1]
                 const sql2 = misc[2]
-                let sql = "SELECT users.id, username, name, lastname, age, bio, genre, desire, (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance, tag_name, pop FROM users INNER JOIN tags ON tags.userid = users.id WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? AND users.id != ? AND "
-                let sql3 = "  AND age BETWEEN ? AND ? AND pop BETWEEN ? AND ? HAVING distance < ? ORDER BY pop LIMIT ?, 10;"
-                console.log("SELECT name, lastname, age, bio, genre, users.id, desire, (6371 * acos(cos(radians("+geoArray[0]+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+geoArray[1]+")) + sin(radians("+geoArray[0]+")) * sin(radians(lat)))) AS distance, tag_name, pop FROM users INNER JOIN tags ON tags.userid = users.id WHERE lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" AND lng BETWEEN "+geoArray[4]+" AND "+geoArray[5]+" AND users.id != "+uid+" AND "+sql2+"  AND age BETWEEN "+age[0]+" AND "+age[1]+" AND pop BETWEEN "+pop[0]+" AND "+pop[1]+" HAVING distance < "+params.geoRange+" ORDER BY pop LIMIT "+ params.page * 10 +", 10;" + "\n")
+                let sql = "\
+                SELECT users.id, username, name, lastname, age, bio, genre, desire, \
+                (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance, \
+                tag_name, pop \
+                FROM users \
+                INNER JOIN tags ON tags.userid = users.id \
+                WHERE\
+                 lat BETWEEN ? AND ? \
+                 AND lng BETWEEN ? AND ?  \
+                 AND users.id != ? AND "
+                
+                let sql3 = "  \
+                AND age BETWEEN ? AND ? \
+                AND pop BETWEEN ? AND ? \
+                HAVING distance < ? ORDER BY pop \
+                LIMIT ?, 10;"
+                
+                console.log("\
+                SELECT name, lastname, age, bio, genre, users.id, desire, \
+                (6371 * acos(cos(radians("+geoArray[0]+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+geoArray[1]+")) + sin(radians("+geoArray[0]+")) * sin(radians(lat)))) AS distance, \
+                tag_name, pop \
+                FROM users \
+                INNER JOIN tags ON tags.userid = users.id \
+                WHERE\
+                 lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" \
+                 AND lng BETWEEN "+geoArray[4]+" AND "+geoArray[5]+" \
+                 AND users.id != "+uid+" AND "+sql2+"  \
+                 AND age BETWEEN "+age[0]+" AND "+age[1]+" \
+                 AND pop BETWEEN "+pop[0]+" AND "+pop[1]+" \
+                 HAVING distance < "+params.geoRange+"  \
+                ORDER BY pop \
+                LIMIT "+ params.page * 10 +", 10;" + "\n")
               
-                connection.query(sql + sql2 + sql3, [geoArray[0], geoArray[1], geoArray[0], geoArray[2], geoArray[3], geoArray[4], geoArray[5], uid, age[0], age[1], pop[0], pop[1], params.geoRange, params.page * 10], (error, results) => {
+                connection.query(sql + sql2 + sql3, 
+                    [geoArray[0], geoArray[1], geoArray[0], geoArray[2], geoArray[3], geoArray[4], geoArray[5], 
+                    uid, age[0], age[1], pop[0], pop[1], params.geoRange, params.page * 10], 
+                    (error, results) => {
                     if (error)
                         reject(error)
                     else if (!results) {
@@ -662,3 +706,4 @@ class User {
 }
 
 module.exports = User
+
