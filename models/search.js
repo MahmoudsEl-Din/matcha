@@ -76,9 +76,13 @@ class Search extends User {
                 let sql = "\
                 SELECT users.id, username, name, lastname, age, bio, genre, desire, \
                 (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance, \
-                tag_name, pop \
+                pop, \
+                (SELECT count(tag_name) \
+                FROM tags \
+                WHERE userid = users.id AND tag_name IN \
+                (SELECT tag_name WHERE userid = ?) \
+                GROUP BY userid) AS common_interest\
                 FROM users \
-                INNER JOIN tags ON tags.userid = users.id \
                 WHERE\
                  lat BETWEEN ? AND ? \
                  AND lng BETWEEN ? AND ?  \
@@ -93,9 +97,13 @@ class Search extends User {
                 console.log("\
                 SELECT name, lastname, age, bio, genre, users.id, desire, \
                 (6371 * acos(cos(radians("+geoArray[0]+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+geoArray[1]+")) + sin(radians("+geoArray[0]+")) * sin(radians(lat)))) AS distance, \
-                tag_name, pop \
+                pop, \
+                (SELECT count(tag_name) \
+                FROM tags \
+                WHERE userid = users.id AND tag_name IN \
+                (SELECT tag_name WHERE userid ="+uid+") \
+                GROUP BY userid) AS common_interest\
                 FROM users \
-                INNER JOIN tags ON tags.userid = users.id \
                 WHERE\
                  lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" \
                  AND lng BETWEEN "+geoArray[4]+" AND "+geoArray[5]+" \
@@ -107,7 +115,7 @@ class Search extends User {
                 LIMIT "+ params.page * 10 +", 10;" + "\n")
               
                 connection.query(sql + sql2 + sql3, 
-                    [geoArray[0], geoArray[1], geoArray[0], geoArray[2], geoArray[3], geoArray[4], geoArray[5], 
+                    [geoArray[0], geoArray[1], geoArray[0], uid, geoArray[2], geoArray[3], geoArray[4], geoArray[5], 
                     uid, age[0], age[1], pop[0], pop[1], params.geoRange, params.page * 10], 
                     (error, results) => {
                     if (error)
