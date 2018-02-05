@@ -38,6 +38,31 @@ class Search extends User {
         })
     }
 
+    static getOrder(order) {
+        return new Promise ((res, rej) => {       
+            let ret = undefined
+            if (order == 0)
+                ret = "ORDER BY pop"
+            else if (order == 1)
+                ret = "ORDER BY age ASC"
+            else if (order == 2)
+                ret = "ORDER BY age DESC"
+            else if (order == 3)
+                ret = "ORDER BY pop DESC"
+            else if (order == 4)
+                ret = "ORDER BY pop ASC"
+            else if (order == 5)
+                ret = "ORDER BY distance ASC"
+            else if (order == 6)
+                ret = "ORDER BY distance DESC"
+            else if (order == 7)
+                ret = "ORDER BY common_interest ASC"
+            else if (order == 8)
+                ret = "ORDER BY common_interest DESC"
+            res(ret)
+        })
+    }
+
     static getMyTarget(genre, desire) {
         return new Promise (
             (res, rej) => {
@@ -66,13 +91,15 @@ class Search extends User {
                 return Promise.all([
                     user_info, 
                     this.getAroundMe(user_info['lat'], user_info['lng'], params.geoRange), 
-                    this.getMyTarget(user_info['genre'], user_info['desire'])
+                    this.getMyTarget(user_info['genre'], user_info['desire']),
+                    this.getOrder(params.order)
                 ])
             }).then(misc => {
                 const age = JSON.parse(params.ageRange)
                 const pop = JSON.parse(params.popRange)
                 const geoArray = misc[1]
                 const sql2 = misc[2]
+                params.order = misc[3]
                 let sql = "\
                 SELECT users.id, username, name, lastname, age, bio, genre, desire, \
                 (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance, \
@@ -91,8 +118,9 @@ class Search extends User {
                 let sql3 = "  \
                 AND age BETWEEN ? AND ? \
                 AND pop BETWEEN ? AND ? \
-                HAVING distance < ? ORDER BY pop \
-                LIMIT ?, 10;"
+                HAVING distance < ? "
+                + params.order + 
+                " LIMIT ?;"
                 
                 console.log("\
                 SELECT name, lastname, age, bio, genre, users.id, desire, \
@@ -110,9 +138,9 @@ class Search extends User {
                  AND users.id != "+uid+" AND "+sql2+"  \
                  AND age BETWEEN "+age[0]+" AND "+age[1]+" \
                  AND pop BETWEEN "+pop[0]+" AND "+pop[1]+" \
-                 HAVING distance < "+params.geoRange+"  \
-                 ORDER BY pop \
-                LIMIT "+ params.page * 10 +", 10;" + "\n")
+                 HAVING distance < "+params.geoRange + 
+                 + " " + params.order + 
+                " LIMIT "+ params.page * 10 +";" + "\n")
               
                 connection.query(sql + sql2 + sql3, 
                     [geoArray[0], geoArray[1], geoArray[0], uid, geoArray[2], geoArray[3], geoArray[4], geoArray[5], 
