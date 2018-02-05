@@ -1,8 +1,8 @@
 let express = require('express')
 let router = express()
-var User = require('../models/user.js')
-let geolib = require('geolib')
-
+var User = require('../models/user')
+// let geolib = require('geolib')
+const Search = require('../models/search')
 
 
 let catchError = error => {
@@ -34,7 +34,7 @@ router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag/:page', (req, re
         if (req.session.connected.state !== false) {
             new Promise((resolve, reject) => {
                 req.params.tag = JSON.parse(req.params.tag)
-                User.theBigSearch(req.params, req.session.connected.id)
+                Search.theBigSearch(req.params, req.session.connected.id)
                 
                 .then(target => {
                     if (req.params.tag[0])
