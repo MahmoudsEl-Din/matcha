@@ -28,14 +28,14 @@ router.get('/', (req, res) => {
 //     return true
 // }
 
-router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag/:page', (req, res) => {
+router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag/:page/:order', (req, res) => {
         console.log("search them all")
         console.log(req.params.tag)
         if (req.session.connected.state !== false) {
             new Promise((resolve, reject) => {
                 req.params.tag = JSON.parse(req.params.tag)
+                req.params.order = JSON.parse(req.params.order)                
                 User.theBigSearch(req.params, req.session.connected.id)
-                
                 .then(target => {
                     if (req.params.tag[0])
                         res.send(target.filter((e) => {
