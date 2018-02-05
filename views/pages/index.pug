@@ -3,10 +3,56 @@ extends layout
 block content
 
         -if (session.connected.state === true)
-                div.col-md-3.p-3(style="background-color: white;").h-100
-                        button#button_page(style="position: fixed") Next Page
-                div.col-md-6#users
-                div.col-md-3
+                div.col-md-3.p-3.h-100.justify-center
+                        div.row(style="height: 50px;").mx-auto.w-auto
+                                
+                        //- div.row(style="height: 50px;").mx-auto.w-auto
+                                //- button#button_page.btn.btn-secondary(style="position: fixed") Next Page                        
+                div.col-md-6
+                        div.row.w-100#users
+
+                        div.row.w-100(style="height: 50px;").mt-4.mx-auto.d-flex.justify-content-center
+                                button#button_page.btn.btn-warning(style= "border-radius: 500px;width: 75px;height:75px;font-size : 55px;padding: 0px;").muffin +
+                div.col-md-3.p-5
+                        div(style="position: fixed;background-color: white;border-radius:2px").mr-auto
+                                div.row(style="height: 50px;width: 200px;").m-5
+                                        div.w-50
+                                                h5 Age
+                                        div.w-50.d-flex.justify-content-around
+                                                a#age_up
+                                                        h5 &uarr;
+                                                a#age_down
+                                                        h5 &darr;         
+                                div.row(style="height: 50px;width: 200px;").m-5
+                                        div.w-50
+                                                h5 Localisation
+                                        div.w-50.d-flex.justify-content-around
+                                                a#loc_up
+                                                        h5 &uarr;
+                                                a#loc_down
+                                                        h5 &darr;
+                                div.row(style="height: 50px;width: 200px;").m-5
+                                        div.w-50
+                                                h5 Popularity
+                                        div.w-50.d-flex.justify-content-around
+                                                a#pop_up
+                                                        h5 &uarr;
+                                                a#pop_down
+                                                        h5 &darr;
+                                div.row(style="height: 50px;width: 200px;").m-5
+                                        div.w-50
+                                                h5 Tags
+                                        div.w-50.d-flex.justify-content-around
+                                                a#tag_up
+                                                        h5 &uarr;
+                                                a#tag_down
+                                                        h5 &darr;      
+                                //- div.row(style="height: 50px;").mx-auto.w-50.m-5
+                                //-         a localisation
+                                //- div.row(style="height: 50px;").mx-auto.w-50.m-5
+                                //-         a popu
+                                //- div.row(style="height: 50px;").mx-auto.w-50.m-5
+                                //-         a tag                
                 script(src="assets/javascript/index.js" type="text/javascript")
 
         //- div(class="ui red container") mid

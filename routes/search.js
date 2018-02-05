@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
 //     return true
 // }
 
-router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag/:page', (req, res) => {
+router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag/:page/:order', (req, res) => {
         console.log("search them all")
         console.log(req.params.tag)
         if (req.session.connected.state !== false) {
@@ -36,6 +36,8 @@ router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag/:page', (req, re
                 req.params.tag = JSON.parse(req.params.tag)
                 Search.theBigSearch(req.params, req.session.connected.id)
                 
+                req.params.order = JSON.parse(req.params.order)                
+                Search.theBigSearch(req.params, req.session.connected.id)
                 .then(target => {
                     if (req.params.tag[0])
                         res.send(target.filter((e) => {
