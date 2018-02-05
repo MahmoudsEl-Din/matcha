@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express()
 var User = require('../models/user.js')
+const Search = require('../models/search')
 
 let catchError = (error) => {
     console.error(error)

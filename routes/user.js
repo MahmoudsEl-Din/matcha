@@ -103,12 +103,12 @@ router.get('/like_user', (req, res) => {
         if (ret2 !== undefined) {
             console.log('3')
             if (ret2 === false) {
-                console.log('dsfibdsifbiubsfiubsduibfiubwifubsiufbiub')
+                console.log('ret = false')
                 User.NewNotifLike(req.session.connected.id, req.query.uid, 'true')
                 retfi[2] = false
             }
             else {
-                console.log('lklklklkllklklklkllklklkllklklklklkllklklklkl')
+                console.log('ret= true')
                 User.NewNotifLike(req.session.connected.id, req.query.uid, 'match')
                 retfi[2] = true
             }

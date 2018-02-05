@@ -10,7 +10,8 @@ block content
                 div.w-100.d-flex.justify-content-between
                         div#connected.muffin
                         div#popuz
-                                h4.muffin Popularity: 75%
+                                span Points de popularité
+                                h4.muffin#label_popularity(for="profil_popularity")= user['pop']
                 div.form-group.row.justify-content-center
                         div.col-6
                                 h4#other_like.muffin
