@@ -74,24 +74,22 @@ class Search extends User {
                 const geoArray = misc[1]
                 const sql2 = misc[2]
                 let sql = "\
-                SELECT users.id, username, name, lastname, age, bio, genre, desire, \
-                (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance, \
-                pop, \
-                (SELECT count(tag_name) \
-                FROM tags \
-                WHERE userid = users.id AND tag_name IN \
-                (SELECT tag_name WHERE userid = ?) \
-                GROUP BY userid) AS common_interest\
-                FROM users \
+                SELECT users.id, username, name, lastname, age, bio, genre, desire,\
+                (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance,\
+                pop,\
+                COALESCE((SELECT count(tag_name) FROM tags WHERE userid = users.id AND tag_name IN (SELECT tag_name FROM tags WHERE userid = ?) GROUP BY userid),0) AS common_interest\
+                FROM users\
+                INNER JOIN tags ON tags.userid = users.id\
                 WHERE\
-                 lat BETWEEN ? AND ? \
-                 AND lng BETWEEN ? AND ?  \
+                 lat BETWEEN ? AND ?\
+                 AND lng BETWEEN ? AND ?\
                  AND users.id != ? AND "
                 
                 let sql3 = "  \
                 AND age BETWEEN ? AND ? \
                 AND pop BETWEEN ? AND ? \
-                HAVING distance < ? ORDER BY pop \
+                GROUP BY users.id \
+                HAVING distance < ? ORDER BY common_interest DESC \
                 LIMIT ?, 10;"
                 
                 console.log("\
