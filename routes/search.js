@@ -34,8 +34,6 @@ router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag/:page/:order', (
         if (req.session.connected.state !== false) {
             new Promise((resolve, reject) => {
                 req.params.tag = JSON.parse(req.params.tag)
-                Search.theBigSearch(req.params, req.session.connected.id)
-                
                 req.params.order = JSON.parse(req.params.order)                
                 Search.theBigSearch(req.params, req.session.connected.id)
                 .then(target => {
