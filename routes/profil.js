@@ -65,6 +65,7 @@ router.post('/first_email', (req, res) => {
 router.post('/change_firstname', (req, res) => {
     if (req.body.profil_firstname && req.session.connected && req.session.connected.id){
         if (req.body.profil_firstname.length < 20){
+            // User.generalUpdateUser('name', req.body.profil_firstname, req.session.connected.id)
             User.ChangeFirstName(req.session.connected.id, req.body.profil_firstname)
             .then((state) => {
                 if (state === true)
@@ -84,6 +85,7 @@ router.post('/change_firstname', (req, res) => {
 router.post('/change_lastname', (req, res) => {
     if (req.body.profil_lastname && req.session.connected && req.session.connected.id){
         if (req.body.profil_lastname.length < 20){
+            // User.generalUpdateUser('lastname', req.body.profil_lastname, req.session.connected.id)
             User.ChangeLastName(req.session.connected.id, req.body.profil_lastname)
             .then((state) => {
                 if (state === true)
@@ -114,6 +116,7 @@ router.post('/change_email', (req, res) => {
                 if (status === undefined)
                     return
                 else if (status !== null)
+                    // return User.generalUpdateUser('email', req.body.profil_email, req.session.connected.id)
                     return User.ChangeEmail(req.session.connected.id, req.body.profil_email)
                 else if (status !== undefined)
                     res.send([false, 'Wrong email'])
@@ -135,6 +138,7 @@ router.post('/change_email', (req, res) => {
 // Change gender
 router.post('/change_gender', (req, res) => {
     if (req.body.profil_gender && req.session.connected && req.session.connected.id && (req.body.profil_gender === 'B' || req.body.profil_gender === 'F' || req.body.profil_gender === 'M')){
+        // User.generalUpdateUser('genre', req.body.profil_gender, req.session.connected.id)
         User.ChangeGender(req.session.connected.id, req.body.profil_gender)
         .then((status) => {
             if (status === true){
@@ -160,6 +164,7 @@ router.post('/change_gender', (req, res) => {
 // Change desire
 router.post('/change_desire', (req, res) => {
     if (req.body.profil_desire && req.session.connected.id && (req.body.profil_desire === 'B' || req.body.profil_desire === 'F' || req.body.profil_desire === 'M')){
+        // User.generalUpdateUser('desire', req.body.profil_desire, req.session.connected.id)
         User.ChangeDesire(req.session.connected.id, req.body.profil_desire)
         .then((status) => {
             if (status === true){
@@ -211,6 +216,7 @@ router.post('/change_desire', (req, res) => {
 router.post('/change_bio', (req, res) => {
     if (req.body.profil_bio && req.session.connected && req.session.connected.id){
         if (req.body.profil_bio.length < 248){
+            // User.generalUpdateUser('bio', req.body.profil_bio, req.body.profil_bio)
             User.ChangeBio(req.session.connected.id, req.body.profil_bio)
             .then((state) => {
                 if (state === true)
@@ -231,6 +237,7 @@ router.post('/change_bio', (req, res) => {
 router.post('/change_age', (req, res) => {
     if (req.body.profil_age && req.session.connected && req.session.connected.id){
         if (req.body.profil_age <= 100 && req.body.profil_age >= 18){
+            // User.generalUpdateUser('age', req.body.profil_age, req.session.connected.id)
             User.ChangeAge(req.session.connected.id, req.body.profil_age)
             .then((state) => {
                 if (state === true)

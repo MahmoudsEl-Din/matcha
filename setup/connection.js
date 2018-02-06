@@ -31,7 +31,7 @@ class init_db {
             + 'age INT NOT NULL,'            
             + 'lat decimal(38, 16) NOT NULL,'
             + 'lng decimal(38, 16) NOT NULL,'
-            + 'pop INT, CHECK (pop BETWEEN 0 AND 100)'
+            + 'pop decimal(38, 16), CHECK (pop BETWEEN 0.00 AND 100.00)'
             + ');', (error) => {
                 if (error) throw error
             dontLeaveMeEmpty('users', 'setup/users.csv')
