@@ -60,11 +60,11 @@ $(document).ready(function(){
                 if (data) {
                     let msg = undefined
                     if (data.pop)
-                        msg = Number(data.pop) * 100 + '%'
+                        msg = Math.round(Number(data.pop)) * 100 + 'points'
                     else if (data.pop !== undefined)
-                        msg = '0%'
+                        msg = '0 points'
                     else
-                        msg = data
+                        msg = Math.round(data) 
                     $('#popu').children().text("Popularity: " + msg)
                 }
             }

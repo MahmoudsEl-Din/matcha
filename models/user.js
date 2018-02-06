@@ -11,6 +11,17 @@ let catchError = (error) => {
 
 class User {
 
+    // static generalUpdateUser(type, value, uid) {
+    //     return new Promise((resolve, reject) => {
+    //         let sql = "UPDATE users SET ? = ? WHERE id = ?"
+    //         connection.query(sql, [type, value, uid], (error, results) => {
+    //             if (error)
+    //                 reject(error)
+    //             resolve(true)
+    //         })
+    //     })
+    // } this function should replace all functions starting line 25 to line 115
+
     static ChangeFirstName(userid, new_firstname) {
         return new Promise((resolve, reject) => {
             let sql = "UPDATE users SET name = ? WHERE id = ?;"
@@ -493,15 +504,18 @@ class User {
                     })
                     // Bayesian Ratings
                     console.log("suce ma bite")
-                    let newPop = "\
-                    UPDATE users SET pop = \
-                    (SELECT 100 * (-2 + \
-                        ((COUNT(id) * (COUNT(id) / COUNT(DISTINCT uid_target))) + \
-                        ((SELECT COUNT(uid_target) FROM (SELECT * FROM likes) AS le_mysql WHERE uid_target = ?) * \
-                        (SELECT pop FROM (SELECT * FROM users) AS c_est WHERE id = ?))) / \
-                        (COUNT(id) + (SELECT COUNT (uid_target) FROM (SELECT * FROM likes) AS de_la WHERE uid_target = ?)))   \
-                    FROM (SELECT * FROM likes) AS zeub) WHERE id = ?;" 
-                    connection.query(newPop, uid_target, (error, result) => {
+                    let newPop = "UPDATE users SET pop =\
+                    (SELECT 10 * \
+                        ((count(id) * (count(id) / count(DISTINCT uid_target))) + \
+                        ((SELECT count(uid_target) FROM (SELECT * FROM likes) \
+                        AS le_mysql WHERE uid_target = ?) * \
+                        (SELECT pop FROM (SELECT * FROM users) \
+                        AS c_est WHERE id = ?))) / \
+                        (count(id) + (SELECT COUNT(uid_target) \
+                        FROM (SELECT * FROM likes) AS de_la WHERE uid_target = ?)) \
+                    FROM (SELECT * FROM likes) AS zeub) \
+                    WHERE id = ?;" 
+                    connection.query(newPop, [uid_target,uid_target,uid_target, uid_target], (error, result) => {
                         if (error) throw error
                     })
                     resolve(ret[1])         
@@ -598,4 +612,5 @@ class User {
 }
 
 module.exports = User
+
 
