@@ -77,7 +77,8 @@ class Search extends User {
                 SELECT users.id, username, name, lastname, age, bio, genre, desire,\
                 (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance,\
                 pop,\
-                COALESCE((SELECT count(tag_name) FROM tags WHERE userid = users.id AND tag_name IN (SELECT tag_name FROM tags WHERE userid = ?) GROUP BY userid),0) AS common_interest\
+                COALESCE((SELECT count(tag_name) FROM tags WHERE userid = users.id AND tag_name IN (SELECT tag_name FROM tags WHERE userid = ?) GROUP BY userid),0) AS common_interest,\
+                GROUP_CONCAT(tag_name SEPARATOR ', ') tags\
                 FROM users\
                 INNER JOIN tags ON tags.userid = users.id\
                 WHERE\
@@ -93,24 +94,21 @@ class Search extends User {
                 LIMIT ?, 10;"
                 
                 console.log("\
-                SELECT name, lastname, age, bio, genre, users.id, desire, \
-                (6371 * acos(cos(radians("+geoArray[0]+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+geoArray[1]+")) + sin(radians("+geoArray[0]+")) * sin(radians(lat)))) AS distance, \
-                pop, \
-                (SELECT count(tag_name) \
-                FROM tags \
-                WHERE userid = users.id AND tag_name IN \
-                (SELECT tag_name WHERE userid ="+uid+") \
-                GROUP BY userid) AS common_interest\
-                FROM users \
+                SELECT users.id, username, name, lastname, age, bio, genre, desire,\
+                (6371 * acos(cos(radians("+geoArray[0]+")) * cos(radians(lat) ) * cos(radians(lng) - radians("+geoArray[1]+")) + sin(radians("+geoArray[0]+")) * sin(radians(lat)))) AS distance,\
+                pop,\
+                COALESCE((SELECT count(tag_name) FROM tags WHERE userid = users.id AND tag_name IN (SELECT tag_name FROM tags WHERE userid = "+uid+") GROUP BY userid),0) AS common_interest\
+                GROUP_CONCAT(tag_name SEPARATOR ', ') tags\
+                FROM users\
+                INNER JOIN tags ON tags.userid = users.id\
                 WHERE\
-                 lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" \
-                 AND lng BETWEEN "+geoArray[4]+" AND "+geoArray[5]+" \
-                 AND users.id != "+uid+" AND "+sql2+"  \
-                 AND age BETWEEN "+age[0]+" AND "+age[1]+" \
+                 lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+"\
+                 AND lng BETWEEN "+geoArray[4]+" AND "+geoArray[5]+"\
+                 AND users.id != "+uid+" AND "+sql2+"AND age BETWEEN "+age[0]+" AND "+age[1]+" \
                  AND pop BETWEEN "+pop[0]+" AND "+pop[1]+" \
-                 HAVING distance < "+params.geoRange+"  \
-                 ORDER BY pop \
-                LIMIT "+ params.page * 10 +", 10;" + "\n")
+                 GROUP BY users.id \
+                 HAVING distance < "+params.geoRange+" ORDER BY common_interest DESC \
+                 LIMIT "+params.page * 10+", 10;")
               
                 connection.query(sql + sql2 + sql3, 
                     [geoArray[0], geoArray[1], geoArray[0], uid, geoArray[2], geoArray[3], geoArray[4], geoArray[5], 
