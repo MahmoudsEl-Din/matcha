@@ -32,4 +32,11 @@ router.get('/', (req, res) => {
         res.render('pages/index', {session :req.session, username: username})      
 })
 
+router.get('/user_info', (req, res) => {
+    User.GetAllById(req.session.connected.id)
+    .then(ret => {
+        res.send(ret)      
+    }).catch(catchError)
+})
+
 module.exports = router
