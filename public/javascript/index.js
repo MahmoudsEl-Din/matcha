@@ -224,7 +224,25 @@ $('#search-button').click(function (e) {
             data.forEach(element => {
                 if (i >= page*10 - 10)   {
                     $("#button_page").show()
-                    $('#users').append('<div class="container py-3 col-md-10" style="height:250px;" id="'+element.id+'"><div class="card" style="height: 100%;cursor: pointer;border-radius: 500px 0;box-shadow: #484848 1px 2px 20px;"><div class="row" style="height: 100%;"><div class="col-md-4"><img src="/assets/pictures/1_1516977572124.png" style="border-radius: 500px 500px 500px 500px; box-shadow: #404040 5px 5px 25px;" class="img-circle img-responsive w-100 h-100 picture_none" id="#img1"></a></div><div class="col-md-8 p-1 pl-2 muffin" style="padding-right: 15%"><div class="card-block "><h4 class="card-title text-center">'+element.username+'</h4><p class="card-text">'+element.age+' years old</p><p class="card-text">Popularité: '+Math.round(element.pop)+' points</p><div class="h-25 w-100 card-text" id="div_tag'+element.id+'"></div></div></div></a></div>')
+                    $('#users').append('\
+                    <div class="container py-3 col-md-10" style="height:250px;" id="'+element.id+'">\
+                        <div class="card" style="height: 100%;cursor: pointer;border-radius: 500px 0;box-shadow: #484848 1px 2px 20px;">\
+                            <div class="row" style="height: 100%;">\
+                                <div class="col-md-4">\
+                                    <img src="/assets/pictures/1_1516977572124.png" style="border-radius: 500px 500px 500px 500px; box-shadow: #404040 5px 5px 25px;" class="img-circle img-responsive w-100 h-100 picture_none" id="#img1">\
+                                </div>\
+                                <div class="col-md-8 p-1 pl-2 muffin" style="padding-right: 15%">\
+                                    <div class="card-block ">\
+                                        <h4 class="card-title text-center">'+element.username+'</h4>\
+                                        <p class="card-text">'+element.age+' years old</p>\
+                                        <p class="card-text">Popularité: '+Math.round(element.pop)+' points</p>\
+                                        <p class="card-text"> Se trouve à '+Math.round+' km\
+                                        <div class="h-25 w-100 card-text" id="div_tag'+element.id+'"></div>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div>')
                     $("#"+element.id+"").click(() => {
                         window.location.replace("/user?uid="+element.id)
                     })
