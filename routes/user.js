@@ -10,13 +10,16 @@ let catchError = (error) => {
 router.get('/', (req, res) => {
     let username = undefined
     let user_info = undefined
+    let returned = 0;
     if (req.query && req.query.uid && req.query.uid != req.session.connected.id) {
         console.log(req.query.uid)        
         User.IsBlocked(req.session.connected.id, req.query.uid)
         .then((blocked) => {
             console.log(blocked)
-            if (blocked === true)
-                return res.redirect('/error')
+            if (blocked === true) {
+                returned = 1
+                res.redirect('/error')
+            }
             else
                 return User.GetAllById(req.session.connected.id)
         })
@@ -35,7 +38,7 @@ router.get('/', (req, res) => {
                 username = user_info['username'].toUpperCase()
                 res.render('pages/user', {session :req.session, username: username, user: profile_info})
             }
-            else
+            else if (returned === 0)
                 res.redirect('/error')
             }).catch(catchError)
     }
