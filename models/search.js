@@ -100,13 +100,19 @@ class Search extends User {
                 const geoArray = misc[1]
                 const sql2 = misc[2]
                 params.order = misc[3]
+                let sqlTag = undefined
+                console.log(params.tag)
+                if (params.tag !== 0) {
+                    sqlTag = "AND tag_name IN (?)"
+                    console.log("sd;k scdsc msic mspdncoi dnscoins ooisc nioc oisoijsc oioi")
+                }
                 let sql = "\
                 SELECT users.id, username, name, lastname, age, bio, genre, desire,\
                 (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance,\
                 pop, GROUP_CONCAT(tag_name SEPARATOR ', ') AS tags,\
                 COALESCE((SELECT count(tag_name) FROM tags WHERE userid = users.id AND tag_name IN (SELECT tag_name FROM tags WHERE userid = ?) GROUP BY userid),0) AS common_interest\
                 FROM users\
-                INNER JOIN tags ON tags.userid = users.id\
+                INNER JOIN tags ON tags.userid = users.id " + sqlTag + " \
                 WHERE\
                  lat BETWEEN ? AND ?\
                  AND lng BETWEEN ? AND ?\
@@ -130,7 +136,8 @@ class Search extends User {
                 (SELECT tag_name WHERE userid ="+uid+") \
                 GROUP BY userid) AS common_interest\
                 FROM users \
-                WHERE\
+                INNER JOIN tags ON tags.userid = users.id "+sqlTag+" \
+                WHERE \
                  lat BETWEEN "+geoArray[2]+" AND "+geoArray[3]+" \
                  AND lng BETWEEN "+geoArray[4]+" AND "+geoArray[5]+" \
                  AND users.id != "+uid+" AND "+sql2+"  \
@@ -139,18 +146,37 @@ class Search extends User {
                  HAVING distance < "+params.geoRange + 
                  + " " + params.order + 
                 " LIMIT "+ params.page * 10 +";" + "\n")
-              
-                connection.query(sql + sql2 + sql3, 
-                    [geoArray[0], geoArray[1], geoArray[0], uid, geoArray[2], geoArray[3], geoArray[4], geoArray[5], 
-                    uid, age[0], age[1], pop[0], pop[1], params.geoRange, params.page * 10], 
-                    (error, results) => {
-                    if (error)
-                        reject(error)
-                    else if (!results || results.length == 0) {
-                        resolve("Votre recherche ne match aucun profil")
-                    } else
-                        resolve(results)
-                })
+
+                if (params.tag === 0) {
+                    console.log('dfdffd')
+                    connection.query(sql + sql2 + sql3, 
+                        [geoArray[0], geoArray[1], geoArray[0], uid, geoArray[2], geoArray[3], geoArray[4], geoArray[5], 
+                        uid, age[0], age[1], pop[0], pop[1], params.geoRange, params.page * 10], 
+                        (error, results) => {
+                        if (error)
+                            reject(error)
+                        else if (!results || results.length == 0) {
+                            resolve("Votre recherche ne match aucun profil")
+                        } else
+                            resolve(results)
+                    })
+                }
+                else {
+                    connection.query(sql + sql2 + sql3, 
+                        [geoArray[0], geoArray[1], geoArray[0], uid, params.tag, geoArray[2], geoArray[3], geoArray[4], geoArray[5], 
+                        uid, age[0], age[1], pop[0], pop[1], params.geoRange, params.page * 10], 
+                        (error, results) => {
+                        if (error)
+                            reject(error)
+                        else if (!results || results.length == 0) {
+                            resolve("Votre recherche ne match aucun profil")
+                        } else
+                            if (params.tag) {
+
+                            }
+                            resolve(results)
+                    })
+                }
             }).catch(catchError)
         })
     }

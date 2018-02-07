@@ -37,19 +37,18 @@ router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag/:page/:order', (
                 req.params.order = JSON.parse(req.params.order)                
                 Search.theBigSearch(req.params, req.session.connected.id)
                 .then(target => {
-                    if (req.params.tag[0])
-                        res.send(target.filter((e) => {
-                            var i = 0
-                            while (req.params.tag[i]){
-                                if (e.tag_name.search(req.params.tag[i]) == -1)
-                                    return false
-                                i += 1
-                            }
-                            return true
-                        }))
-                    else
-                       res.send(target)
-
+                    // if (req.params.tag[0])
+                    //     res.send(target.filter((e) => {
+                    //         var i = 0
+                    //         while (req.params.tag[i]){
+                    //             if (e.tag_name.search(req.params.tag[i]) == -1)
+                    //                 return false
+                    //             i += 1
+                    //         }
+                    //         return true
+                    //     }))
+                    // else
+                    res.send(target)
                 }).catch(console.log)
             })     
         } else

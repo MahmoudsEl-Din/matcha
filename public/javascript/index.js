@@ -92,7 +92,7 @@ $('#tag_down').click(() => {
 
 function suggest_request(order) {
     console.log(page)
-    $.get(`/search/search_them_all/${JSON.stringify([params.ageMin,params.ageMax])}/${JSON.stringify([params.popMin,params.popMax])}/${JSON.stringify(params.distMax)}/${JSON.stringify([])}/${JSON.stringify(page)}/${JSON.stringify(order)}`, null, (data, jqHXR) => { 
+    $.get(`/search/search_them_all/${JSON.stringify([params.ageMin,params.ageMax])}/${JSON.stringify([params.popMin,params.popMax])}/${JSON.stringify(params.distMax)}/${JSON.stringify([0])}/${JSON.stringify(page)}/${JSON.stringify(order)}`, null, (data, jqHXR) => { 
         console.log(data)
         console.log('teub')            
         let i = 0
@@ -115,8 +115,10 @@ function suggest_request(order) {
             if (i < page*10)
                 $("#button_page").hide()    
         }
-        else
+        else {
+            $("#button_page").hide()
             $("#users").append("<h3 class='text-center muffin m-5 w-100'>No profil has been found</h3>")
+        }
     })
 }
 
@@ -237,7 +239,9 @@ $('#search-button').click(function (e) {
             if (i < page*10)
                 $("#button_page").hide()
         }
-        else
+        else {
+            $("#button_page").hide()
             $("#users").append("<h3 class='text-center muffin m-5 w-100'>No profil has been found</h3>")
+        }
     })
 })
