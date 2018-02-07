@@ -48,9 +48,9 @@ class Search extends User {
             else if (order == 2)
                 ret = "ORDER BY age DESC"
             else if (order == 3)
-                ret = "ORDER BY pop DESC"
-            else if (order == 4)
                 ret = "ORDER BY pop ASC"
+            else if (order == 4)
+                ret = "ORDER BY pop DESC"
             else if (order == 5)
                 ret = "ORDER BY distance ASC"
             else if (order == 6)

@@ -14,7 +14,7 @@ block content
                         div.row.w-100(style="height: 50px;").mt-4.mx-auto.d-flex.justify-content-center
                                 button#button_page.btn.btn-warning(style= "border-radius: 500px;width: 75px;height:75px;font-size : 55px;padding: 0px;").muffin +
                 div.col-md-3.p-5
-                        div(style="position: fixed;background-color: white;border-radius:2px").mr-auto
+                        div(style="position: fixed;background-color: white;border-radius:2px;box-shadow: black 1px 1px 10px;").mr-auto
                                 div.row(style="height: 50px;width: 200px;").m-5
                                         div.w-50
                                                 h5 Age
@@ -54,7 +54,27 @@ block content
                                 //- div.row(style="height: 50px;").mx-auto.w-50.m-5
                                 //-         a tag                
                 script(src="assets/javascript/index.js" type="text/javascript")
+        
+        -else
+                div.row.h-75.w-100
+                        div.col-md-3.p-3.h-100
+                        div.col-md-6.border.h-75.my-auto.p-5(style="background-color: white;box-shadow: #383838 1px 1px 15px;border-radius: 2px;")
+                                div.row.h-75.w-100.m-auto
+                                        div.row.w-100.h-25
+                                                div.col-4
+                                                div.col-4.text-center.mt-auto
+                                                        h1.m-auto.muffin(style="color: #4b4f56;") Welcome on
+                                                div.col-4
 
+                                        div.row.w-100.h-25                            
+                                                div.col-12.text-center.m-auto
+                                                        h1.m-auto.sarina(style="font-size: 60px;color: red;text-shadow: 2px 0 0 #383838;") Matcha
+                                        div.row.w-100.h-25.text-center
+                                                h2.m-auto.muffin(style="color: #4b4f56;") Sign in (or sign up) and chat with nice poeples around you !
+                                                
+                                div.row.h-25.w-100.border(style='background-image: url(\'/assets/ressources/facce.jpg\');background-repeat: no-repeat;background-size: cover;').m-auto
+                                
+                        div.col-md-3.h-100            
         //- div(class="ui red container") mid
         //- h5 Connection
         //- form#form_connect.container(method="POST" action="#")
