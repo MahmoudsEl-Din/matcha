@@ -103,7 +103,7 @@ class Search extends User {
                 let sql = "\
                 SELECT users.id, username, name, lastname, age, bio, genre, desire,\
                 (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance,\
-                pop,\
+                pop, GROUP_CONCAT(tag_name SEPARATOR ', ') AS tags,\
                 COALESCE((SELECT count(tag_name) FROM tags WHERE userid = users.id AND tag_name IN (SELECT tag_name FROM tags WHERE userid = ?) GROUP BY userid),0) AS common_interest\
                 FROM users\
                 INNER JOIN tags ON tags.userid = users.id\
