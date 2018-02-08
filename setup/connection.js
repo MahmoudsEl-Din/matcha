@@ -70,6 +70,7 @@ class init_db {
         + 'position INT NOT NULL'
         + ');', (error) => {
             if (error) throw error
+            dontLeaveMeEmpty('pictures', 'setup/pictures.csv')
         })
 
         this.connection.query('CREATE TABLE IF NOT EXISTS logged('
