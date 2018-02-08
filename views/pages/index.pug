@@ -8,8 +8,8 @@ block content
                                 
                 //-         //- div.row(style="height: 50px;").mx-auto.w-auto
                 //-                 //- button#button_page.btn.btn-secondary(style="position: fixed") Next Page 
-                div.col-md-3.p-5
-                        div(style="position: fixed;background-color: white;border-radius:2px;box-shadow: black 1px 1px 10px;").ml-auto.p-4
+                div.col-md-3.p-3
+                        div(style="background-color: white;border-radius:2px;box-shadow: black 1px 1px 10px;").ml-auto.p-4
                                 .age-range
                                         p
                                                 label(for="ageRange") Par âge :
@@ -31,13 +31,19 @@ block content
                                         input#profil_tag.form-control(type="text" placeholder="Search tag" maxlength="249" name="profil_bio")
                                         div#div_list_tags(style= "overflow-y: auto;")
                                         div.w-100.d-flex.justify-content-center.form-group
-                                                p#return_tags.text-danger
+                                        p#return_tags.text-danger
 
                                 div.row.mt-2
                                         div.col-4
-                                        div.col-4
-                                                button#search-button.w-100(type="submit" style="margin-left:auto;").btn.btn-primary Filter        
+                                        div.col-4.m-auto
+                                                button#search-button.w-100(type="submit" style="margin-left:auto;").btn.btn-primary Filter 
                                         div.col-4      
+                                div.row.mt-2
+                                        div.col-2                                
+                                        div.col-6.m-auto
+                                                button#advanced_search.w-200(type="submit" style="margin: auto").btn.btn-link Recherche Avancée
+                                        div.col-3                                
+
                                 //- div.row(style="height: 50px;").mx-auto.w-50.m-5
                                 //-         a localisation
                                 //- div.row(style="height: 50px;").mx-auto.w-50.m-5
@@ -50,7 +56,7 @@ block content
                         div.row.w-100(style="height: 50px;").mt-4.mx-auto.d-flex.justify-content-center
                                 button#button_page.btn.btn-warning(style= "border-radius: 500px;width: 75px;height:75px;font-size : 55px;padding: 0px;").muffin +
                 div.col-md-3.p-5
-                        div(style="position: fixed;background-color: white;border-radius:2px;box-shadow: black 1px 1px 10px;").mr-auto
+                        div(style="background-color: white;border-radius:2px;box-shadow: black 1px 1px 10px;").mr-auto
                                 div.row(style="height: 50px;width: 200px;").m-5
                                         div.w-50
                                                 h5 Age
@@ -110,7 +116,8 @@ block content
                                                 
                                 div.row.h-25.w-100.border(style='background-image: url(\'/assets/ressources/facce.jpg\');background-repeat: no-repeat;background-size: cover;').m-auto
                                 
-                        div.col-md-3.h-100            
+                        div.col-md-3.h-100
+        script(src="assets/javascript/tagsinput.js")            
         //- div(class="ui red container") mid
         //- h5 Connection
         //- form#form_connect.container(method="POST" action="#")

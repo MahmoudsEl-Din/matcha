@@ -10,24 +10,34 @@ var trie = 0;
 
 
 
+
 $.get('/user_info', (data, jqHXR) => {
     console.log('test')
     data.age - 5 < 18 ?
         params.ageMin = 18 :
         params.ageMin = data.age - 5
     params.ageMax = data.age + 5
-    data.pop - 20 < 0 ?
+    data.pop - 10 < 0 ?
         params.popMin = 0 :
-        params.popMin = data.pop - 20
-    data.pop + 20 > 100 ?
+        params.popMin = Math.round(data.pop) - 10
+    data.pop + 10 > 100 ?
         params.popMax = 100 :
-        params.popMax = data.pop + 20
+        params.popMax = Math.round(data.pop) + 10
     console.log(data)
     suggest_request(trie)
 })    
 
 console.log(`/search/search_them_all/${[params.ageMin, params.ageMax]}/${[params.popMin, params.popMax]}/${[params.distMax]}/${["milf"]}/${[]}`)
 
+$('#advanced_search').click(() => {
+    console.log("advanced_search")
+    params.ageMin = 18
+    params.ageMax = 77
+    params.popMin = 0
+    params.popMax = 100
+    params.distMax = 1000
+    new_filtre()
+})
 
 $('#button_page').click(() => { 
     page += 1;
@@ -153,57 +163,59 @@ function suggest_request(order) {
     })
 }
 
+new_filtre()
 /****************      FILTRES      ****************/
-$(function () {
-    var tooltip = $('<div id="tooltip" />').css({
-        position: 'absolute',
-        top: -25,
-    }).hide();
+function new_filtre() {
+    $(function () {
+        var tooltip = $('<div id="tooltip" />').css({
+            position: 'absolute',
+            top: -25,
+        }).hide();
 
-    $("#ageslider-range").slider({
-        classes: {
-            "ui-slider": "ui-corner-all"
-        },
-        animate: "fast",
-        range: true,
-        min: params.ageMin,
-        max: params.ageMax,
-        values: [params.ageMin, params.ageMax],
-        slide: function (event, ui) {
-            $("#ageRange").val(ui.values[0] + " ans - " + ui.values[1] + " ans");
-        }
+        $("#ageslider-range").slider({
+            classes: {
+                "ui-slider": "ui-corner-all"
+            },
+            animate: "fast",
+            range: true,
+            min: params.ageMin,
+            max: params.ageMax,
+            values: [params.ageMin, params.ageMax],
+            slide: function (event, ui) {
+                $("#ageRange").val(ui.values[0] + " ans - " + ui.values[1] + " ans");
+            }
+        })
+        $("#ageRange").val($("#ageslider-range").slider("values", 0) + " ans - " + $("#ageslider-range").slider("values", 1) + " ans");
+
+        $("#popslider-range").slider({
+            range: true,
+            min: params.popMin,
+            max: params.popMax,
+            values: [params.popMin, params.popMax],
+            slide: function (event, ui) {
+                $("#popRange").val(ui.values[0] + " - " + ui.values[1]);
+            }
+        })
+        $("#popRange").val($("#popslider-range").slider("values", 0) + " - " + $("#popslider-range").slider("values", 1));
+
+        $("#geoslider-range").slider({
+            value: params.distMax,
+            min: 0,
+            max: params.distMax,
+            step: 2.5 ,
+            slide: function (event, ui) {
+                $("#geoRange").val(ui.value + " km")
+                tooltip.text(ui.value)
+            },
+            change: function (event, ui) { }
+        }).find(".ui-slider-handle").append(tooltip).hover(function () {
+            tooltip.show()
+        }, function () {
+            tooltip.hide()
+        })
+        $("#geoRange").val($("#geoslider-range").slider("value") + " km");
     })
-    $("#ageRange").val($("#ageslider-range").slider("values", 0) + " ans - " + $("#ageslider-range").slider("values", 1) + " ans");
-
-    $("#popslider-range").slider({
-        range: true,
-        min: params.popMin,
-        max: params.popMax,
-        values: [params.popMin, params.popMax],
-        slide: function (event, ui) {
-            $("#popRange").val(ui.values[0] + " - " + ui.values[1]);
-        }
-    })
-    $("#popRange").val($("#popslider-range").slider("values", 0) + " - " + $("#popslider-range").slider("values", 1));
-
-    $("#geoslider-range").slider({
-        value: params.distMax,
-        min: 0,
-        max: params.distMax,
-        step: 2.5 ,
-        slide: function (event, ui) {
-            $("#geoRange").val(ui.value + " km")
-            tooltip.text(ui.value)
-        },
-        change: function (event, ui) { }
-    }).find(".ui-slider-handle").append(tooltip).hover(function () {
-        tooltip.show()
-    }, function () {
-        tooltip.hide()
-    })
-    $("#geoRange").val($("#geoslider-range").slider("value") + " km");
-})
-
+} 
 
 const funcCallBackRequest = data => {
         console.log('success')
@@ -216,7 +228,7 @@ const funcCallBackRequest = data => {
 $('#search-button').click(function (e) {
     e.stopPropagation()
 
-
+    filtering = 1;
     $('#div_user_tag').children().each(()=> {
         $(this).remove()
     })
@@ -261,7 +273,7 @@ $('#search-button').click(function (e) {
                         <div class="card" style="height: 100%;cursor: pointer;border-radius: 500px 0;box-shadow: #484848 1px 2px 20px;">\
                             <div class="row" style="height: 100%;">\
                                 <div class="col-md-4">\
-                                    <img src="/assets/pictures/1_1516977572124.png" style="border-radius: 500px 500px 500px 500px; box-shadow: #404040 5px 5px 25px;" class="img-circle img-responsive w-100 h-100 picture_none" id="#img1">\
+                                    <img src="/assets/pictures/'+element.picture+'" style="border-radius: 500px 500px 500px 500px; box-shadow: #404040 5px 5px 25px;" class="img-circle img-responsive w-100 h-100 picture_none" id="#img1">\
                                 </div>\
                                 <div class="col-md-8 p-1 pl-2 muffin" style="padding-right: 15%">\
                                     <div class="card-block ">\

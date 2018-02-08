@@ -64,7 +64,7 @@ $(document).ready(function(){
                     else if (data.pop !== undefined)
                         msg = '0 points'
                     else
-                        msg = Math.round(data) 
+                        msg = Math.round(data)
                     $('#popu').children().text("Popularity: " + msg)
                 }
             }
