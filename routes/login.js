@@ -24,7 +24,9 @@ router.post('/', function(req, res) {
                         req.session.connected.state = true
                         req.session.connected.id = id
                         ret[1] = id
-                        return res.send(ret)
+                        res.send(ret)
+                        User.SetPosByIp(req.session.connected.id)
+                    }).then((ret) => {
                     }).catch(catchError)
                 }
                 else 

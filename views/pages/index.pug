@@ -3,22 +3,58 @@ extends layout
 block content
 
         -if (session.connected.state === true)
-                div.col-md-3.p-3.h-100.justify-center
-                        div.row(style="height: 50px;").mx-auto.w-auto
+                //- div.col-md-3.p-3.h-100.justify-center
+                //-         div.row(style="height: 50px;").mx-auto.w-auto
                                 
-                        //- div.row(style="height: 50px;").mx-auto.w-auto
-                                //- button#button_page.btn.btn-secondary(style="position: fixed") Next Page                        
+                //-         //- div.row(style="height: 50px;").mx-auto.w-auto
+                //-                 //- button#button_page.btn.btn-secondary(style="position: fixed") Next Page 
+                div.col-md-3.p-5
+                        div(style="position: fixed;background-color: white;border-radius:2px;box-shadow: black 1px 1px 10px;").ml-auto.p-4
+                                .age-range
+                                        p
+                                                label(for="ageRange") Par âge :
+                                                input.range#ageRange(type="text" readonly style="border:0; color:#f6931f; font-weight:bold;")
+                                        div#ageslider-range
+                                .pop-range
+                                        p
+                                                label(for="popRange") Par Score de popularité :
+                                                input.range#popRange(type="text" readonly style="border:0; color:#f6931f; font-weight:bold;")
+                                        div#popslider-range
+                                .geo-range
+                                        p
+                                                label(for="geoRange") Par Localisation :
+                                                input.range#geoRange(type="text" readonly style="border:0; color:#f6931f; font-weight:bold;")
+                                        div#geoslider-range
+                                .tag-pool
+                                        label(for="tags") Par tags :
+                                        div#div_user_tags.text-center
+                                        input#profil_tag.form-control(type="text" placeholder="Search tag" maxlength="249" name="profil_bio")
+                                        div#div_list_tags(style= "overflow-y: auto;")
+                                        div.w-100.d-flex.justify-content-center.form-group
+                                                p#return_tags.text-danger
+
+                                div.row.mt-2
+                                        div.col-4
+                                        div.col-4
+                                                button#search-button.w-100(type="submit" style="margin-left:auto;").btn.btn-primary Filter        
+                                        div.col-4      
+                                //- div.row(style="height: 50px;").mx-auto.w-50.m-5
+                                //-         a localisation
+                                //- div.row(style="height: 50px;").mx-auto.w-50.m-5
+                                //-         a popu
+                                //- div.row(style="height: 50px;").mx-auto.w-50.m-5
+                                //-         a tag                                       
                 div.col-md-6
                         div.row.w-100#users
 
                         div.row.w-100(style="height: 50px;").mt-4.mx-auto.d-flex.justify-content-center
                                 button#button_page.btn.btn-warning(style= "border-radius: 500px;width: 75px;height:75px;font-size : 55px;padding: 0px;").muffin +
                 div.col-md-3.p-5
-                        div(style="position: fixed;background-color: white;border-radius:2px").mr-auto
+                        div(style="position: fixed;background-color: white;border-radius:2px;box-shadow: black 1px 1px 10px;").mr-auto
                                 div.row(style="height: 50px;width: 200px;").m-5
                                         div.w-50
                                                 h5 Age
-                                        div.w-50.d-flex.justify-content-around
+                                        div.w-25.d-flex.justify-content-around
                                                 a#age_up
                                                         h5 &uarr;
                                                 a#age_down
@@ -26,7 +62,7 @@ block content
                                 div.row(style="height: 50px;width: 200px;").m-5
                                         div.w-50
                                                 h5 Localisation
-                                        div.w-50.d-flex.justify-content-around
+                                        div.w-25.d-flex.justify-content-around
                                                 a#loc_up
                                                         h5 &uarr;
                                                 a#loc_down
@@ -34,7 +70,7 @@ block content
                                 div.row(style="height: 50px;width: 200px;").m-5
                                         div.w-50
                                                 h5 Popularity
-                                        div.w-50.d-flex.justify-content-around
+                                        div.w-25.d-flex.justify-content-around
                                                 a#pop_up
                                                         h5 &uarr;
                                                 a#pop_down
@@ -42,7 +78,7 @@ block content
                                 div.row(style="height: 50px;width: 200px;").m-5
                                         div.w-50
                                                 h5 Tags
-                                        div.w-50.d-flex.justify-content-around
+                                        div.w-25.d-flex.justify-content-around
                                                 a#tag_up
                                                         h5 &uarr;
                                                 a#tag_down
@@ -54,7 +90,27 @@ block content
                                 //- div.row(style="height: 50px;").mx-auto.w-50.m-5
                                 //-         a tag                
                 script(src="assets/javascript/index.js" type="text/javascript")
+        
+        -else
+                div.row.h-75.w-100
+                        div.col-md-3.p-3.h-100
+                        div.col-md-6.border.h-75.my-auto.p-5(style="background-color: white;box-shadow: #383838 1px 1px 15px;border-radius: 2px;")
+                                div.row.h-75.w-100.m-auto
+                                        div.row.w-100.h-25
+                                                div.col-4
+                                                div.col-4.text-center.mt-auto
+                                                        h1.m-auto.muffin(style="color: #4b4f56;") Welcome on
+                                                div.col-4
 
+                                        div.row.w-100.h-25                            
+                                                div.col-12.text-center.m-auto
+                                                        h1.m-auto.sarina(style="font-size: 60px;color: red;text-shadow: 2px 0 0 #383838;") Matcha
+                                        div.row.w-100.h-25.text-center
+                                                h2.m-auto.muffin(style="color: #4b4f56;") Sign in (or sign up) and chat with nice poeples around you !
+                                                
+                                div.row.h-25.w-100.border(style='background-image: url(\'/assets/ressources/facce.jpg\');background-repeat: no-repeat;background-size: cover;').m-auto
+                                
+                        div.col-md-3.h-100            
         //- div(class="ui red container") mid
         //- h5 Connection
         //- form#form_connect.container(method="POST" action="#")

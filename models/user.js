@@ -609,6 +609,17 @@ class User {
         })
     }
 
+    static GetMatchInfo(uid) {
+        return new Promise((resolve, reject) => {
+            var sql = "SELECT targ, username, picture_name FROM (SELECT targ, username FROM (SELECT * FROM (SELECT uid_target AS targ FROM likes WHERE uid = ?)suv, (SELECT * FROM likes WHERE uid_target = ?)sub WHERE suv.targ = sub.uid)t, users WHERE users.id =t.targ)tt, pictures WHERE userid = targ GROUP BY targ;"
+            connection.query(sql, [uid, uid], (error, results) => {
+                console.log(results)
+                if (error) throw error
+                else
+                    resolve(results)
+            })
+        })
+    }
 }
 
 module.exports = User

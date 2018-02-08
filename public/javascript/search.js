@@ -62,8 +62,6 @@ $(document).ready(function () {
 
     $('#search-button').click(function (e) {
         e.stopPropagation()
-
-
         $('#div_user_tag').children().each(()=> {
             $(this).remove()
         })
@@ -87,7 +85,7 @@ $(document).ready(function () {
                 taggs
             )}`;
             console.log(url)
-            // window.location.replace(url)
+            window.location.replace(url)
              $.get(url)
              .fail(rej)
              .done(res)  

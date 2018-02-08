@@ -21,4 +21,12 @@ router.get('/', (req, res) => {
     }).catch(catchError)
 })
 
+router.get('/get_match_info', (req, res) => {
+    console.log('test')
+    User.GetMatchInfo(req.session.connected.id)
+    .then(matchs_info => {
+        res.send(matchs_info)
+    }).catch(catchError)
+})
+
 module.exports = router
