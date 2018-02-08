@@ -60,7 +60,7 @@ $(document).ready(function(){
                 if (data) {
                     let msg = undefined
                     if (data.pop)
-                        msg = Math.round(Number(data.pop)) * 100 + 'points'
+                        msg = Math.round(Math.round(Number(data.pop)) * 100) + 'points'
                     else if (data.pop !== undefined)
                         msg = '0 points'
                     else

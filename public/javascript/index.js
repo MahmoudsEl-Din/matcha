@@ -128,7 +128,7 @@ function suggest_request(order) {
                         <div class="card" style="height: 100%;cursor: pointer;border-radius: 500px 0;box-shadow: #484848 1px 2px 20px;">\
                             <div class="row" style="height: 100%;">\
                                 <div class="col-md-4">\
-                                    <img src="/assets/pictures/1_1516977572124.png" style="border-radius: 500px 500px 500px 500px; box-shadow: #404040 5px 5px 25px;" class="img-circle img-responsive w-100 h-100 picture_none" id="#img1">\
+                                    <img src="/assets/pictures/'+element.picture+'" style="border-radius: 500px 500px 500px 500px; box-shadow: #404040 5px 5px 25px;" class="img-circle img-responsive w-100 h-100 picture_none" id="#img1">\
                                     </img>\
                                 </div>\
                                 <div class="col-md-8 p-1 pl-2 muffin" style="padding-right: 15%"><div class="card-block ">\
@@ -144,7 +144,7 @@ function suggest_request(order) {
                     $("#"+element.id+"").click(() => {
                         window.location.replace("/user?uid="+element.id)
                     })
-                    let tag = element.tags.split(",")
+                    let tag = element.allTags.split(",")
                     tag.forEach(tag_elem => {
                         tag_elem = tag_elem.trim()                    
                         $('#div_tag'+element.id).append("<div style='color: green;' class='w-50'> #" + tag_elem + "</div>")
@@ -290,7 +290,7 @@ $('#search-button').click(function (e) {
                     $("#"+element.id+"").click(() => {
                         window.location.replace("/user?uid="+element.id)
                     })
-                    let tag = element.tags.split(",")
+                    let tag = element.allTags.split(",")
                     tag.forEach(tag_elem => {
                         tag_elem = tag_elem.trim()                    
                         $('#div_tag'+element.id).append("<div style='color: green;' class='w-50'> #" + tag_elem + "</div>")
