@@ -130,6 +130,15 @@ class init_db {
             dontLeaveMeEmpty('notif', 'setup/notif.csv')
         })
 
+        this.connection.query('CREATE TABLE IF NOT EXISTS messages('
+        + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
+        + 'uid_sender INT NOT NULL,'
+        + 'uid_receiver INT NOT NULL,'
+        + 'text VARCHAR(500)'
+        + ');', (error) => {
+            if (error) throw error
+        })
+
         this.connection.query('CREATE TABLE IF NOT EXISTS history('
         + 'id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,'
         + 'uid INT NOT NULL,'   
