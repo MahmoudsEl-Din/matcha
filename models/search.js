@@ -38,6 +38,31 @@ class Search extends User {
         })
     }
 
+    static getOrder(order) {
+        return new Promise ((res, rej) => {       
+            let ret = undefined
+            if (order == 0)
+                ret = "ORDER BY pop"
+            else if (order == 1)
+                ret = "ORDER BY age ASC"
+            else if (order == 2)
+                ret = "ORDER BY age DESC"
+            else if (order == 3)
+                ret = "ORDER BY pop DESC"
+            else if (order == 4)
+                ret = "ORDER BY pop ASC"
+            else if (order == 5)
+                ret = "ORDER BY distance ASC"
+            else if (order == 6)
+                ret = "ORDER BY distance DESC"
+            else if (order == 7)
+                ret = "ORDER BY common_interest ASC"
+            else if (order == 8)
+                ret = "ORDER BY common_interest DESC"
+            res(ret)
+        })
+    }
+
     static getMyTarget(genre, desire) {
         return new Promise (
             (res, rej) => {
@@ -66,13 +91,15 @@ class Search extends User {
                 return Promise.all([
                     user_info, 
                     this.getAroundMe(user_info['lat'], user_info['lng'], params.geoRange), 
-                    this.getMyTarget(user_info['genre'], user_info['desire'])
+                    this.getMyTarget(user_info['genre'], user_info['desire']),
+                    this.getOrder(params.order)
                 ])
             }).then(misc => {
                 const age = JSON.parse(params.ageRange)
                 const pop = JSON.parse(params.popRange)
                 const geoArray = misc[1]
                 const sql2 = misc[2]
+                params.order = misc[3]
                 let sql = "\
                 SELECT users.id, username, name, lastname, age, bio, genre, desire, (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance,\
                 pop, picture_name picture, \
@@ -90,8 +117,9 @@ class Search extends User {
                 AND age BETWEEN ? AND ? \
                 AND pop BETWEEN ? AND ? \
                 GROUP BY users.id \
-                HAVING distance < ? ORDER BY common_interest DESC \
-                LIMIT ?, 10;"
+                HAVING distance < ? "
+                + params.order + 
+                " LIMIT ?;"
                 
                 console.log("\
                 SELECT users.id, username, name, lastname, age, bio, genre, desire,\
