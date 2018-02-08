@@ -104,7 +104,7 @@ class Search extends User {
                 console.log(params.tag)
                 if (params.tag !== 0) {
                     sqlTag = "AND tag_name IN (?)"
-                    console.log("sd;k scdsc msic mspdncoi dnscoins ooisc nioc oisoijsc oioi")
+                    console.log("sqlTag : "+sqlTag)
                 }
 //                 SELECT users.id, username, name, lastname, age, bio, genre, desire, (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance,\
 //                 pop, picture_name picture, \
@@ -117,9 +117,11 @@ class Search extends User {
                   SELECT users.id, username, name, lastname, age, bio, genre, desire,\
                   (6371 * acos(cos(radians(?)) * cos(radians(lat) ) * cos(radians(lng) - radians(?)) + sin(radians(?)) * sin(radians(lat)))) AS distance,\
                   pop, GROUP_CONCAT(tag_name SEPARATOR ', ') AS tags,\
-                  COALESCE((SELECT count(tag_name) FROM tags WHERE userid = users.id AND tag_name IN (SELECT tag_name FROM tags WHERE userid = ?) GROUP BY userid),0) AS common_interest\
+                  COALESCE((SELECT count(tag_name) FROM tags WHERE userid = users.id AND tag_name IN (SELECT tag_name FROM tags WHERE userid = ?) GROUP BY userid),0) AS common_interest,\
+                  picture_name picture\
                   FROM users\
                   INNER JOIN tags ON tags.userid = users.id " + sqlTag + " \
+                  INNER JOIN pictures ON pictures.userid = users.id AND position = 1\
                   WHERE\
                    lat BETWEEN ? AND ?\
                    AND lng BETWEEN ? AND ?\
@@ -129,8 +131,8 @@ class Search extends User {
                 AND age BETWEEN ? AND ? \
                 AND pop BETWEEN ? AND ? \
                 GROUP BY users.id \
-                HAVING distance < ? "
-                + params.order + 
+                HAVING distance < ?  "
+                + params.order +
                 " LIMIT ?;"
                 
 //                 console.log("\
