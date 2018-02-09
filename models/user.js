@@ -611,7 +611,24 @@ class User {
 
     static GetMatchInfo(uid) {
         return new Promise((resolve, reject) => {
-            var sql = "SELECT targ, username, picture_name FROM (SELECT targ, username FROM (SELECT * FROM (SELECT uid_target AS targ FROM likes WHERE uid = ?)suv, (SELECT * FROM likes WHERE uid_target = ?)sub WHERE suv.targ = sub.uid)t, users WHERE users.id =t.targ)tt, pictures WHERE userid = targ AND position = 1 GROUP BY targ, username, picture_name;"
+            var sql = "\
+            SELECT\
+                targ, username, picture_name \
+            FROM \
+                (SELECT targ, username \
+                FROM \
+                    (SELECT * FROM \
+                        (SELECT uid_target AS targ FROM likes WHERE uid = ?)suv, \
+                        (SELECT * FROM likes WHERE uid_target = ?)sub \
+                    WHERE \
+                    suv.targ = sub.uid)t, \
+                    users \
+                WHERE users.id =t.targ)tt\
+                INNER JOIN blocked ON targ != blocked.uid_target,\
+                pictures \
+            WHERE userid = targ AND position = 1 \
+            GROUP BY targ, username, picture_name;"
+
             connection.query(sql, [uid, uid], (error, results) => {
                 console.log(results)
                 if (error) throw error
