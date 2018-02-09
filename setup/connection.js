@@ -89,6 +89,7 @@ class init_db {
         + 'uid_target INT NOT NULL'
         + ');', (error) => {
             if (error) throw error
+            dontLeaveMeEmpty('blocked', 'setup/blocked.csv')
         })
 
         this.connection.query('CREATE TABLE IF NOT EXISTS reported('
@@ -97,6 +98,7 @@ class init_db {
         + 'uid_target INT NOT NULL'
         + ');', (error) => {
             if (error) throw error
+            dontLeaveMeEmpty('reported', 'setup/reported.csv')
         })
 
         this.connection.query('CREATE TABLE IF NOT EXISTS likes('
