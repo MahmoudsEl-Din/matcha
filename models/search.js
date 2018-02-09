@@ -122,11 +122,12 @@ class Search extends User {
                   FROM users\
                   INNER JOIN tags ON tags.userid = users.id " + sqlTag + " \
                   INNER JOIN pictures ON pictures.userid = users.id AND position = 1\
-                  INNER JOIN blocked ON users.id != blocked.uid_target\
                   WHERE\
                    lat BETWEEN ? AND ?\
                    AND lng BETWEEN ? AND ?\
-                   AND users.id != ? AND "
+                   AND users.id != ? \
+                   AND users.id NOT IN(SELECT uid_target FROM blocked)\
+                   AND "
                 
                 let sql3 = "  \
                 AND age BETWEEN ? AND ? \

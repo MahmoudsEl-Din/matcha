@@ -624,9 +624,9 @@ class User {
                     suv.targ = sub.uid)t, \
                     users \
                 WHERE users.id =t.targ)tt\
-                INNER JOIN blocked ON targ != blocked.uid_target,\
                 pictures \
             WHERE userid = targ AND position = 1 \
+            AND targ NOT IN(SELECT uid_target FROM blocked)\
             GROUP BY targ, username, picture_name;"
 
             connection.query(sql, [uid, uid], (error, results) => {
