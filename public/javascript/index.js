@@ -17,12 +17,12 @@ $.get('/user_info', (data, jqHXR) => {
         params.ageMin = 18 :
         params.ageMin = data.age - 5
     params.ageMax = data.age + 5
-    data.pop - 10 < 0 ?
+    data.pop - 20 < 0 ?
         params.popMin = 0 :
-        params.popMin = Math.round(data.pop) - 10
-    data.pop + 10 > 100 ?
+        params.popMin = Math.round(data.pop) - 20
+    data.pop + 20 > 100 ?
         params.popMax = 100 :
-        params.popMax = Math.round(data.pop) + 10
+        params.popMax = Math.round(data.pop) + 20
     console.log(data)
     suggest_request(trie)
 })    

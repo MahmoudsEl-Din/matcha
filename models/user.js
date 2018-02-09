@@ -623,7 +623,7 @@ class User {
                     WHERE \
                     suv.targ = sub.uid)t, \
                     users \
-                WHERE users.id =t.targ)tt\
+                WHERE users.id =t.targ)tt,\
                 pictures \
             WHERE userid = targ AND position = 1 \
             AND targ NOT IN(SELECT uid_target FROM blocked)\
@@ -646,6 +646,16 @@ class User {
                 if (error) throw error
                 else
                     resolve(results)
+            })
+        })
+    }
+    static NewMessage(uid_sender,uid_target, message) {
+        return new Promise((resolve, reject) => {
+            var sql = "INSERT INTO messages VALUES(null, ?,?,?);"
+            connection.query(sql, [uid_sender,uid_target,message], (error, results) => {
+                if (error) throw error
+                else
+                    resolve()
             })
         })
     }

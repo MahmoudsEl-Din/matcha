@@ -46,11 +46,11 @@ block content
                         //- div.col.border(style="min-height:10%;background-color: #F5F5F5F5;min-width:25%; max-width: 66%;border-radius: 50px 50px 50px 5px;background-color: #DCDCDC; color: #4b4f56;").mb-2.p-4 jicnia unuiaaousnaio iojoi sdnfovds
                         //- div.col.border(style="min-height:10%;background-color: #F5F5F5F5;min-width:25%; max-width: 66%;border-radius: 50px 50px 5px 50px;background-color: #4080ff;color: white;").mb-2.p-4.ml-auto jicnia unuiaaousnaio iojoi sdnfovds                    
                     div.col.w-100.border-success(style="height:15%;background-color: #F5F5F5F5;border-radius: 0px 5px 5px 0px;").mt-3
-                        form
+                        form#form_chat(method="POST")
                             div.row.p-2
                                 div.col-10
-                                    textarea#write_msg.w-100(name="tee", rows="3", style="resize: none;")
+                                    textarea#write_msg.w-100(name="message", rows="3", style="resize: none;")
                                 div.col-2.py-3                                
-                                    button.btn.btn-primary.h-100.w-100 Send
+                                    button.btn.btn-primary.h-100.w-100(type='submit') Send
     script(src='/assets/javascript/chat.js' type='text/javascript')
             

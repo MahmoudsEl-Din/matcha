@@ -50,4 +50,20 @@ $(document).ready(function(){
             })  
         })
     }
+
+    $("#form_chat").on('submit', (e) => {
+        e.preventDefault()
+        console.log('bla')
+        
+        if ($('#write_msg').val().length <= 500) {
+
+            console.log('bla')
+            $.get('/chat/send_message', {message:$('#write_msg').val(), uid_target:current_id}, function(data, jqHXR) {
+                
+            })
+        }
+        $('#write_msg').val('')
+
+        console.log(e)
+    })
 })    

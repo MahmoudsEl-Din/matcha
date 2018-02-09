@@ -1,6 +1,4 @@
 $(document).ready(function(){
-    // var socket = io.connect('http://localhost:7777');        
-
     var displayed = false;
 
     if($("#notif_picture").length !== 0)
@@ -31,7 +29,9 @@ $(document).ready(function(){
                                     var style = 'style=\'background-color: #f2f2f2;\''
                                 else
                                     var style = 'style=\'background-color: #ffffff;\''
-                                $('#div_notif').prepend('<a class=\'w-100 m-1 h-25 \' href(\'#\')><div class=\'notif\'' + style + ' >' + content + '</div></a>')
+                                let key = Date.now() + elem['uid_sender']
+                                $('#div_notif').prepend('<a class=\'w-100 m-1 h-25 \' id=\''+key+'\'href(\'#\')><div class=\'notif\'' + style + ' >' + content + '</div></a>')
+                                $('#'+key).click(function() {window.location.replace('/user?uid='+elem['uid_sender'])})
                             }
                         })
                     }
@@ -86,7 +86,7 @@ $(document).ready(function(){
     })
 
     $("#notif_picture").click(function(e) {
-        e.stopPropagation() // This is the preferred method.
+        // e.stopPropagation() // This is the preferred method.
         notif_shown()
         $("#div_notif").show()
         $("#dropdown_notif").hide()
@@ -100,7 +100,7 @@ $(document).ready(function(){
     });
 
     $("#dropdown_notif").click(function(e) {
-        e.stopPropagation() // This is the preferred method.
+        // e.stopPropagation() // This is the preferred method.
         return false
     })
 

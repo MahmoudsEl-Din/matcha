@@ -36,6 +36,7 @@ router.get('/', (req, res) => {
             if (profile_info) {
                 console.log(user_info)
                 username = user_info['username'].toUpperCase()
+                profile_info['pop'] = Math.round(profile_info['pop'])
                 res.render('pages/user', {session :req.session, username: username, user: profile_info})
             }
             else if (returned === 0)

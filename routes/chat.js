@@ -35,4 +35,16 @@ router.get('/get_messages', (req, res) => {
     }).catch(catchError)
 })
 
+router.get('/send_message', (req, res) => {
+    console.log(req.query.message.length)
+    if (req.query.message.length <= 500 && req.query.message.length > 0) {
+        User.NewMessage(req.session.connected.id, req.query.uid_target, req.query.message)
+        .then(() => {
+            res.send()
+        }).catch(catchError)
+    }
+    else
+        res.send()
+})
+
 module.exports = router
