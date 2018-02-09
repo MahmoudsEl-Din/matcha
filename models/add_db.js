@@ -71,6 +71,10 @@ class addDb {
                     connection.query(sql, [uid, time], (error, results) => {
                         if (error) throw error
                     })
+                        sql = "INSERT INTO scokets (`uid`, `socket_id`, `session_id`) VALUES(?, 'yipiyo', 'yipiyeah');"
+                    connection.query(sql, [uid], (error, results) => {
+                            if (error) throw error
+                    })
                     return User.SetPosByIp(ret[1])
                 }
                 else

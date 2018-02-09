@@ -22,10 +22,16 @@ router.get('/', (req, res) => {
 })
 
 router.get('/get_match_info', (req, res) => {
-    console.log('test')
     User.GetMatchInfo(req.session.connected.id)
     .then(matchs_info => {
         res.send(matchs_info)
+    }).catch(catchError)
+})
+
+router.get('/get_messages', (req, res) => {
+    User.GetMessages(req.session.connected.id, req.query.id)
+    .then(messages => {
+        res.send(messages)
     }).catch(catchError)
 })
 
