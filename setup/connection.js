@@ -11,7 +11,7 @@ class init_db {
             if (error) throw error
         })
 
-        this.connection.query('CREATE DATABASE IF NOT EXISTS matcha_db;', (error) => {
+        this.connection.query('CREATE DATABASE IF NOT EXISTS matcha_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;', (error) => {
             if (error) throw error
         })
         this.connection.query('USE matcha_db;', (error) => {

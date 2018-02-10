@@ -84,8 +84,8 @@ $(document).ready(function(){
     $("#submit_firstname").click(function(e) {
         e.preventDefault()
         clear_returns()
-
-        $.post('/profil/change_firstname', $('#profil_firstname'), function(data, jqHXR) {  
+        let firstname_xss = filterXSS($('#profil_firstname').val())
+        $.post('/profil/change_firstname', {profil_firstname:firstname_xss}, function(data, jqHXR) {  
             if (jqHXR === "success") {
                 if (data[0] === false) {                        
                     $("#return_firstname").empty()
@@ -122,8 +122,8 @@ $(document).ready(function(){
     $("#submit_lastname").click(function(e) {
         e.preventDefault()
         clear_returns()
-
-        $.post('/profil/change_lastname', $('#profil_lastname'), function(data, jqHXR) {  
+        let lastname_xss = filterXSS($('#profil_lastname').val())        
+        $.post('/profil/change_lastname', {profil_lastname:lastname_xss}, function(data, jqHXR) {  
             if (jqHXR === "success") {
                 if (data[0] === false) {             
                     document.getElementById("return_lastname").innerHTML = data[1]
@@ -160,9 +160,9 @@ $(document).ready(function(){
     $("#submit_email").click(function(e) {
         e.preventDefault()
         clear_returns()
-
+        let email_xss = filterXSS($('#profil_email').val())                
         if (confirm('Are you sure this is a good email ?')) {
-            $.post('/profil/change_email', $('#profil_email'), function(data, jqHXR) {  
+            $.post('/profil/change_email', {profil_email:email_xss}, function(data, jqHXR) {  
                 if (jqHXR === "success") {
                     if (data[0] === false) {
                         document.getElementById("return_email").innerHTML = data[1]
@@ -239,13 +239,13 @@ $(document).ready(function(){
     $("#submit_bio").click(function(e) {
         e.preventDefault()
         clear_returns()
-
+        let bio_xss = filterXSS($('#profil_bio').val())                        
         if ($('#profil_bio').val().length > 249)
             document.getElementById("return_bio").innerHTML = 'Too long'
         else if ($('#profil_bio').val().length <= 0)
             document.getElementById("return_bio").innerHTML = 'Empty field'
         else {
-            $.post('/profil/change_bio', $('#profil_bio'), function(data, jqHXR) {  
+            $.post('/profil/change_bio', {profil_bio:bio_xss}, function(data, jqHXR) {  
                 if (jqHXR === "success") {
                     if (data[0] === false)
                         document.getElementById("return_bio").innerHTML = data[1]
@@ -299,9 +299,9 @@ $(document).ready(function(){
     function click_tags() { 
         $("#div_list_tags").children().on('click', function(e){
             clear_returns()
-
+            let tag_xss = filterXSS($(e.target).text())                        
             if ($(e.target).text().length < 15) {
-                $.get('/profil/add_tag', {new_tag: $(e.target).text()}, (data, jqHXR) => {
+                $.get('/profil/add_tag', {new_tag: tag_xss}, (data, jqHXR) => {
                     if (jqHXR === "success") {
                         if (data[0] === false && data[1] === 'redirect_error')
                             window.location.replace("/error")

@@ -63,6 +63,7 @@ router.post('/first_email', (req, res) => {
 
 //Change firstname
 router.post('/change_firstname', (req, res) => {
+    console.log(req.body)
     if (req.body.profil_firstname && req.session.connected && req.session.connected.id){
         if (req.body.profil_firstname.length < 20){
             // User.generalUpdateUser('name', req.body.profil_firstname, req.session.connected.id)
