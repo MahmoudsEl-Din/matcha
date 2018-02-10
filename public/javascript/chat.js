@@ -1,4 +1,5 @@
 var current_id = undefined
+var last_message_id = undefined
 
 $(document).ready(function(){
     $.get('/chat/get_match_info', function(data, jqHXR) {
@@ -21,6 +22,7 @@ $(document).ready(function(){
                 click_match(element)
             i += 1;
         })
+        scroll_bot()
     })
 
     function click_match (element)  {
@@ -33,37 +35,60 @@ $(document).ready(function(){
     function print_messages() {
         $.get('/chat/get_messages', {id: current_id} , function(data, jqHXR) {
             data.forEach(element => {
-                if (element.uid_sender === current_id) {
-                    $("#messages").append('\
-                        <div class="col border mb-2 p-4" style="min-height:10%;background-color: #F5F5F5F5;min-width:25%; max-width: 66%;border-radius: 50px 50px 50px 5px;background-color: #DCDCDC; color: #4b4f56;">\
-                            '+ element.text +'\
-                        </div>\
-                        ')
-                }
-                else {
-                    $("#messages").append('\
-                        <div class="col border mb-2 p-4 ml-auto" style="min-height:10%;background-color: #F5F5F5F5;min-width:25%; max-width: 66%;border-radius: 50px 50px 5px 50px;background-color: #4080ff;color: white;">\
-                            '+ element.text +'\
-                        </div>\
-                        ')
-                }
+                last_message_id = element.id
+                if (element.uid_sender === current_id)
+                    print_other_message(element.text)
+                else
+                    print_our_message(element.text)
             })  
         })
     }
 
+    $("#write_msg").keypress(function (e) {
+        if(e.which == 13) {
+            e.preventDefault()
+            $("#form_chat").submit()
+        }
+    })
+
     $("#form_chat").on('submit', (e) => {
         e.preventDefault()
-        console.log('bla')
-        
         if ($('#write_msg').val().length <= 500) {
-
-            console.log('bla')
             $.get('/chat/send_message', {message:$('#write_msg').val(), uid_target:current_id}, function(data, jqHXR) {
-                
+                print_our_message($('#write_msg').val())
+                console.log(data[0])
+                emit_message(data[0], current_id, $('#write_msg').val())
+                $('#write_msg').val('')       
             })
         }
-        $('#write_msg').val('')
-
-        console.log(e)
     })
 })    
+
+function print_our_message(txt) {
+    $("#messages").append('\
+        <div class="col border mb-2 p-4 ml-auto" style="min-height:10%;background-color: #F5F5F5F5;min-width:25%; max-width: 66%;border-radius: 50px 50px 5px 50px;background-color: #4080ff;color: white;">\
+            '+ txt +'\
+        </div>\
+    ')
+    scroll_bot()
+}
+
+function print_other_message(txt) {
+    $("#messages").append('\
+        <div class="col border mb-2 p-4" style="min-height:10%;background-color: #F5F5F5F5;min-width:25%; max-width: 66%;border-radius: 50px 50px 50px 5px;background-color: #DCDCDC; color: #4b4f56;">\
+            '+ txt +'\
+        </div>\
+    ')
+    scroll_bot()
+}
+
+function scroll_bot() {
+    let div_msg = $('#messages')
+    let height = div_msg[0].scrollHeight;
+    div_msg.scrollTop(height);
+}
+
+function new_message(id_sender, text) {
+    if (id_sender === current_id)
+        print_other_message(text)
+}

@@ -659,6 +659,14 @@ class User {
             })
         })
     }
+
+    static NewNotifMessage(uid, uid_target, type) {
+        var sql = "INSERT INTO notif VALUES(null, ?, ?, 3, ?, 0)"
+        connection.query(sql, [uid_target, uid, type], (error, results) => {
+            if (error) throw error
+        })
+    }
+
 }
 
 module.exports = User

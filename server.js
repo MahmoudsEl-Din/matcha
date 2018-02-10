@@ -138,6 +138,20 @@ io.on('connection', function (socket) {
         }).catch((err) => {throw err})
     })
 
-    socket.on("like", data => {
+    socket.on("message", data => {
+        User.GetSocketID(data.uid_target)
+        .then((socket_id) => {
+            var socketList = io.sockets.server.eio.clients;
+            if (socketList[socket_id] !== undefined)            
+            {
+                io.sockets.in(socket_id).emit('new_notif',{
+                    type: 3,
+                    uid: data.uid_target,
+                    uid_visitor: data.uid,
+                    text: data.text
+                })
+            }
+        }).catch((err) => {throw err})
     })
+
 })

@@ -36,15 +36,16 @@ router.get('/get_messages', (req, res) => {
 })
 
 router.get('/send_message', (req, res) => {
-    console.log(req.query.message.length)
     if (req.query.message.length <= 500 && req.query.message.length > 0) {
         User.NewMessage(req.session.connected.id, req.query.uid_target, req.query.message)
         .then(() => {
-            res.send()
+            User.NewNotifMessage(req.session.connected.id, req.query.uid_target, 'false')
+        }).then(() => {
+            res.send([req.session.connected.id])
         }).catch(catchError)
     }
     else
-        res.send()
+        res.send([req.session.connected.id])
 })
 
 module.exports = router
