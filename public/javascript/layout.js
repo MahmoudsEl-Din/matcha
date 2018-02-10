@@ -13,7 +13,7 @@ $(document).ready(function(){
                 data.forEach((elem) => {
                     if (elem['shown'] === 0)
                         new_notif += 1
-                    if (elem['type'] === 1 || elem['type'] === 2) {
+                    if (elem['type'] === 1 || elem['type'] === 2 || elem['type'] === 3) {
                         $.get('/notif/get_user', {id: elem['uid_sender']}, function(data, jqHXR) {
                             if (jqHXR === "success") {
                                 sender_name = data
@@ -25,6 +25,8 @@ $(document).ready(function(){
                                     content = sender_name + ' disliked your profile'
                                 else if (elem['type'] === 2 && elem['data'] === 'match')
                                     content = 'It\'s a match with ' + sender_name + ', nice !'
+                                else if (elem['type'] === 3) 
+                                    content = sender_name + ' just sent you a message !'
                                 if (elem['shown'] === 1)
                                     var style = 'style=\'background-color: #f2f2f2;\''
                                 else

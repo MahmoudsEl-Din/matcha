@@ -592,19 +592,19 @@ class User {
     }
 
     static NewVisit(data) {
-        let sql = "INSERT INTO history VALUES(null, ?, ?)"
-        connection.query(sql, [data.uid_target, data.uid], (error, results) => {
+        let sql = "INSERT INTO history VALUES(null, ?, ?) WHERE ? NOT IN(SELECT uid_target FROM blocked WHERE uid = ?);"
+        connection.query(sql, [data.uid_target, data.uid, data.uid, data.uid_target], (error, results) => {
             if (error) throw error
         })
-        sql = "INSERT INTO notif VALUES(null, ?, ?, 1, null, 0)"
-        connection.query(sql, [data.uid_target, data.uid], (error, results) => {
+        sql = "INSERT INTO notif VALUES(null, ?, ?, 1, null, 0) WHERE ? NOT IN(SELECT uid_target FROM blocked WHERE uid = ?);"
+        connection.query(sql, [data.uid_target, data.uid, data.uid, data.uid_target], (error, results) => {
             if (error) throw error
         })
     }
 
     static NewNotifLike(uid, uid_target, type) {
-        var sql = "INSERT INTO notif VALUES(null, ?, ?, 2, ?, 0)"
-        connection.query(sql, [uid_target, uid, type], (error, results) => {
+        var sql = "INSERT INTO notif VALUES(null, ?, ?, 2, ?, 0) WHERE ? NOT IN(SELECT uid_target FROM blocked WHERE uid = ?);"
+        connection.query(sql, [uid_target, uid, type, uid, uid_target], (error, results) => {
             if (error) throw error
         })
     }
@@ -626,10 +626,10 @@ class User {
                 WHERE users.id =t.targ)tt,\
                 pictures \
             WHERE userid = targ AND position = 1 \
-            AND targ NOT IN(SELECT uid_target FROM blocked)\
+            AND targ NOT IN(SELECT uid_target FROM blocked WHERE uid = ?)\
             GROUP BY targ, username, picture_name;"
 
-            connection.query(sql, [uid, uid], (error, results) => {
+            connection.query(sql, [uid, uid, uid], (error, results) => {
                 console.log(results)
                 if (error) throw error
                 else
@@ -661,8 +661,8 @@ class User {
     }
 
     static NewNotifMessage(uid, uid_target, type) {
-        var sql = "INSERT INTO notif VALUES(null, ?, ?, 3, ?, 0)"
-        connection.query(sql, [uid_target, uid, type], (error, results) => {
+        var sql = "INSERT INTO notif VALUES(null, ?, ?, 3, ?, 0) WHERE ? NOT IN(SELECT uid_target FROM blocked WHERE uid = ?);"
+        connection.query(sql, [uid_target, uid, type, uid, uid_target], (error, results) => {
             if (error) throw error
         })
     }
