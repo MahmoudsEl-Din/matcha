@@ -592,21 +592,31 @@ class User {
     }
 
     static NewVisit(data) {
-        let sql = "INSERT INTO history VALUES(null, ?, ?) WHERE ? NOT IN(SELECT uid_target FROM blocked WHERE uid = ?);"
-        connection.query(sql, [data.uid_target, data.uid, data.uid, data.uid_target], (error, results) => {
-            if (error) throw error
-        })
-        sql = "INSERT INTO notif VALUES(null, ?, ?, 1, null, 0) WHERE ? NOT IN(SELECT uid_target FROM blocked WHERE uid = ?);"
-        connection.query(sql, [data.uid_target, data.uid, data.uid, data.uid_target], (error, results) => {
-            if (error) throw error
-        })
+        this.IsBlocked(data.uid_target, data.uid)
+        .then(ret => {
+            if (ret === false) {
+                let sql = "INSERT INTO history VALUES(null, ?, ?);"
+                connection.query(sql, [data.uid_target, data.uid], (error, results) => {
+                    if (error) throw error
+                })
+                sql = "INSERT INTO notif VALUES(null, ?, ?, 1, null, 0);"
+                connection.query(sql, [data.uid_target, data.uid], (error, results) => {
+                    if (error) throw error
+                })
+            }
+        }).catch(catchError)
     }
 
     static NewNotifLike(uid, uid_target, type) {
-        var sql = "INSERT INTO notif VALUES(null, ?, ?, 2, ?, 0) WHERE ? NOT IN(SELECT uid_target FROM blocked WHERE uid = ?);"
-        connection.query(sql, [uid_target, uid, type, uid, uid_target], (error, results) => {
-            if (error) throw error
-        })
+        this.IsBlocked(uid_target, uid)
+        .then(ret => {
+            if (ret === false) {
+                var sql = "INSERT INTO notif VALUES(null, ?, ?, 2, ?, 0);"
+                connection.query(sql, [uid_target, uid, type], (error, results) => {
+                    if (error) throw error
+                })
+            }
+        }).catch(catchError)
     }
 
     static GetMatchInfo(uid) {
@@ -661,10 +671,16 @@ class User {
     }
 
     static NewNotifMessage(uid, uid_target, type) {
-        var sql = "INSERT INTO notif VALUES(null, ?, ?, 3, ?, 0) WHERE ? NOT IN(SELECT uid_target FROM blocked WHERE uid = ?);"
-        connection.query(sql, [uid_target, uid, type, uid, uid_target], (error, results) => {
-            if (error) throw error
-        })
+        this.IsBlocked(uid_target, uid)
+        .then(ret => {
+            console.log(ret)
+            if (ret === false) {
+                var sql = "INSERT INTO notif VALUES(null, ?, ?, 3, ?, 0);"
+                connection.query(sql, [uid_target, uid, type], (error, results) => {
+                    if (error) throw error
+                })
+            }
+        }).catch(catchError)
     }
 
 }

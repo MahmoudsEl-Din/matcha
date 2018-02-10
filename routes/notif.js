@@ -14,10 +14,17 @@ router.post('/get_notif', (req, res) => {
 })
 
 router.get('/get_user', (req, res) => {
+    let block = undefined
     if (req.query.id) {
-        User.GetAllById(req.query.id)
-        .then((user) => {
-            return res.send(user['username'])
+        User.IsBlocked(req.session.connected.id, req.query.id)
+        .then(blocked => {
+            block = blocked
+            return User.GetAllById(req.query.id)
+        }).then((user) => {
+            if (block === false)
+                return res.send(user['username'])
+            else
+               return res.send(block)
         }).catch(catchError)
     }
     else
