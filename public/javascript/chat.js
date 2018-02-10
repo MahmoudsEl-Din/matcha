@@ -53,11 +53,12 @@ $(document).ready(function(){
 
     $("#form_chat").on('submit', (e) => {
         e.preventDefault()
+        let msg_xss = filterXSS($('#write_msg').val())
         if ($('#write_msg').val().length <= 500) {
-            $.get('/chat/send_message', {message:$('#write_msg').val(), uid_target:current_id}, function(data, jqHXR) {
-                print_our_message($('#write_msg').val())
+            $.get('/chat/send_message', {message:msg_xss, uid_target:current_id}, function(data, jqHXR) {
+                print_our_message(msg_xss)
                 console.log(data[0])
-                emit_message(data[0], current_id, $('#write_msg').val())
+                emit_message(data[0], current_id, msg_xss)
                 $('#write_msg').val('')       
             })
         }
@@ -67,7 +68,7 @@ $(document).ready(function(){
 function print_our_message(txt) {
     $("#messages").append('\
         <div class="col border mb-2 p-4 ml-auto" style="min-height:10%;background-color: #F5F5F5F5;min-width:25%; max-width: 66%;border-radius: 50px 50px 5px 50px;background-color: #4080ff;color: white;">\
-            '+ txt +'\
+        ' + txt + '\
         </div>\
     ')
     scroll_bot()

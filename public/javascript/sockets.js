@@ -5,7 +5,7 @@
         if (data.type === 1 || data.type === 2 || data.type === 3) {
             $.get('/notif/get_user', {id: data.uid_visitor}, function(data2, jqHXR) {
                 if (jqHXR === "success" && data2 && data2 !== true) {
-                    sender_name = data2
+                    sender_name = "#{" + data2 + "}"
                     if (data.type === 1)
                         content = sender_name + ' viewed your profile'
                     else if (data.type === 2 && data.like_type !== 'match')
