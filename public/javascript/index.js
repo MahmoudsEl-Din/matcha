@@ -280,7 +280,7 @@ $('#search-button').click(function (e) {
                                         <h4 class="card-title text-center">'+element.username+'</h4>\
                                         <p class="card-text">'+element.age+' years old</p>\
                                         <p class="card-text">Popularité: '+Math.round(element.pop)+' points</p>\
-                                        <p class="card-text"> Se trouve à '+Math.round+' km\
+                                        <p class="card-text"> Se trouve à '+Math.round(element.distance)+' km\
                                         <div class="h-25 w-100 card-text" id="div_tag'+element.id+'"></div>\
                                     </div>\
                                 </div>\

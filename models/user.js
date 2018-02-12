@@ -104,7 +104,7 @@ class User {
 
     static ChangeAge(userid, new_age) {
         return new Promise((resolve, reject) => {
-            let sql = "UPDATE users SET name = ? WHERE id = ?;"
+            let sql = "UPDATE users SET age = ? WHERE id = ?;"
             connection.query(sql, [new_age, userid], (error, results) => {
                 if (error)
                     reject(error)
