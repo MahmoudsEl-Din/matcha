@@ -8,44 +8,6 @@ let catchError = (error) => {
 
 class addDb {
 
-    // Fonction a supprimer elle est utilisé à l'initialisation de la DB 
-    // static add_user(array) { // Where array contains info of the new user
-        
-    //     let ret = [0, 0]
-
-    //     return new Promise((resolve, reject) => {
-    //         Check.LoginExists(array['username'])
-    //             .then((username_exists) => {
-    //                 if (username_exists === true) {
-    //                     ret[0] = "KO"
-    //                     ret[1] = "Username already exists"
-    //                     resolve(ret)
-    //                 }
-    //                 else {
-    //                     return new Promise((resolve, reject) => {
-    //                         Check.email_exists(array['email'])
-    //                             .then((email_exists) => {
-    //                                 if (email_exists === true) {
-    //                                     ret[0] = "KO"
-    //                                     ret[1] = "Email already exists"
-    //                                     resolve(ret)
-    //                                 }
-    //                                 else {
-    //                                     let sql = 'INSERT INTO users (`username`, `name`, `password`, `lastname`, `email`, `genre`, `desire`, `bio`) VALUES(username = ?, name = ?, password = ?, lastname = ?, email = ?, genre = ?, desire = ?, bio = ?);'
-    //                                     connection.query(sql, array, (error, results) => {
-    //                                         if (error) throw error
-    //                                         ret[0] = "OK"
-    //                                         ret[1] = "User created"
-    //                                         resolve(ret)
-    //                                     })
-    //                                 }
-    //                         }).catch(catchError)
-    //                     })
-    //                 }
-    //         }).catch(catchError)
-    //     })
-    // }
-
     static user(form, req) { // Where array contains info of the new user
         return new Promise((resolve, reject) => {
             var Tools = require('./tools')
@@ -54,7 +16,7 @@ class addDb {
             var uid = undefined;           
             Tools.HashPassword(form.signup_password)
             .then((password_h) => {
-                let sql = "INSERT INTO users (`username`, `name`, `password`, `lastname`, `email`, `genre`, `desire`, `bio`, `age`, `lat`, `lng`) VALUES(" + connection.escape(form.signup_username) + ", " + connection.escape(form.signup_firstname) + ", " + connection.escape(password_h) + ", " + connection.escape(form.signup_lastname) + ", " + connection.escape(form.signup_email) + ", 'B', 'B', 'Unwritten yet', 25, 0, 0);"
+                let sql = "INSERT INTO users (`username`, `name`, `password`, `lastname`, `email`, `genre`, `desire`, `bio`, `age`, `lat`, `lng`, `pop`) VALUES(" + connection.escape(form.signup_username) + ", " + connection.escape(form.signup_firstname) + ", " + connection.escape(password_h) + ", " + connection.escape(form.signup_lastname) + ", " + connection.escape(form.signup_email) + ", 'B', 'B', 'Unwritten yet', 25, 0, 0, 20);"
                 connection.query(sql, (error, results) => {
                     if (error) throw error
                 })
