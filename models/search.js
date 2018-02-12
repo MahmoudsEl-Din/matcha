@@ -107,7 +107,7 @@ class Search extends User {
                 AND pop BETWEEN ? AND ? \
                 GROUP BY users.id, name, lastname, username, age, bio, pop, desire, distance, common_interest, picture \
                  HAVING distance < "+params.geoRange + 
-                HAVING distance <= ?  "
+                "HAVING distance <= ?  "
                 +params.order+
                 "  LIMIT ?;"
                 let sql = undefined
