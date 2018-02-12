@@ -259,8 +259,8 @@ $('#search-button').click(function (e) {
     // })
     // .then(funcCallBackRequest)
     // .catch(console.log);
-    console.log(`/search/search_them_all/${JSON.stringify($("#ageslider-range").slider("values"))}/${JSON.stringify($("#popslider-range").slider("values"))}/${JSON.stringify($("#geoslider-range").slider("value"))}/${JSON.stringify([])}/${JSON.stringify(page)}/${JSON.stringify(trie)}`)
-    $.get(`/search/search_them_all/${JSON.stringify($("#ageslider-range").slider("values"))}/${JSON.stringify($("#popslider-range").slider("values"))}/${JSON.stringify($("#geoslider-range").slider("value"))}/${JSON.stringify([0])}/${JSON.stringify(page)}/${JSON.stringify(trie)}`, null, (data, jqHXR) => { 
+    console.log(`/search/search_them_all/${JSON.stringify($("#ageslider-range").slider("values"))}/${JSON.stringify($("#popslider-range").slider("values"))}/${JSON.stringify($("#geoslider-range").slider("value"))}/${JSON.stringify(taggs)}/${JSON.stringify(page)}/${JSON.stringify(trie)}`)
+    $.get(`/search/search_them_all/${JSON.stringify($("#ageslider-range").slider("values"))}/${JSON.stringify($("#popslider-range").slider("values"))}/${JSON.stringify($("#geoslider-range").slider("value"))}/${JSON.stringify(taggs)}/${JSON.stringify(page)}/${JSON.stringify(trie)}`, null, (data, jqHXR) => { 
         let i = 0
         $("#users").empty()
         $('#users').hide()
