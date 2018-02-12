@@ -21,16 +21,16 @@ module.exports = {
         next();
     }),
 
-    gender_needed: ((req, res, next) => {
-        User
-        .GetAllById(req.session.connected.id)
-        .then(user_info => {
-            if (user_info['genre'] === 'B') {
-                let message = "Veuillez definir votre SEXE pour acceder à la recherche"
-                return res.redirect('/error')
-            }
-        })
-        .catch(catchError)
-        next();
-    })
+    // gender_needed: ((req, res, next) => {
+    //     User
+    //     .GetAllById(req.session.connected.id)
+    //     .then(user_info => {
+    //         if (user_info['genre'] === 'B') {
+    //             let message = "Veuillez definir votre SEXE pour acceder à la recherche"
+    //             return res.redirect('/error')
+    //         }
+    //     })
+    //     .catch(catchError)
+    //     next();
+    // })
 };

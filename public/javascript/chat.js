@@ -54,7 +54,7 @@ $(document).ready(function(){
     $("#form_chat").on('submit', (e) => {
         e.preventDefault()
         let msg_xss = filterXSS($('#write_msg').val())
-        if ($('#write_msg').val().length <= 500) {
+        if ($('#write_msg').val().length <= 500 && $('#write_msg').val().length > 0) {
             $.get('/chat/send_message', {message:msg_xss, uid_target:current_id}, function(data, jqHXR) {
                 print_our_message(msg_xss)
                 console.log(data[0])

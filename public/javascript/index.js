@@ -115,8 +115,8 @@ function suggest_request(order) {
 //             i += 1
 //         });
     $.get(`/search/search_them_all/${JSON.stringify([params.ageMin,params.ageMax])}/${JSON.stringify([params.popMin,params.popMax])}/${JSON.stringify(params.distMax)}/${JSON.stringify([0])}/${JSON.stringify(page)}/${JSON.stringify(order)}`, null, (data, jqHXR) => { 
+        console.log('teub')                    
         console.log(data)
-        console.log('teub')            
         let i = 0
         $('#users').hide()        
         if (data[0].age) {            

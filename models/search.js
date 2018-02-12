@@ -79,7 +79,9 @@ class Search extends User {
                     target = "(genre = 'F' AND (desire = 'F' OR desire = 'B'))"
                 else if (genre === 'F' && desire === 'B')
                     target = "((genre = 'F' AND (desire = 'F' OR desire = 'B')) OR (genre = 'M' AND (desire = 'F' OR desire = 'B')))"
-                // console.log(target)
+                else
+                    target = "0=1"
+                    // console.log(target)
                 res(target)
             })
         }
@@ -189,7 +191,6 @@ class Search extends User {
                 " LIMIT "+ params.page * 10 +";" + "\n")
 
                 if (params.tag === 0) {
-                    console.log('dfdffd')
                     connection.query(sql + sql2 + sql3, 
                         [geoArray[0], geoArray[1], geoArray[0], uid, geoArray[2], geoArray[3], geoArray[4], geoArray[5], 
                         uid, age[0], age[1], pop[0], pop[1], params.geoRange, params.page * 10], 

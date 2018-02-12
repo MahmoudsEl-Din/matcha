@@ -3,7 +3,8 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip()
 
     $("#signup_username").keyup(function(e){
-        $.post('/check_signup_username', $('#signup_username'), function(data, jqHXR) {   
+        let username_xss = filterXSS($('#signup_username').val())
+        $.post('/check_signup_username', {signup_username: username_xss}, function(data, jqHXR) {   
             if (jqHXR === "success") {
                 if (data === true){
                     if ($('#signup_username').hasClass('border-success'))
@@ -21,7 +22,8 @@ $(document).ready(function(){
     })
 
     $("#signup_email").keyup(function(e){
-        $.post('/check_signup_email', $('#signup_email'), function(data, jqHXR) {   
+        let email_xss = filterXSS($('#signup_email').val())       
+        $.post('/check_signup_email', {signup_email: email_xss}, function(data, jqHXR) {   
             if (jqHXR === "success") {
                 if (data === true){
                     if ($('#signup_email').hasClass('border-success'))
@@ -102,8 +104,14 @@ $(document).ready(function(){
 
     $("#submit_signup").click(function(e) {
         e.preventDefault()
-
-        $.post('/signup', $('form#form_signup').serialize(), function(data, jqHXR) {  
+        let username_xss = filterXSS($('#signup_username').val())
+        let email_xss = filterXSS($('#signup_email').val())        
+        let firstname_xss = filterXSS($('#signup_firstname').val())        
+        let lastname_xss = filterXSS($('#signup_lastname').val())        
+        let password_xss = filterXSS($('#signup_password').val())        
+        let cpassword_xss = filterXSS($('#signup_cpassword').val())        
+        // $.post('/signup', $('form#form_signup').serialize(), function(data, jqHXR) {
+        $.post('/signup', {signup_username: username_xss, signup_email: email_xss, signup_firstname: firstname_xss, signup_lastname: lastname_xss, signup_password: password_xss, signup_cpassword: cpassword_xss}, function(data, jqHXR) {
             if (jqHXR === "success") {
                     if (data[0] === false)
                     {

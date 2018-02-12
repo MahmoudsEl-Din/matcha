@@ -9,6 +9,7 @@ let catchError = (error) => {
 }
 
 router.get('/', (req, res) => {
+    let is_redir = 0
     let username = undefined
     if (!req.session.connected){
         req.session.connected = {'state': false, 'id': undefined}
@@ -18,26 +19,31 @@ router.get('/', (req, res) => {
         .then((user_info) => {
             username = user_info['username']
         }).catch(catchError)
-        res.redirect('/')
+        is_redir === 1 ? 0 :res.redirect('/')
+        is_redir = 1
     }
-    if (!req.query.code)
-        res.redirect('/error')
+    if (!req.query.code) {
+        is_redir === 1 ? 0 :res.redirect('/error')
+        is_redir = 1
+    }        
     else {
         Check.CodeExists(null, req.query.code, null)
         .then((results) => {
-            if (results[false])
-                res.redirect('/error')
+            if (!results || results[0] === false) {
+                is_redir === 1 ? 0 :res.redirect('/error')
+                is_redir = 1
+            }
             else if (results[2] === 1)
                 return [1, AddDb.ActivateCode(req.query.code)]
             else if (results[2] === 2)
                 return [2, true]
         }).then((ret) => {
             if (ret && ret[0] === 1)
-                res.render('pages/code', {session :req.session, username: username, type: 1})
+                is_redir === 1 ? 0 :res.render('pages/code', {session :req.session, username: username, type: 1})
             else if (ret && ret[0] === 2)
-                res.render('pages/code', {session :req.session, username: username, type: 2})
+                is_redir === 1 ? 0 :res.render('pages/code', {session :req.session, username: username, type: 2})
             else if (ret)
-                res.redirect('/error')
+                is_redir === 1 ? 0 :res.redirect('/error')
         }).catch(catchError)
     }
 })

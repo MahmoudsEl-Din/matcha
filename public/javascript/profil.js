@@ -186,9 +186,10 @@ $(document).ready(function(){
         e.preventDefault()
         clear_returns()
 
-        if ($('#profil_gender').val() === 'B' || $('#profil_gender').val() === 'M' || $('#profil_gender').val() === 'F')
+        let gender_xss = filterXSS($('#profil_gender').val())                
+        if (gender_xss === 'B' || gender_xss === 'M' || gender_xss === 'F')
         {
-            $.post('/profil/change_gender', $('#profil_gender'), function(data, jqHXR) {  
+            $.post('/profil/change_gender', {profil_gender: gender_xss}, function(data, jqHXR) {  
                 if (jqHXR === "success") {
                     if (data[0] === false)
                         document.getElementById("return_gender").innerHTML = data[1]
@@ -286,7 +287,6 @@ $(document).ready(function(){
                         if (res === false && $("#profil_tag").val() !== '')
                             $('#div_list_tags').prepend('<a class=\'link_select_tag\' href(\'#\')><div class="select_tag">' + $("#profil_tag").val() + '</div></a>')
                         click_tags () // Becouse tags weren't on the page at the begining we have to set onclick now
-        
                     }
                 }
             })
@@ -352,11 +352,11 @@ $(document).ready(function(){
 
     $('#pic_sub').click (function(e) {
         e.preventDefault()
-        var file_data = $('#pic1').prop('files')[0];   
-        var form_data = new FormData();                  
+        var file_data = $('#pic1').prop('files')[0];
+        var form_data = new FormData();
         form_data.append('file', file_data);
         $.ajax({
-            url: '/profil/upload_picture', // point to server-side PHP script 
+            url: '/profil/upload_picture', // point to server-side PHP script
             cache: false,
             contentType: false,
             processData: false,

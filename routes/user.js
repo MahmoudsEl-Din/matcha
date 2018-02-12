@@ -106,12 +106,12 @@ router.get('/like_user', (req, res) => {
         console.log('ret2 ' + ret2)
         if (ret2 !== undefined) {
             console.log('3')
-            if (ret2 === false) {
+            if (ret2 === false && retfi !== "You have no profile picture") {
                 console.log('ret = false')
                 User.NewNotifLike(req.session.connected.id, req.query.uid, 'true')
                 retfi[2] = false
             }
-            else {
+            else if (retfi !== "You have no profile picture"){
                 console.log('ret= true')
                 User.NewNotifLike(req.session.connected.id, req.query.uid, 'match')
                 retfi[2] = true

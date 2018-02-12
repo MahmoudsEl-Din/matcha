@@ -4,8 +4,8 @@ $(document).ready(function(){
 
     $("#button_reset").click(function(e) {
         e.preventDefault()
-        
-        $.post('/reset_password', $('form#form_forgot').serialize(), function(data, jqHXR) {  
+        let form_xss = filterXSS($('#form_email').val())
+        $.post('/reset_password', {form_reset: form_xss}, function(data, jqHXR) {  
             if (jqHXR === "success") {
                 if (data[0] === false){
                     $("return-reset").empty()
@@ -25,10 +25,14 @@ $(document).ready(function(){
     
     $("#button_change_password").click(function(e) {
         e.preventDefault()
-
         var url = new URL(window.location.href)
         var code = url.searchParams.get("code");
-        $.post('/change_password', $('form#form_change').serialize() + '&code=' + code, function(data, jqHXR) {  
+        let username_xss = filterXSS($('#username').val())
+        let password_xss = filterXSS($('#password').val())
+        let cpassword_xss = filterXSS($('#cpassword').val())
+        
+        // $.post('/change_password', $('form#form_change').serialize() + '&code=' + code, function(data, jqHXR) {  
+        $.post('/change_password', {code : code, username: username_xss, password: password_xss, cpassword: cpassword_xss}, function(data, jqHXR) {  
             if (jqHXR === "success") {
                 if (data[0] === false){
                     

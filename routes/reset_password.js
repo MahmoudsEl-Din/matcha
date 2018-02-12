@@ -10,6 +10,10 @@ let catchError = (error) => {
 }
 
 router.post('/', function(req, res) {
+    console.log("req.body.form_reset")
+    console.log(req.body.form_reset)
+    if (!req.body.form_reset)
+        return res.send([false, "Error"])
     Check.EmailExists(req.body.form_reset)
     .then((exists) => {
         if (exists) {

@@ -75,7 +75,7 @@ app.use('/reset_password', reset_password)
 app.use('/change_password', change_password)
 app.use('/error', error)
 app.use('/profil', middlewares.logged_needed, profil)
-app.use('/search', middlewares.logged_needed, middlewares.gender_needed, search)
+app.use('/search', middlewares.logged_needed, search)
 app.use('/user', middlewares.logged_needed, user)
 app.use('/notif', middlewares.logged_needed, notif)
 app.use('/tools', middlewares.logged_needed, tools)
@@ -100,7 +100,8 @@ var io = require('socket.io').listen(serv);
 io.on('connection', function (socket) {
     var cookies = cookieParser.signedCookies(cookie.parse(socket.handshake.headers.cookie), 'clefchiffrement');
     var session_id = cookies['connect.sid'];
-
+    if (session_id === undefined)
+        session_id = ads0
     User.SetSocketID(socket.client.id, session_id)
 
     socket.on("user_login", data => {
