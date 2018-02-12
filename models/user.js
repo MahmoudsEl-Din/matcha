@@ -286,7 +286,6 @@ class User {
                             resolve([true, position])
                     })
                 }
-                console.log(results)
             }).catch(catchError)
         })
     }
@@ -307,7 +306,6 @@ class User {
                                 if (error) throw error
                             })
                             for(var i = position; i <= 5; i++) {
-                                console.log('i = '+i+'\n')
                                 let sql = "UPDATE pictures SET position = ? WHERE position = ? AND userid = ?;"
                                 connection.query(sql, [i - 1, i, userid], (error, results) => {
                                     if (error)
@@ -326,7 +324,7 @@ class User {
 
     static SetProfilPicture(userid, position) {
         return new Promise((resolve, reject) => {
-            console.log(position)
+            (position)
             Check.PictureExists(userid, position)
             .then((exists) => {
                 if (!exists)
@@ -362,8 +360,6 @@ class User {
             .then(ip => {
                 where.is(ip, function(err, result) {
                     if (result) {
-                      console.log('Lat: ' + result.get('lat'));
-                      console.log('Lng: ' + result.get('lng'));
                       let lat = result.get('lat')                      
                       let lng = result.get('lng')
                       let sql = "UPDATE users SET lat = ?, lng = ? WHERE id = ?;"
@@ -477,12 +473,10 @@ class User {
     }
 
     static Like(uid, uid_target) {
-        console.log("ca passe ici")
         return new Promise((resolve, reject) => {
             let ret = undefined
             let sql = "SELECT * FROM pictures WHERE userid = ? AND position = 1;"                    
             connection.query(sql, [uid], (error, result) => {
-                console.log(result)
                 if (!result[0])
                     return resolve('You have no profile picture')
                 this.IsLiking(uid, uid_target)
@@ -503,7 +497,6 @@ class User {
                         if (error) throw error
                     })
                     // Bayesian Ratings
-                    console.log("suce ma bite")
                     let newPop = "UPDATE users SET pop =\
                     (SELECT 10 * \
                         ((count(id) * (count(id) / count(DISTINCT uid_target))) + \
@@ -554,7 +547,6 @@ class User {
 
     static NotifShown(uid) {
         return new Promise((resolve, reject) => {
-            console.log('showzn : ' + uid)
             let sql = "UPDATE notif SET shown = 1 WHERE uid = ? AND shown = 0"
             connection.query(sql, [uid], (error, results) => {
                 if (error)
@@ -640,7 +632,6 @@ class User {
             GROUP BY targ, username, picture_name;"
 
             connection.query(sql, [uid, uid, uid], (error, results) => {
-                console.log(results)
                 if (error) throw error
                 else
                     resolve(results)
@@ -652,7 +643,6 @@ class User {
         return new Promise((resolve, reject) => {
             var sql = "SELECT * FROM messages WHERE uid_receiver = ? AND uid_sender = ? OR uid_receiver = ? AND uid_sender = ?;"
             connection.query(sql, [uid_sender,uid_receiver,uid_receiver,uid_sender], (error, results) => {
-                console.log(results)
                 if (error) throw error
                 else
                     resolve(results)
@@ -673,7 +663,6 @@ class User {
     static NewNotifMessage(uid, uid_target, type) {
         this.IsBlocked(uid_target, uid)
         .then(ret => {
-            console.log(ret)
             if (ret === false) {
                 var sql = "INSERT INTO notif VALUES(null, ?, ?, 3, ?, 0);"
                 connection.query(sql, [uid_target, uid, type], (error, results) => {

@@ -158,7 +158,7 @@ class init_db {
                     connection.query(sql, [file, table], (error) => {
                         if (error) throw error
                         else
-                        console.log("filling :" + table)
+                        ("filling :" + table)
                     })
                 }
             })

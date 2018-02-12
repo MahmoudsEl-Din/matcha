@@ -13,7 +13,7 @@ let catchError = error => {
 class Search extends User {
     
     static getAroundMe(ulat, ulng, gRange) {
-        console.log(gRange)
+        (gRange)
         return new Promise((res,rej) => {
             const delta = gRange / (111.1 / Math.cos(ulat * 180 / Math.PI))
             let lngMax = ulng - delta
@@ -32,7 +32,6 @@ class Search extends User {
                 lngMin = lngMax
                 lngMax = temp
             }                                
-            console.log()
             const geoArray = [ulat, ulng, latMin, latMax, lngMin, lngMax]
             res(geoArray) 
         })
@@ -81,7 +80,7 @@ class Search extends User {
                     target = "((genre = 'F' AND (desire = 'F' OR desire = 'B')) OR (genre = 'M' AND (desire = 'F' OR desire = 'B')))"
                 else
                     target = "0=1"
-                    // console.log(target)
+                    // (target)
                 res(target)
             })
         }
@@ -106,8 +105,7 @@ class Search extends User {
                 AND age BETWEEN ? AND ? \
                 AND pop BETWEEN ? AND ? \
                 GROUP BY users.id, name, lastname, username, age, bio, pop, desire, distance, common_interest, picture \
-                 HAVING distance < "+params.geoRange + 
-                "HAVING distance <= ?  "
+                HAVING distance <= ?  "
                 +params.order+
                 "  LIMIT ?;"
                 let sql = undefined

@@ -63,7 +63,6 @@ router.post('/first_email', (req, res) => {
 
 //Change firstname
 router.post('/change_firstname', (req, res) => {
-    console.log(req.body)
     if (req.body.profil_firstname && req.session.connected && req.session.connected.id){
         if (req.body.profil_firstname.length < 20){
             // User.generalUpdateUser('name', req.body.profil_firstname, req.session.connected.id)
@@ -269,16 +268,6 @@ router.get('/get_user_tags', (req, res) => {
     else
         res.send()
 })
-
-// Del tags to print the page
-// router.get('/del_user_tags', (req, res) => {
-//     // User.GetIdByUsername(req.query.username)
-//     // .then((uid) => {
-//         // return User.GetTags(uid)
-//     // }).then((user_tags) => {
-//         // res.send(user_tags)
-//     // }).catch(catchError)
-// })
 
 // Get all the tags that matchs with the tag_search input to print the list
 router.get('/get_all_tags', (req, res) => {

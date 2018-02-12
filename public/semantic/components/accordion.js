@@ -469,7 +469,7 @@ $.fn.accordion = function(parameters) {
               }
               else {
                 $.each(performance, function(index, data) {
-                  console.log(data['Name'] + ': ' + data['Execution Time']+'ms');
+                  (data['Name'] + ': ' + data['Execution Time']+'ms');
                 });
               }
               console.groupEnd();

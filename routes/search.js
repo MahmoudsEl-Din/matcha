@@ -29,8 +29,8 @@ let catchError = error => {
 // }
 
 router.get('/search_them_all/:ageRange/:popRange/:geoRange/:tag/:page/:order', (req, res) => {
-        // console.log("search them all")
-        // console.log(req.params.tag)
+        // ("search them all")
+        // (req.params.tag)
         if (req.session.connected.state !== false) {
             new Promise((resolve, reject) => {
                 req.params.tag = JSON.parse(req.params.tag)

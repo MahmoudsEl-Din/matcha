@@ -1,4 +1,3 @@
-
 var params = new Object();
 params.ageMin = 18
 params.ageMax = 56
@@ -7,12 +6,9 @@ params.popMax = 70
 params.distMax = 500
 var page = 1;
 var trie = 0;
-
-
-
+var mode = 0;
 
 $.get('/user_info', (data, jqHXR) => {
-    console.log('test')
     data.age - 5 < 18 ?
         params.ageMin = 18 :
         params.ageMin = data.age - 5
@@ -23,14 +19,10 @@ $.get('/user_info', (data, jqHXR) => {
     data.pop + 20 > 100 ?
         params.popMax = 100 :
         params.popMax = Math.round(data.pop) + 20
-    console.log(data)
     suggest_request(trie)
 })    
 
-console.log(`/search/search_them_all/${[params.ageMin, params.ageMax]}/${[params.popMin, params.popMax]}/${[params.distMax]}/${["milf"]}/${[]}`)
-
 $('#advanced_search').click(() => {
-    console.log("advanced_search")
     params.ageMin = 18
     params.ageMax = 77
     params.popMin = 0
@@ -41,82 +33,68 @@ $('#advanced_search').click(() => {
 
 $('#button_page').click(() => { 
     page += 1;
-    suggest_request(trie)
+    mod === 0 ? suggest_request(trie) : search_request()
 })
 
 $('#age_up').click(() => {
     page = 1;
     trie = 1
     $('#users').empty()
-    suggest_request(trie)
+    mod === 0 ? suggest_request(trie) : search_request()
 })
 
 $('#age_down').click(() => { 
     page = 1;
     trie = 2
     $('#users').empty()
-    suggest_request(trie)
+    mod === 0 ? suggest_request(trie) : search_request()
 })
 
 $('#pop_up').click(() => {
     page = 1;
     trie = 3
     $('#users').empty() 
-    suggest_request(trie)
+    mod === 0 ? suggest_request(trie) : search_request()
 })
 
 $('#pop_down').click(() => { 
     page = 1;
     trie = 4 
     $('#users').empty()
-    suggest_request(trie)
+    mod === 0 ? suggest_request(trie) : search_request()
 })
 
 $('#loc_up').click(() => {
     page = 1;
     trie = 5
     $('#users').empty() 
-    suggest_request(trie)
+    mod === 0 ? suggest_request(trie) : search_request()
 })
 
 $('#loc_down').click(() => {
     page = 1;
     trie = 6
     $('#users').empty() 
-    suggest_request(trie)
+    mod === 0 ? suggest_request(trie) : search_request()
 })
 
 $('#tag_up').click(() => {
     page = 1;
     trie = 7
     $('#users').empty() 
-    suggest_request(trie)
+    mod === 0 ? suggest_request(trie) : search_request()
 })
 
 $('#tag_down').click(() => {
     page = 1;
     trie = 8
     $('#users').empty() 
-    suggest_request(trie)
+    mod === 0 ? suggest_request(trie) : search_request()
 })
 
 function suggest_request(order) {
-    console.log(page)
-//     $.get(`/search/search_them_all/${JSON.stringify([18,56])}/${JSON.stringify([18,99])}/${JSON.stringify(1000)}/${JSON.stringify([])}/${JSON.stringify(page)}/${JSON.stringify(order)}`, null, (data, jqHXR) => { 
-//         console.log(data)              
-//         let i = 0
-//         data.forEach(element => {
-//             if (i >= page*10 - 10)   {
-//                 $('#users').append('<div class="container py-3 col-md-10" style="height:250px;" id="'+element.id+'"><div class="card" style="height: 100%;cursor: pointer;border-radius: 500px 0;box-shadow: #484848 1px 2px 20px;"><div class="row" style="height: 100%;"><div class="col-md-4"><img src="/assets/pictures/'+element.picture+'" style="border-radius: 100px 100px 100px 100px; box-shadow: #404040 5px 5px 25px;" class="img-circle img-responsive w-100 h-100 picture_none" id="#img1"></a></div><div class="col-md-8 p-1 pl-2 muffin" style="padding-right: 15%"><div class="card-block "><h4 class="card-title text-center">'+element.username+'</h4><p class="card-text">'+element.age+' years old</p><p class="card-text">Popularité: '+Math.round(element.pop)+' points</p><p class="card-text">'+element.tag_name+'</p></div></div></a></div>')
-//                 $("#"+element.id+"").click(() => {
-//                     window.location.replace("/user?uid="+element.id)
-//                 })
-//             }
-//             i += 1
-//         });
+    mod = 0
     $.get(`/search/search_them_all/${JSON.stringify([params.ageMin,params.ageMax])}/${JSON.stringify([params.popMin,params.popMax])}/${JSON.stringify(params.distMax)}/${JSON.stringify([0])}/${JSON.stringify(page)}/${JSON.stringify(order)}`, null, (data, jqHXR) => { 
-        console.log('teub')                    
-        console.log(data)
         let i = 0
         $('#users').hide()        
         if (data[0].age) {            
@@ -218,16 +196,19 @@ function new_filtre() {
 } 
 
 const funcCallBackRequest = data => {
-        console.log('success')
-        console.log(data)
         let url = `/${JSON.stringify(data)}`
-        console.log(url)
-        // $.get(url)
 };
 
 $('#search-button').click(function (e) {
     e.stopPropagation()
+    mod = 1
+    page = 1;
+    $("#users").empty()
+    search_request()
+})
 
+function search_request() {
+    mod = 1
     filtering = 1;
     $('#div_user_tag').children().each(()=> {
         $(this).remove()
@@ -240,29 +221,9 @@ $('#search-button').click(function (e) {
         let inst = tags[i]
         taggs[i] = $(inst).text().replace('⊗', '')
     }
-    // new Promise((res, rej) => {
-    //     let url = `/search/search_them_all/${
-    //     JSON.stringify(
-    //         $("#ageslider-range").slider("values")
-    //     )}/${JSON.stringify(
-    //         $("#popslider-range").slider("values")
-    //     )}/${JSON.stringify(
-    //         $("#geoslider-range").slider("value")
-    //     )}/${JSON.stringify(
-    //         taggs
-    //     )}`;
-    //     console.log(url)
-    //     // window.location.replace(url)
-    //      $.get(url)
-    //      .fail(rej)
-    //      .done(res)  
-    // })
-    // .then(funcCallBackRequest)
-    // .catch(console.log);
-    console.log(`/search/search_them_all/${JSON.stringify($("#ageslider-range").slider("values"))}/${JSON.stringify($("#popslider-range").slider("values"))}/${JSON.stringify($("#geoslider-range").slider("value"))}/${JSON.stringify(taggs)}/${JSON.stringify(page)}/${JSON.stringify(trie)}`)
+
     $.get(`/search/search_them_all/${JSON.stringify($("#ageslider-range").slider("values"))}/${JSON.stringify($("#popslider-range").slider("values"))}/${JSON.stringify($("#geoslider-range").slider("value"))}/${JSON.stringify(taggs)}/${JSON.stringify(page)}/${JSON.stringify(trie)}`, null, (data, jqHXR) => { 
         let i = 0
-        $("#users").empty()
         $('#users').hide()
         if (data[0].age) {
             data.forEach(element => {
@@ -307,4 +268,4 @@ $('#search-button').click(function (e) {
         }
         $('#users').show('slow')
     })
-})
+}

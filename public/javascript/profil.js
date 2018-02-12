@@ -455,4 +455,23 @@ $(document).ready(function(){
         }
     })
 
+    $("#button_reset2").click(function(e) {
+        e.preventDefault()
+        let email_reset_xss = filterXSS($('#label_email').html())
+        $.post('/reset_password', {form_reset: email_reset_xss}, function(data, jqHXR) {  
+            if (jqHXR === "success") {
+                if (data[0] === false){
+                    $("#return-reset2").empty()
+                    $("#return-reset2").addClass('text-danger').removeClass('text-success')
+                    document.getElementById("return-reset2").innerHTML = data[1]
+                }   
+                else {
+                    $("#return-reset").empty()
+                    document.getElementById("return-reset2").innerHTML = data[1]
+                    $("#return-reset2").addClass('text-success').removeClass('text-danger')
+                }
+            }
+        })
+    })
+
 })

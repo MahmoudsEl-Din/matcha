@@ -16,8 +16,6 @@ $(document).ready(function(){
                                     </div>")
             $("#match_list").children().last().find("#match_name").click(function() {window.location.replace("/user?uid="+element.targ)})
             $("#match_list").children().last().find("#match_pic").click(function() {click_match(element)})
-            console.log($("#match_list").children().last())
-            
             if (i === 0) 
                 click_match(element)
             i += 1;
@@ -57,7 +55,6 @@ $(document).ready(function(){
         if ($('#write_msg').val().length <= 500 && $('#write_msg').val().length > 0) {
             $.get('/chat/send_message', {message:msg_xss, uid_target:current_id}, function(data, jqHXR) {
                 print_our_message(msg_xss)
-                console.log(data[0])
                 emit_message(data[0], current_id, msg_xss)
                 $('#write_msg').val('')       
             })

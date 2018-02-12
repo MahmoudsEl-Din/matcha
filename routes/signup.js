@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
 })
 
 router.post('/', function(req, res) {
-    console.log(req.body)
+    (req.body)
     const {signup_username, signup_email, signup_firstname, signup_lastname, signup_password, signup_cpassword, signup_sexdate} = req.body;
     let form = {signup_username, signup_email, signup_firstname, signup_lastname, signup_password, signup_cpassword, signup_sexdate}
     if (signup_username === '' || signup_email === '' || signup_firstname === '' || signup_lastname === '' || signup_password === '' || signup_cpassword === '')

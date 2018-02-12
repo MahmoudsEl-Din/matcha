@@ -7,14 +7,6 @@ let catchError = (error) => {
     console.error(error)
 }
 
-// router.get('/:data', (req, res) => {
-//     if (req.session.connected !== false) {
-//         console.log(req.params)
-//         // let data = JSON.parse(req.params.data)
-//         // res.render('pages/index')
-//     }
-// })
-
 router.get('/', (req, res) => {
     let username = undefined
 

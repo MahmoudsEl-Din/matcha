@@ -12,10 +12,10 @@ router.get('/', (req, res) => {
     let user_info = undefined
     let returned = 0;
     if (req.query && req.query.uid && req.query.uid != req.session.connected.id) {
-        console.log(req.query.uid)        
+        (req.query.uid)        
         User.IsBlocked(req.session.connected.id, req.query.uid)
         .then((blocked) => {
-            console.log(blocked)
+            (blocked)
             if (blocked === true) {
                 returned = 1
                 res.redirect('/error')
@@ -34,7 +34,7 @@ router.get('/', (req, res) => {
         })
         .then((profile_info) => {
             if (profile_info) {
-                console.log(user_info)
+                (user_info)
                 username = user_info['username'].toUpperCase()
                 profile_info['pop'] = Math.round(profile_info['pop'])
                 res.render('pages/user', {session :req.session, username: username, user: profile_info})
@@ -63,7 +63,7 @@ router.get('/get_user_status', (req, res) => {
 })
 
 router.get('/get_user_tags', (req, res) => {
-    console.log(req.query)
+    (req.query)
     User.GetTags(req.query.uid)
     .then((user_tags) => {
         res.send(user_tags)            
@@ -92,27 +92,27 @@ router.get('/like_user', (req, res) => {
     User.Like(req.session.connected.id, req.query.uid)
     .then((ret) => {
         if (ret[0] === true) { //dislike
-            console.log('1')
+            ('1')
             User.NewNotifLike(req.session.connected.id, req.query.uid, 'false')
             res.send(ret)        
         }
         else { //like
-            console.log('2')
+            ('2')
             retfi = ret
             return User.IsMatching(req.session.connected.id, req.query.uid)
         }
     })
     .then((ret2) => {
-        console.log('ret2 ' + ret2)
+        ('ret2 ' + ret2)
         if (ret2 !== undefined) {
-            console.log('3')
+            ('3')
             if (ret2 === false && retfi !== "You have no profile picture") {
-                console.log('ret = false')
+                ('ret = false')
                 User.NewNotifLike(req.session.connected.id, req.query.uid, 'true')
                 retfi[2] = false
             }
             else if (retfi !== "You have no profile picture"){
-                console.log('ret= true')
+                ('ret= true')
                 User.NewNotifLike(req.session.connected.id, req.query.uid, 'match')
                 retfi[2] = true
             }
@@ -146,7 +146,7 @@ router.get('/get_other_like', (req, res) => {
 router.get('/get_popularity', (req, res) => {
     User.GetPopularity(req.query.uid)
     .then((popularity) => {
-        console.log(popularity)
+        (popularity)
         res.send(popularity)
     }).catch(catchError)
 })

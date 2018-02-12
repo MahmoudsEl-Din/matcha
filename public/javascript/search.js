@@ -53,10 +53,10 @@ $(document).ready(function () {
 
 
     const funcCallBackRequest = data => {
-            console.log('success')
-            console.log(data)
+            ('success')
+            (data)
             let url = `/${JSON.stringify(data)}`
-            console.log(url)
+            (url)
             // $.get(url)
     };
 
@@ -84,7 +84,7 @@ $(document).ready(function () {
             )}/${JSON.stringify(
                 taggs
             )}`;
-            console.log(url)
+            (url)
             window.location.replace(url)
              $.get(url)
              .fail(rej)
