@@ -10,6 +10,12 @@ contact final.
 * [NodeJS](https://nodejs.org/en/docs/)
 * [ExpressJS](http://expressjs.com/)
 * [Bootstrap](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
+* [MySQL](https://dev.mysql.com/doc/)
+* [CSS3]
+
+## Pictures
+
+![alt menu](https://ibb.co/iOopa7)
 
 ## Authors
 * Nicolas Terol
